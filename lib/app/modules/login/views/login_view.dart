@@ -89,7 +89,8 @@ class LoginView extends GetView<LoginController> {
                           Align(
                             alignment: AlignmentGeometry.centerRight,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () =>
+                                  Get.toNamed(Routes.EDIT_PASSWORD),
                               child: Text(
                                 'Lupa Password?',
                                 style: AppTextStyle.textButton,

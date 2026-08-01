@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:seleraku/app/core/theme/color_theme.dart';
 import 'package:seleraku/app/core/theme/text_theme.dart';
 import 'package:seleraku/app/modules/profile/views/widgets/build_listtile_profile.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
