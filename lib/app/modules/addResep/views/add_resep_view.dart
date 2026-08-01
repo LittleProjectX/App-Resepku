@@ -1,0 +1,369 @@
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:seleraku/app/core/constants/recipe_category.dart';
+import 'package:seleraku/app/core/theme/color_theme.dart';
+import 'package:seleraku/app/core/theme/text_theme.dart';
+import 'package:seleraku/app/core/widgets/buttons/button_back.dart';
+import 'package:seleraku/app/core/widgets/buttons/large_button.dart';
+import 'package:seleraku/app/core/widgets/buttons/secondary_large_button.dart';
+import 'package:seleraku/app/core/widgets/textfields/main_field.dart';
+import 'package:seleraku/app/core/widgets/textfields/multi_field.dart';
+import 'package:seleraku/app/core/widgets/texts/build_label.dart';
+import 'package:seleraku/app/modules/addResep/views/widgets/button_add_resep.dart';
+
+import '../controllers/add_resep_controller.dart';
+
+class AddResepView extends GetView<AddResepController> {
+  const AddResepView({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Row(
+                  children: [
+                    buttonCircle(
+                      onTap: () => Get.back(),
+                      icon: Icons.arrow_back,
+                    ),
+                    const SizedBox(width: 16),
+                    Text('Tambah Resep', style: AppTextStyle.heading5),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsGeometry.symmetric(
+                  horizontal: 32,
+                  vertical: 24,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buildLabel('Gambar'),
+                        IconButton(
+                          onPressed: () => controller.selectedFile.value = null,
+                          icon: Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () => controller.pickImage(),
+                      child: Obx(
+                        () => Container(
+                          width: double.infinity,
+                          height: 180,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(24),
+                            border: BoxBorder.all(
+                              color: AppColors.border,
+                              width: 2,
+                            ),
+                          ),
+                          child: controller.selectedFile.value == null
+                              ? Image.asset(
+                                  'assets/images/no_image.jpg',
+                                  scale: 10,
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    24,
+                                  ),
+                                  child: Image.file(
+                                    controller.selectedFile.value!,
+                                    fit: BoxFit.cover,
+                                    filterQuality: FilterQuality.medium,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    buildLabel('Judul'),
+                    buildMainField(
+                      hintText: 'Judul Resep',
+                      controller: controller.title,
+                    ),
+                    const SizedBox(height: 16),
+                    buildLabel('Kategori'),
+                    DropdownButtonFormField<String>(
+                      items: category.map((String category) {
+                        return DropdownMenuItem<String>(
+                          value: category,
+                          child: Text(category, style: AppTextStyle.body2),
+                        );
+                      }).toList(),
+                      initialValue: controller.category.value,
+                      onChanged: (value) {
+                        controller.category.value = value.toString();
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    buildLabel('Porsi'),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 120,
+                          child: buildMainField(
+                            hintText: '0',
+                            keyboardType: TextInputType.number,
+                            controller: controller.portion,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Text('orang', style: AppTextStyle.body2),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    buildLabel('Deskripsi'),
+                    buildMultiField(
+                      hintText: 'Keterangan Resep',
+                      minLines: 3,
+                      controller: controller.description,
+                    ),
+                    const SizedBox(height: 16),
+                    buildLabel('Bahan Utama'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: buildMainField(
+                            hintText: 'Bahan Utama',
+                            controller: controller.mainIngredient,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 90,
+                          child: buildMainField(
+                            hintText: 'Jmlh',
+                            controller: controller.mainIngredientAmount,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: AlignmentGeometry.centerRight,
+                      child: buildButtonAddResep(() {
+                        controller.addMainIngredient(
+                          controller.mainIngredient.text,
+                          controller.mainIngredientAmount.text,
+                        );
+                      }),
+                    ),
+                    const SizedBox(height: 12),
+                    Obx(
+                      () => Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        width: double.infinity,
+                        height: 200,
+                        child: controller.listMainIngredient.isEmpty
+                            ? Text('Belum ada data', style: AppTextStyle.body2)
+                            : ListView.builder(
+                                itemCount: controller.listMainIngredient.length,
+                                itemBuilder: (context, index) {
+                                  final dataMainIngredient =
+                                      controller.listMainIngredient[index];
+
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          '${index + 1}. ${dataMainIngredient.ingredient}  ${dataMainIngredient.amount}',
+                                          style: AppTextStyle.body2,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          controller.deleteListMainIngredient(
+                                            index,
+                                          );
+                                        },
+                                        icon: Icon(Icons.delete, size: 20),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+                    buildLabel('Bahan Tambahan'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: buildMainField(
+                            hintText: 'Bahan Tambahan',
+                            controller: controller.additive,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 90,
+                          child: buildMainField(
+                            hintText: 'Jmlh',
+                            controller: controller.additiveAmount,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: AlignmentGeometry.centerRight,
+                      child: buildButtonAddResep(() {
+                        controller.addAdditive(
+                          controller.additive.text,
+                          controller.additiveAmount.text,
+                        );
+                      }),
+                    ),
+                    const SizedBox(height: 12),
+                    Obx(
+                      () => Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        width: double.infinity,
+                        height: 200,
+                        child: controller.listAdditiveIngredient.isEmpty
+                            ? Text('Belum ada data', style: AppTextStyle.body2)
+                            : ListView.builder(
+                                itemCount:
+                                    controller.listAdditiveIngredient.length,
+                                itemBuilder: (context, index) {
+                                  final dataAdditive =
+                                      controller.listAdditiveIngredient[index];
+
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          '${index + 1}. ${dataAdditive.ingredient}  ${dataAdditive.amount}',
+                                          style: AppTextStyle.body2,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          controller.deleteListMainIngredient(
+                                            index,
+                                          );
+                                        },
+                                        icon: Icon(Icons.delete, size: 20),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    buildLabel('Tutorial'),
+                    buildMainField(
+                      hintText: 'Tutorial Memasak',
+                      controller: controller.tutorial,
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: AlignmentGeometry.centerRight,
+                      child: buildButtonAddResep(() {
+                        controller.addTutorial(controller.tutorial.text);
+                      }),
+                    ),
+                    const SizedBox(height: 12),
+                    Obx(
+                      () => Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        width: double.infinity,
+                        height: 200,
+                        child: controller.listTutorial.isEmpty
+                            ? Text('Belum ada data', style: AppTextStyle.body2)
+                            : ListView.builder(
+                                itemCount: controller.listTutorial.length,
+                                itemBuilder: (context, index) {
+                                  final dataTutorial =
+                                      controller.listTutorial[index];
+
+                                  return Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          '${index + 1}. ${dataTutorial.tutorial}',
+                                          style: AppTextStyle.body2,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          controller.removeTutorial(index);
+                                        },
+                                        icon: Icon(Icons.delete, size: 20),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+                    buildLargeButton(
+                      label: 'Simpan',
+                      isLoading: controller.isLoading.value,
+                      onTap: () => controller.saveReseptoFirebase(
+                        controller.uId,
+                        controller.author,
+                        controller.title.text,
+                        controller.description.text,
+                        controller.category.value,
+                        controller.portion.text,
+                        controller.listMainIngredient,
+                        controller.listAdditiveIngredient,
+                        controller.listTutorial,
+                        controller.receiverId,
+                        'Resep Baru',
+                        '${controller.author} menambah resep baru',
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    secondaryLargeButton(
+                      label: 'Batal',
+                      onTap: () => controller.clearField(),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,453 @@
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:seleraku/app/core/constants/recipe_category.dart';
+import 'package:seleraku/app/core/theme/color_theme.dart';
+import 'package:seleraku/app/core/theme/text_theme.dart';
+import 'package:seleraku/app/core/widgets/buttons/build_button_all.dart';
+import 'package:seleraku/app/core/widgets/global_widgets/build_resep.dart';
+import 'package:seleraku/app/core/widgets/textfields/search_field.dart';
+import 'package:seleraku/app/core/widgets/texts/build_label_2.dart';
+import './widgets/build_popular_card.dart';
+import 'package:seleraku/app/routes/app_pages.dart';
+import '../controllers/home_controller.dart';
+
+class HomeView extends GetView<HomeController> {
+  const HomeView({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      final allNotificaion = controller.listNotification;
+      final filterNotification = allNotificaion.where(
+        (notif) => notif.isRead == false,
+      );
+
+      return SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      width: 130,
+                      child: Image.asset(
+                        'assets/images/seleraku.png',
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.medium,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () => Get.toNamed(Routes.NOTIFICATION),
+                        child: Badge(
+                          smallSize: 18,
+                          label: Text(filterNotification.length.toString()),
+                          isLabelVisible: true,
+                          child: SizedBox(
+                            height: 46,
+                            width: 46,
+                            child: Material(
+                              color: AppColors.surface,
+                              shape: CircleBorder(),
+                              child: Icon(Iconsax.notification_bing_copy),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                buildSearchField(
+                  label: 'cari resep',
+                  ctrl: controller.search,
+                  focusNode: controller.currenctFocus,
+                  onClear: controller.clearSearch,
+                  onChange: (value) {
+                    if (value.isNotEmpty) {
+                      Get.toNamed(Routes.SEARCH, parameters: {'value': value});
+                      controller.clearSearch();
+                    }
+                  },
+                ),
+                const SizedBox(height: 24),
+                Obx(() {
+                  if (controller.listResep.isNotEmpty) {
+                    final bestResep = controller.listResep.toList();
+                    bestResep.sort((a, b) => b.likes.compareTo(a.likes));
+                    final popularResep = bestResep.first;
+                    return buildPopularCard(
+                      () => Get.toNamed(
+                        Routes.DETAIL,
+                        parameters: {'rId': popularResep.rId.toString()},
+                      ),
+                      popularResep.title,
+                      popularResep.author,
+                      popularResep.imageUrl,
+                    );
+                  }
+                  return SizedBox();
+                }),
+                const SizedBox(height: 24),
+                SizedBox(
+                  height: 48,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: allCategory.length,
+                    itemBuilder: (context, index) {
+                      return Obx(
+                        () => InkWell(
+                          onTap: () {
+                            controller.currentCategory.value =
+                                allCategory[index];
+                          },
+                          child: Container(
+                            height: 48,
+                            margin: EdgeInsets.only(right: 8),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  controller.currentCategory.value ==
+                                      allCategory[index]
+                                  ? AppColors.primary
+                                  : AppColors.surface,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Center(
+                              child: Text(
+                                allCategory[index],
+                                style:
+                                    controller.currentCategory.value ==
+                                        allCategory[index]
+                                    ? AppTextStyle.body5
+                                    : AppTextStyle.body3,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                Obx(
+                  () => controller.listResep.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Tidak ada resep yang ditemukan.',
+                            style: AppTextStyle.body3,
+                          ),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Obx(
+                                  () => buildLabel2(
+                                    controller.currentCategory.value,
+                                  ),
+                                ),
+                                buildButtonAll(
+                                  () => Get.toNamed(
+                                    Routes.ALL_RESEP,
+                                    parameters: {'category': 'Semua'},
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            SizedBox(
+                              height: 160,
+                              child: Obx(() {
+                                var allResep = controller.listResep;
+
+                                var filterResep = allResep.where((resep) {
+                                  if (controller.currentCategory.value ==
+                                      'Semua') {
+                                    return true;
+                                  } else {
+                                    return resep.category ==
+                                        controller.currentCategory.value;
+                                  }
+                                }).toList();
+
+                                return ListView.builder(
+                                  itemCount:
+                                      controller.currentCategory.value ==
+                                          'Semua'
+                                      ? allResep.length > 6
+                                            ? 6
+                                            : allResep.length
+                                      : filterResep.length > 6
+                                      ? 6
+                                      : filterResep.length,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    var lenData =
+                                        controller.currentCategory.value ==
+                                            'Semua'
+                                        ? allResep.length
+                                        : filterResep.length;
+
+                                    var dataResep =
+                                        controller.currentCategory.value ==
+                                            'Semua'
+                                        ? allResep[index]
+                                        : filterResep[index];
+
+                                    if (index == lenData) {
+                                      return GestureDetector(
+                                        onTap: () {},
+                                        child: Container(
+                                          width: 100,
+                                          margin: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                          child: const Center(
+                                            child: Text("Lihat Semua"),
+                                          ),
+                                        ),
+                                      );
+                                    }
+
+                                    return buildResep(
+                                      dataResep.imageUrl,
+                                      dataResep.title,
+                                      dataResep.portion,
+                                      dataResep.likes,
+                                      () => Get.toNamed(
+                                        Routes.DETAIL,
+                                        parameters: {'rId': dataResep.rId},
+                                      ),
+                                    );
+                                  },
+                                );
+                              }),
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                buildLabel2('Teratas'),
+                                buildButtonAll(
+                                  () => Get.toNamed(
+                                    Routes.ALL_RESEP,
+                                    parameters: {'category': 'Semua'},
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            SizedBox(
+                              height: 160,
+                              child: ListView.builder(
+                                itemCount: controller.listResep.length < 6
+                                    ? controller.listResep.length
+                                    : 6,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  final bestResep = controller.listResep
+                                      .toList();
+                                  bestResep.sort(
+                                    (a, b) => b.likes.compareTo(a.likes),
+                                  );
+
+                                  return buildResep(
+                                    bestResep[index].imageUrl,
+                                    bestResep[index].title,
+                                    bestResep[index].portion,
+                                    bestResep[index].likes,
+                                    () => Get.toNamed(
+                                      Routes.DETAIL,
+                                      parameters: {'rId': bestResep[index].rId},
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                buildLabel2('Pembuat'),
+                                buildButtonAll(
+                                  () => Get.toNamed(Routes.ALL_RESEP),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+
+                            Obx(() {
+                              final allUser = controller.listUser.toList();
+                              allUser.sort(
+                                (a, b) => b.likes.compareTo(a.likes),
+                              );
+
+                              return allUser.isNotEmpty
+                                  ? SizedBox(
+                                      height: 160,
+                                      child: ListView.builder(
+                                        itemCount: allUser.length,
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            margin: const EdgeInsets.only(
+                                              right: 12,
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 8,
+                                            ),
+                                            height: 160,
+                                            width: 120,
+                                            decoration: BoxDecoration(
+                                              color: AppColors.surface,
+                                              borderRadius:
+                                                  BorderRadius.circular(24),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                allUser[index].imageUrl !=
+                                                            null ||
+                                                        allUser[index]
+                                                                .imageUrl ==
+                                                            ''
+                                                    ? CircleAvatar(
+                                                        backgroundImage:
+                                                            NetworkImage(
+                                                              allUser[index]
+                                                                  .imageUrl
+                                                                  .toString(),
+                                                            ),
+                                                        radius: 44,
+                                                      )
+                                                    : CircleAvatar(
+                                                        backgroundImage: AssetImage(
+                                                          'assets/images/profile.jpg',
+                                                        ),
+                                                        radius: 44,
+                                                      ),
+                                                const SizedBox(height: 8),
+                                                Text(
+                                                  allUser[index].name
+                                                      .toString(),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: AppTextStyle.label1,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Iconsax.heart,
+                                                      color: AppColors
+                                                          .textSecondary,
+                                                      size: 12,
+                                                    ),
+                                                    const SizedBox(width: 4),
+                                                    Text(
+                                                      allUser[index].likes
+                                                          .toString(),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: AppTextStyle.body7,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        'Tidak ada data',
+                                        style: AppTextStyle.body3,
+                                      ),
+                                    );
+                            }),
+                            const SizedBox(height: 16),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                buildLabel2('Terbaru'),
+                                buildButtonAll(
+                                  () => Get.toNamed(
+                                    Routes.ALL_RESEP,
+                                    parameters: {'category': 'Semua'},
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            SizedBox(
+                              height: 160,
+                              child: ListView.builder(
+                                itemCount: controller.listResep.length > 6
+                                    ? 6
+                                    : controller.listResep.length,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return Obx(() {
+                                    var filterNewResep = controller.listResep
+                                        .toList();
+                                    filterNewResep.sort(
+                                      (a, b) =>
+                                          b.createdAt.compareTo(a.createdAt),
+                                    );
+                                    return buildResep(
+                                      filterNewResep[index].imageUrl,
+                                      filterNewResep[index].title,
+                                      filterNewResep[index].portion,
+                                      filterNewResep[index].likes,
+                                      () => Get.toNamed(
+                                        Routes.DETAIL,
+                                        parameters: {
+                                          'rId': filterNewResep[index].rId,
+                                        },
+                                      ),
+                                    );
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}

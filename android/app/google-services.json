@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "469264650190",
+    "project_id": "seleraku-1974a",
+    "storage_bucket": "seleraku-1974a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469264650190:android:67f8da4ac19962c041259f",
+        "android_client_info": {
+          "package_name": "com.littleprojext.seleraku"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAQF2B4uo8CBINbql0cZLOA2-Uqhw0ciQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
