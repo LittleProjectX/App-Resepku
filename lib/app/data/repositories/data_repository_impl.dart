@@ -196,4 +196,9 @@ class DataRepositoryImpl implements DataRepository {
   Future<void> readNotification(String uId, String notifId, bool isRead) {
     return remote.readNotification(uId, notifId, isRead);
   }
+
+  @override
+  Stream<List<QueryDocumentSnapshot<Object?>>> searchResep(String title) {
+    return remote.searchResep(title);
+  }
 }

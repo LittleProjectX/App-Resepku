@@ -73,4 +73,5 @@ abstract class DataRepository {
   );
   Future<List<QueryDocumentSnapshot>> getMyNotification(String uId);
   Future<void> readNotification(String uId, String notifId, bool isRead);
+  Stream<List<QueryDocumentSnapshot>> searchResep(String title);
 }

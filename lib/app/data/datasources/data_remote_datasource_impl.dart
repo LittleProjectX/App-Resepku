@@ -106,12 +106,13 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
       final dataIngredient = mainIngredient.map((e) => e.toJson()).toList();
       final dataAdditive = additive.map((e) => e.toJson()).toList();
       final dataTutorial = tutorial.map((e) => e.toJson()).toList();
+      final upperTitle = title[0].toUpperCase() + title.substring(1);
 
       await docRef.set({
         'rId': idDoc,
         'uId': uId,
         'author': author,
-        'title': title,
+        'title': upperTitle,
         'description': description,
         'portion': portion,
         'category': category,
@@ -412,6 +413,21 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
       await users.doc(uId).collection('notification').doc(notifId).set({
         'isRead': isRead,
       }, SetOptions(merge: true));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Stream<List<QueryDocumentSnapshot<Object?>>> searchResep(String title) {
+    try {
+      final upperTitle = title[0].toUpperCase() + title.substring(1);
+      final docRef = reseps
+          .where('title', isGreaterThanOrEqualTo: upperTitle)
+          .where('title', isLessThanOrEqualTo: '$upperTitle\uf8ff')
+          .snapshots()
+          .map((event) => event.docs);
+      return docRef;
     } catch (e) {
       rethrow;
     }
