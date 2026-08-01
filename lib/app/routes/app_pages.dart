@@ -14,6 +14,8 @@ import '../modules/detailUser/bindings/detail_user_binding.dart';
 import '../modules/detailUser/views/detail_user_view.dart';
 import '../modules/editProfile/bindings/edit_profile_binding.dart';
 import '../modules/editProfile/views/edit_profile_view.dart';
+import '../modules/edit_password/bindings/edit_password_binding.dart';
+import '../modules/edit_password/views/edit_password_view.dart';
 import '../modules/firstUserData/bindings/first_user_data_binding.dart';
 import '../modules/firstUserData/views/first_user_data_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -26,6 +28,8 @@ import '../modules/main/bindings/main_binding.dart';
 import '../modules/main/views/main_view.dart';
 import '../modules/notification/bindings/notification_binding.dart';
 import '../modules/notification/views/notification_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/save_resep/bindings/save_resep_binding.dart';
@@ -127,6 +131,16 @@ class AppPages {
       name: _Paths.NOTIFICATION,
       page: () => const NotificationView(),
       binding: NotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PASSWORD,
+      page: () => const EditPasswordView(),
+      binding: EditPasswordBinding(),
     ),
   ];
 }

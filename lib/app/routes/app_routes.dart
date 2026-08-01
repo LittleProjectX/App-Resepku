@@ -20,6 +20,8 @@ abstract class Routes {
   static const AUTHOR = _Paths.AUTHOR;
   static const SAVE_RESEP = _Paths.SAVE_RESEP;
   static const NOTIFICATION = _Paths.NOTIFICATION;
+  static const PROFILE = _Paths.PROFILE;
+  static const EDIT_PASSWORD = _Paths.EDIT_PASSWORD;
 }
 
 abstract class _Paths {
@@ -41,4 +43,6 @@ abstract class _Paths {
   static const AUTHOR = '/author';
   static const SAVE_RESEP = '/save-resep';
   static const NOTIFICATION = '/notification';
+  static const PROFILE = '/profile';
+  static const EDIT_PASSWORD = '/edit-password';
 }

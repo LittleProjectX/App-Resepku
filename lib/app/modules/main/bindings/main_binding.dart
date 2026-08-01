@@ -21,6 +21,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/get_saved_resep_useca
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
 import 'package:seleraku/app/modules/detailUser/controllers/detail_user_controller.dart';
 import 'package:seleraku/app/modules/home/controllers/home_controller.dart';
+import 'package:seleraku/app/modules/profile/controllers/profile_controller.dart';
 import 'package:seleraku/app/modules/save_resep/controllers/save_resep_controller.dart';
 
 import '../controllers/main_controller.dart';
@@ -44,6 +45,7 @@ class MainBinding extends Bindings {
       () => HomeController(Get.find(), Get.find(), Get.find(), Get.find()),
     );
     Get.lazyPut(() => SaveResepController(Get.find(), Get.find(), Get.find()));
+    Get.lazyPut(() => ProfileController(Get.find()));
     Get.lazyPut(
       () =>
           DetailUserController(Get.find(), Get.find(), Get.find(), Get.find()),
