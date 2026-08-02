@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/about/bindings/about_binding.dart';
+import '../modules/about/views/about_view.dart';
 import '../modules/addResep/bindings/add_resep_binding.dart';
 import '../modules/addResep/views/add_resep_view.dart';
 import '../modules/all_resep/bindings/all_resep_binding.dart';
@@ -20,6 +22,8 @@ import '../modules/firstUserData/bindings/first_user_data_binding.dart';
 import '../modules/firstUserData/views/first_user_data_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/instruction/bindings/instruction_binding.dart';
+import '../modules/instruction/views/instruction_view.dart';
 import '../modules/loadImage/bindings/load_image_binding.dart';
 import '../modules/loadImage/views/load_image_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -141,6 +145,16 @@ class AppPages {
       name: _Paths.EDIT_PASSWORD,
       page: () => const EditPasswordView(),
       binding: EditPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => const AboutView(),
+      binding: AboutBinding(),
+    ),
+    GetPage(
+      name: _Paths.INSTRUCTION,
+      page: () => const InstructionView(),
+      binding: InstructionBinding(),
     ),
   ];
 }

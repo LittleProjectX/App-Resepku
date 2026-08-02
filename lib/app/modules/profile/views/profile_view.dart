@@ -29,6 +29,19 @@ class ProfileView extends GetView<ProfileController> {
           ),
           const SizedBox(height: 10),
           buildListTileProfile(
+            Iconsax.info_circle_copy,
+            'Tentang',
+            'penjelasan mengenai aplikasi',
+            () => Get.toNamed(Routes.ABOUT),
+          ),
+          buildListTileProfile(
+            Iconsax.document_copy,
+            'Panduan',
+            'petunjuk penggunaan aplikasi',
+            () => Get.toNamed(Routes.INSTRUCTION),
+          ),
+          const SizedBox(height: 10),
+          buildListTileProfile(
             Iconsax.logout_1_copy,
             'Logout',
             'keluar dari aplikasi',
