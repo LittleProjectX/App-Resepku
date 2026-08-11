@@ -11,8 +11,8 @@ Widget buttonCircle({
     onTap: onTap,
     child: Container(
       margin: EdgeInsets.only(left: left),
-      height: 45,
-      width: 45,
+      height: 42,
+      width: 42,
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(24),
@@ -25,7 +25,7 @@ Widget buttonCircle({
           ),
         ],
       ),
-      child: Icon(icon, color: color),
+      child: Icon(icon, color: color, size: 20),
     ),
   );
 }

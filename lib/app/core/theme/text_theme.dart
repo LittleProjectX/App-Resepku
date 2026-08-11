@@ -41,6 +41,11 @@ class AppTextStyle {
     fontWeight: FontWeight.bold,
     color: AppColors.surface,
   );
+  static TextStyle heading8 = GoogleFonts.poppins(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textPrimary,
+  );
 
   static TextStyle label1 = GoogleFonts.poppins(
     fontSize: 14,
@@ -93,6 +98,7 @@ class AppTextStyle {
     color: AppColors.primary,
   );
   static TextStyle button1 = GoogleFonts.poppins(
+    fontWeight: FontWeight.bold,
     fontSize: 14,
     color: AppColors.surface,
   );

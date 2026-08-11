@@ -25,7 +25,7 @@ class LoginView extends GetView<LoginController> {
             width: double.infinity,
             height: height * 0.5,
             child: Image.asset(
-              'assets/images/cook.jpg',
+              'assets/images/food.jpg',
               fit: BoxFit.cover,
               filterQuality: FilterQuality.medium,
             ),
