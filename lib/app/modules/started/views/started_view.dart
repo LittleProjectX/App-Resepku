@@ -37,7 +37,6 @@ class StartedView extends GetView<StartedController> {
                     child: Image.asset('assets/images/chef.png'),
                   ),
                   const SizedBox(height: 24),
-                  Text('Selamat Datang di', style: AppTextStyle.heading8),
                   SizedBox(
                     width: double.infinity,
                     child: Image.asset(

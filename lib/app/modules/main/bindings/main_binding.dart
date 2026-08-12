@@ -18,6 +18,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/get_my_notification_u
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_saved_resep_bylistid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_saved_resep_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
 import 'package:seleraku/app/modules/detailUser/controllers/detail_user_controller.dart';
 import 'package:seleraku/app/modules/home/controllers/home_controller.dart';
@@ -59,6 +60,7 @@ class MainBinding extends Bindings {
     Get.lazyPut(() => DeleteResepUsecase(Get.find()));
     Get.lazyPut(() => GetMyResepUsecase(Get.find()));
     Get.lazyPut(() => GetuserUsecase(Get.find()));
+    Get.lazyPut(() => GetUserOnceUsecase(Get.find()));
     Get.lazyPut<MainController>(
       () => MainController(Get.find(), Get.find(), Get.find()),
     );

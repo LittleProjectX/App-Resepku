@@ -34,7 +34,7 @@ Widget buildPasswordField({
           icon: Icon(
             isObs ? Icons.visibility_off_rounded : Icons.visibility_rounded,
             size: 20,
-            color: Colors.grey,
+            color: AppColors.primary,
           ),
         ),
 

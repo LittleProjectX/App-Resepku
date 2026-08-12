@@ -7,7 +7,8 @@ import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';
 
 abstract class DataRemoteDatasource {
-  Future<DataUserModel> getUser(String uId);
+  Future<DataUserModel?> getUserOnce(String uId);
+  Stream<DocumentSnapshot> getUser(String uId);
   Future<String> uploadImage(File? image, String uId);
   Future<void> saveImageUrl(String imageUrl, String uId);
   Future<void> setUserProfile(
@@ -71,4 +72,5 @@ abstract class DataRemoteDatasource {
   Future<List<QueryDocumentSnapshot>> getMyNotification(String uId);
   Future<void> readNotification(String uId, String notifId, bool isRead);
   Stream<List<QueryDocumentSnapshot>> searchResep(String title);
+  Future<List<QueryDocumentSnapshot>> getUserByEmail(String email);
 }

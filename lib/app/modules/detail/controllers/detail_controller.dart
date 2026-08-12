@@ -10,7 +10,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/dislike_resep_usecase
 import 'package:seleraku/app/domain/usecases/data_usecases/get_like_byid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_resep_byid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_save_byid_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/like_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/save_to_my_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
@@ -19,7 +19,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/unsave_resep_usecase.
 class DetailController extends GetxController {
   final FirebaseAuth auth;
   final GetResepByidUsecase getResep;
-  final GetuserUsecase getAuthor;
+  final GetUserOnceUsecase getAuthor;
   final GetSaveByidUsecase isSave;
   final GetLikeByidUsecase isLike;
   final SaveToMyResepUsecase saveResep;

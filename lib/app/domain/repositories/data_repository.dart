@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
-import 'package:seleraku/app/data/entities/data_user_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
+import 'package:seleraku/app/domain/models/data_user_model.dart';
 
 abstract class DataRepository {
-  Future<DataUserEntity?> getUser(String uId);
+  Future<DataUserModel?> getUserOnce(String uId);
+  Stream<DocumentSnapshot> getUser(String uId);
   Future<String> uploadImage(File? image, String uId);
   Future<void> saveImageUrl(String imageUrl, String uId);
   Future<void> setUserProfile(
@@ -74,4 +75,5 @@ abstract class DataRepository {
   Future<List<QueryDocumentSnapshot>> getMyNotification(String uId);
   Future<void> readNotification(String uId, String notifId, bool isRead);
   Stream<List<QueryDocumentSnapshot>> searchResep(String title);
+  Future<List<QueryDocumentSnapshot>> getUserbyEmail(String email);
 }

@@ -94,11 +94,10 @@ class AppTextStyle {
 
   static TextStyle textButton = GoogleFonts.poppins(
     fontSize: 14,
-    fontWeight: FontWeight.bold,
     color: AppColors.primary,
   );
   static TextStyle button1 = GoogleFonts.poppins(
-    fontWeight: FontWeight.bold,
+    // fontWeight: FontWeight.bold,
     fontSize: 14,
     color: AppColors.surface,
   );

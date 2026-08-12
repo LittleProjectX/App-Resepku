@@ -10,10 +10,10 @@ import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/delete_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_resep_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 
 class DetailUserController extends GetxController {
-  late GetuserUsecase getUser;
+  late GetUserOnceUsecase getUser;
   late GetCurrentUidUsecase currentUid;
   late GetMyResepUsecase getMyResep;
   late DeleteResepUsecase deleteResep;

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/reset_password_usecase.dart';
+import 'package:seleraku/app/routes/app_pages.dart';
 
 class EditPasswordController extends GetxController {
   final ResetPasswordUsecase resetPassword;
   EditPasswordController(this.resetPassword);
 
   late TextEditingController email;
+  RxBool isLoading = false.obs;
 
   @override
   void onInit() {
@@ -20,17 +23,24 @@ class EditPasswordController extends GetxController {
     super.onClose();
   }
 
-  void resetPasswordUser(String email) async {
+  void clearEmail() {
+    email.clear();
+  }
+
+  Future<void> resetPasswordUser(String email) async {
     if (email.isEmpty) {
-      Get.snackbar('Error', 'Email tidak boleh kosong');
+      SnackBarHelper.warning('Email tidak boleh kosong');
       return;
     }
 
     try {
+      isLoading.value = true;
       await resetPassword.call(email);
-      Get.snackbar('Sukses', 'Email reset password telah dikirim');
+      Get.offAllNamed(Routes.WAIT_RESET_PASSWORD, parameters: {'email': email});
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      SnackBarHelper.error('Terjadi kesalahan $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 }

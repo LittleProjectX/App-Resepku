@@ -24,7 +24,7 @@ class RegisterView extends GetView<RegisterController> {
             width: double.infinity,
             height: height * 0.5,
             child: Image.asset(
-              'assets/images/cook.jpg',
+              'assets/images/food.jpg',
               fit: BoxFit.cover,
               filterQuality: FilterQuality.medium,
             ),
@@ -39,6 +39,7 @@ class RegisterView extends GetView<RegisterController> {
                     child: buttonCircle(
                       onTap: () => Get.back(),
                       icon: Icons.arrow_back,
+                      left: 24,
                     ),
                   ),
                 ),
@@ -47,36 +48,35 @@ class RegisterView extends GetView<RegisterController> {
                   width: double.infinity,
                   height: height * 0.85,
                   child: Material(
-                    color: AppColors.surface,
+                    color: AppColors.background,
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(24),
                     ),
                     child: Padding(
                       padding: EdgeInsetsGeometry.all(24),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 50,
-                            child: Image.asset(
-                              'assets/images/seleraku.png',
-                              fit: BoxFit.cover,
-                              filterQuality: FilterQuality.high,
-                            ),
-                          ),
-                          Text('Daftar Akun', style: AppTextStyle.heading2),
+                          Text('Daftar Akun', style: AppTextStyle.heading8),
                           Text(
-                            'Daftar akun anda untuk dapat masuk ke dalam aplikasi',
-                            style: AppTextStyle.body1,
+                            'Satu langkah untuk memulai\n pengalaman baru',
+                            style: AppTextStyle.body7,
+                            textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 16),
-                          buildLabel('email'),
+                          const SizedBox(height: 24),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: buildLabel('Email'),
+                          ),
                           buildEmailField(
                             hintText: 'Email',
                             controller: controller.email,
                           ),
                           const SizedBox(height: 16),
-                          buildLabel('password'),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: buildLabel('Password'),
+                          ),
                           Obx(
                             () => buildPasswordField(
                               hintText: 'Password',
@@ -86,7 +86,10 @@ class RegisterView extends GetView<RegisterController> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          buildLabel('ulangi password'),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: buildLabel('Ulangi Password'),
+                          ),
                           Obx(
                             () => buildPasswordField(
                               hintText: 'Ulangi Password',
@@ -96,7 +99,7 @@ class RegisterView extends GetView<RegisterController> {
                               controller: controller.confirmPassword,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 24),
                           Obx(
                             () => buildLargeButton(
                               label: 'Daftar',
@@ -108,6 +111,7 @@ class RegisterView extends GetView<RegisterController> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

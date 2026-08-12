@@ -46,4 +46,18 @@ class AuthRepositoryImpl implements AuthRepository {
   String getCurrentUid() {
     return remote.getCurrentUid();
   }
+
+  @override
+  Future<AuthUserEntity?> loginWithGoogle() async {
+    final credential = await remote.loginWithGoogle();
+
+    final user = credential?.user;
+    if (user == null) return null;
+
+    return AuthUserEntity(
+      uId: user.uid,
+      email: user.email.toString(),
+      isVerified: user.emailVerified,
+    );
+  }
 }

@@ -9,4 +9,5 @@ abstract class AuthRepository {
   Future<void> logout();
   Stream<fa.User?> getStream();
   String getCurrentUid();
+  Future<AuthUserEntity?> loginWithGoogle();
 }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/erors/login_eror.dart';
 import 'package:seleraku/app/core/utils/snacbar_helper.dart';
+import 'package:seleraku/app/domain/models/data_user_model.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/login_with_google_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/login_usecase.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
@@ -10,7 +12,8 @@ import 'package:seleraku/app/routes/app_pages.dart';
 class LoginController extends GetxController {
   final LoginUsecase login;
   final GetuserUsecase getUser;
-  LoginController(this.login, this.getUser);
+  final LoginWithGoogleUsecase loginWithGoogle;
+  LoginController(this.login, this.getUser, this.loginWithGoogle);
 
   late TextEditingController email;
   late TextEditingController password;
@@ -57,23 +60,39 @@ class LoginController extends GetxController {
           return;
         }
 
-        final dataUser = await getUser.call(user.uId);
-        if (dataUser == null) {
-          SnackBarHelper.cautionSnacbar('Data tidak ditemukan');
-          return;
-        } else {
-          final data = dataUser.isProfileComplete;
-          if (data == true) {
+        final dataUser = getUser.call(user.uId);
+        dataUser.listen((snapshot) {
+          if (!snapshot.exists) {
+            SnackBarHelper.cautionSnacbar('Data tidak ditemukan');
+            return;
+          }
+          final dataUser = snapshot.data() as Map<String, dynamic>;
+          final data = DataUserModel.fromFirebase(dataUser);
+          final isComplete = data.isProfileComplete;
+          if (isComplete == true) {
             Get.offAllNamed(Routes.MAIN);
           }
-
           Get.offAllNamed(Routes.FIRST_USER_DATA);
-        }
+        });
+        // print(dataUser);
       }
     } on FirebaseAuthException catch (e) {
       LoginEror().handleLoginError(e);
     } catch (e) {
       SnackBarHelper.error('Terjadi kesalahan : $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> callSigninWithGoogle() async {
+    try {
+      isLoading.value = true;
+      await loginWithGoogle();
+    } on FirebaseAuthException catch (e) {
+      LoginEror().handleLoginError(e);
+    } catch (e) {
+      SnackBarHelper.error('Terjadi kesalahan $e');
     } finally {
       isLoading.value = false;
     }

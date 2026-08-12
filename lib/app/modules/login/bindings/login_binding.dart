@@ -9,6 +9,7 @@ import 'package:seleraku/app/data/repositories/auth_repository_impl.dart';
 import 'package:seleraku/app/data/repositories/data_repository_impl.dart';
 import 'package:seleraku/app/domain/repositories/auth_repository.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/login_with_google_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/login_usecase.dart';
 
@@ -28,7 +29,10 @@ class LoginBinding extends Bindings {
     Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
     Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
     Get.lazyPut(() => LoginUsecase(Get.find()));
+    Get.lazyPut(() => LoginWithGoogleUsecase(Get.find()));
     Get.lazyPut(() => GetuserUsecase(Get.find()));
-    Get.lazyPut<LoginController>(() => LoginController(Get.find(), Get.find()));
+    Get.lazyPut<LoginController>(
+      () => LoginController(Get.find(), Get.find(), Get.find()),
+    );
   }
 }

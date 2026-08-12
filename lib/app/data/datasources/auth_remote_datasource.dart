@@ -8,4 +8,5 @@ abstract class AuthRemoteDatasource {
   Future<void> logout();
   Stream<User?> getStream();
   String getCurrentUid();
+  Future<UserCredential?> loginWithGoogle();
 }

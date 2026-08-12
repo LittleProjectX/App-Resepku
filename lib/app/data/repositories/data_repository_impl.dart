@@ -6,6 +6,7 @@ import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
+import 'package:seleraku/app/domain/models/data_user_model.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
 
 class DataRepositoryImpl implements DataRepository {
@@ -13,8 +14,13 @@ class DataRepositoryImpl implements DataRepository {
   DataRepositoryImpl(this.remote);
 
   @override
-  Future<DataUserEntity?> getUser(String uId) async {
-    return await remote.getUser(uId);
+  Stream<DocumentSnapshot> getUser(String uId) {
+    return remote.getUser(uId);
+  }
+
+  @override
+  Future<DataUserModel?> getUserOnce(String uId) {
+    return remote.getUserOnce(uId);
   }
 
   @override
@@ -200,5 +206,10 @@ class DataRepositoryImpl implements DataRepository {
   @override
   Stream<List<QueryDocumentSnapshot<Object?>>> searchResep(String title) {
     return remote.searchResep(title);
+  }
+
+  @override
+  Future<List<QueryDocumentSnapshot<Object?>>> getUserbyEmail(String email) {
+    return remote.getUserByEmail(email);
   }
 }

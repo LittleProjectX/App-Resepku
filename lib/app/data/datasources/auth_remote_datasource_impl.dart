@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:seleraku/app/data/datasources/auth_remote_datasource.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';
@@ -64,28 +65,93 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       return null;
     } on FirebaseAuthException catch (_) {
       rethrow;
-    } catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
 
   @override
   Future<void> resetPassword(String email) {
-    return auth.sendPasswordResetEmail(email: email);
+    try {
+      return auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (_) {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> logout() {
-    return auth.signOut();
+    try {
+      return auth.signOut();
+    } on FirebaseAuthException catch (_) {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Stream<User?> getStream() {
-    return auth.authStateChanges();
+    try {
+      return auth.authStateChanges();
+    } on FirebaseAuthException catch (_) {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   String getCurrentUid() {
-    return auth.currentUser!.uid;
+    try {
+      return auth.currentUser!.uid;
+    } on FirebaseAuthException catch (_) {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserCredential?> loginWithGoogle() async {
+    try {
+      final googleSignIn = GoogleSignIn.instance;
+
+      await googleSignIn.initialize();
+
+      final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
+
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+      final user = userCredential.user;
+
+      print(user?.displayName);
+      await firestore.collection('users').doc(user?.uid).set({
+        'uId': user?.uid,
+        'email': user?.email,
+        'isProfileComplete': false,
+        'likes': 0,
+        'createdAt': Timestamp.now(),
+      });
+
+      return userCredential;
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        return null;
+      }
+
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -25,17 +25,22 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
       .collection('authorLike');
 
   @override
-  Future<DataUserModel> getUser(String uId) async {
+  Stream<DocumentSnapshot> getUser(String uId) {
     try {
-      final result = await users.doc(uId).get();
+      final result = users.doc(uId).snapshots();
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-      final data = result.data();
+  @override
+  Future<DataUserModel?> getUserOnce(String uId) async {
+    try {
+      final docRef = await users.doc(uId).get();
+      final user = docRef.data() as Map<String, dynamic>;
 
-      if (data == null) {
-        throw Exception('User tidak ditemukan');
-      }
-
-      return DataUserModel.fromFirebase(data);
+      return DataUserModel.fromFirebase(user);
     } catch (e) {
       rethrow;
     }
@@ -428,6 +433,16 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
           .snapshots()
           .map((event) => event.docs);
       return docRef;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<QueryDocumentSnapshot>> getUserByEmail(String email) async {
+    try {
+      final docRef = await users.where('email', isEqualTo: email).get();
+      return docRef.docs;
     } catch (e) {
       rethrow;
     }

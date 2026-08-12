@@ -9,11 +9,16 @@ Widget buildLargeButton({
   required VoidCallback onTap,
 }) {
   return SizedBox(
+    height: 54,
     width: double.infinity,
     child: ElevatedButton(
       onPressed: onTap,
       child: isLoading
-          ? CircularProgressIndicator(color: AppColors.surface)
+          ? SizedBox(
+              height: 24,
+              width: 24,
+              child: CircularProgressIndicator(color: AppColors.surface),
+            )
           : Text(label, style: AppTextStyle.button1),
     ),
   );

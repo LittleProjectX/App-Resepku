@@ -7,6 +7,7 @@ import 'package:seleraku/app/domain/repositories/data_repository.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/dislike_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_author_fav_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_resep_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/like_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
@@ -32,7 +33,7 @@ class AuthorBinding extends Bindings {
       () => DataRemoteDatasourceImpl(Get.find()),
     );
     Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
-    Get.lazyPut(() => GetuserUsecase(Get.find()));
+    Get.lazyPut(() => GetUserOnceUsecase(Get.find()));
     Get.lazyPut(() => SendNotificationUsecase(Get.find()));
     Get.lazyPut(() => GetMyResepUsecase(Get.find()));
     Get.lazyPut(() => LikeAuthorUsecase(Get.find()));

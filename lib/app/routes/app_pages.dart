@@ -42,6 +42,8 @@ import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/started/bindings/started_binding.dart';
 import '../modules/started/views/started_view.dart';
+import '../modules/wait_reset_password/bindings/wait_reset_password_binding.dart';
+import '../modules/wait_reset_password/views/wait_reset_password_view.dart';
 
 part 'app_routes.dart';
 
@@ -155,6 +157,11 @@ class AppPages {
       name: _Paths.INSTRUCTION,
       page: () => const InstructionView(),
       binding: InstructionBinding(),
+    ),
+    GetPage(
+      name: _Paths.WAIT_RESET_PASSWORD,
+      page: () => const WaitResetPasswordView(),
+      binding: WaitResetPasswordBinding(),
     ),
   ];
 }

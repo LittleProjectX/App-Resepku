@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/setUser_profile_usecase.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
 
 class FirstUserDataController extends GetxController {
-  final GetuserUsecase getUser;
+  final GetUserOnceUsecase getUser;
   final FirebaseAuth auth;
   final SetuserProfileUsecase setUserData;
   FirstUserDataController(this.getUser, this.auth, this.setUserData);

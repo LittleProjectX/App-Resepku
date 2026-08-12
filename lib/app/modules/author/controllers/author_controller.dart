@@ -10,13 +10,13 @@ import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/dislike_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_author_fav_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_resep_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/like_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
 
 class AuthorController extends GetxController {
   final FirebaseAuth auth;
-  final GetuserUsecase getUser;
+  final GetUserOnceUsecase getUser;
   final GetMyResepUsecase getResep;
   final GetAuthorFavUsecase isAuthorFav;
   final LikeAuthorUsecase likeAuthor;
