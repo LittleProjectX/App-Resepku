@@ -73,4 +73,17 @@ abstract class DataRemoteDatasource {
   Future<void> readNotification(String uId, String notifId, bool isRead);
   Stream<List<QueryDocumentSnapshot>> searchResep(String title);
   Future<List<QueryDocumentSnapshot>> getUserByEmail(String email);
+  Future<List<QueryDocumentSnapshot>> getUserByListId(List<String> listId);
+  Future<void> updateResep(
+    String rId,
+    String title,
+    String description,
+    String portion,
+    String category,
+    String imageUrl,
+    List<DataIngredientModel> mainIngredient,
+    List<DataIngredientModel> additive,
+    List<DataTutorialModel> tutorial,
+    Timestamp createdAt,
+  );
 }

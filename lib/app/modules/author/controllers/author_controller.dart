@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';
 import 'package:seleraku/app/domain/models/data_resep_model.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/dislike_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_author_fav_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_resep_usecase.dart';
@@ -15,7 +15,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/like_author_usecase.d
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
 
 class AuthorController extends GetxController {
-  final FirebaseAuth auth;
+  final GetCurrentUidUsecase getUid;
   final GetUserOnceUsecase getUser;
   final GetMyResepUsecase getResep;
   final GetAuthorFavUsecase isAuthorFav;
@@ -23,7 +23,7 @@ class AuthorController extends GetxController {
   final DislikeAuthorUsecase unLikeAuthor;
   final SendNotificationUsecase sendNotification;
   AuthorController(
-    this.auth,
+    this.getUid,
     this.getUser,
     this.getResep,
     this.isAuthorFav,
@@ -46,7 +46,7 @@ class AuthorController extends GetxController {
   void onInit() {
     super.onInit();
     afId = Get.parameters['uId'].toString();
-    uId = auth.currentUser!.uid;
+    uId = getUid();
     fetchIsAuthorLike(uId, afId);
     fetchUserData(afId);
     fetchResepData(afId);

@@ -4,6 +4,7 @@ import 'package:seleraku/app/data/datasources/data_remote_datasource.dart';
 import 'package:seleraku/app/data/datasources/data_remote_datasource_impl.dart';
 import 'package:seleraku/app/data/repositories/data_repository_impl.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/dislike_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_author_fav_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_resep_usecase.dart';
@@ -28,7 +29,7 @@ class AuthorBinding extends Bindings {
         Get.find(),
       ),
     );
-    Get.lazyPut(() => FirebaseAuth.instance);
+    Get.lazyPut(() => GetCurrentUidUsecase(Get.find()));
     Get.lazyPut<DataRemoteDatasource>(
       () => DataRemoteDatasourceImpl(Get.find()),
     );

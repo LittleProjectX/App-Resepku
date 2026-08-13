@@ -334,20 +334,22 @@ class AddResepView extends GetView<AddResepController> {
                     buildLargeButton(
                       label: 'Simpan',
                       isLoading: controller.isLoading.value,
-                      onTap: () => controller.saveReseptoFirebase(
-                        controller.uId,
-                        controller.author,
-                        controller.title.text,
-                        controller.description.text,
-                        controller.category.value,
-                        controller.portion.text,
-                        controller.listMainIngredient,
-                        controller.listAdditiveIngredient,
-                        controller.listTutorial,
-                        controller.receiverId,
-                        'Resep Baru',
-                        '${controller.author} menambah resep baru',
-                      ),
+                      onTap: () => controller.isLoading.value
+                          ? null
+                          : controller.saveReseptoFirebase(
+                              controller.uId,
+                              controller.author,
+                              controller.title.text,
+                              controller.description.text,
+                              controller.category.value,
+                              controller.portion.text,
+                              controller.listMainIngredient,
+                              controller.listAdditiveIngredient,
+                              controller.listTutorial,
+                              controller.receiverId,
+                              'Resep Baru',
+                              '${controller.author} menambah resep baru',
+                            ),
                     ),
                     const SizedBox(height: 12),
                     secondaryLargeButton(

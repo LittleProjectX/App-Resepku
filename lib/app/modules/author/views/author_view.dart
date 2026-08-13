@@ -74,6 +74,7 @@ class AuthorView extends GetView<AuthorController> {
                       ),
                     ],
                   ),
+                  Center(child: Text('Penulis', style: AppTextStyle.heading2)),
                   const SizedBox(height: 32),
                   Container(
                     width: double.infinity,
@@ -180,7 +181,7 @@ class AuthorView extends GetView<AuthorController> {
                                       ),
                                       Text(
                                         resep[index].description,
-                                        style: AppTextStyle.body6,
+                                        style: AppTextStyle.body7,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                       ),

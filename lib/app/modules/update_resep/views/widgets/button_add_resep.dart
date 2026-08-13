@@ -9,12 +9,9 @@ Widget buildButtonAddResep(VoidCallback onTap) {
       width: 120,
       height: 42,
       child: Material(
-        color: AppColors.surface,
-        shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(24),
-          borderSide: BorderSide(color: AppColors.primary, width: 2),
-        ),
-        child: Center(child: Text('Tambah +', style: AppTextStyle.textButton)),
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(24),
+        child: Center(child: Text('Tambah +', style: AppTextStyle.button1)),
       ),
     ),
   );

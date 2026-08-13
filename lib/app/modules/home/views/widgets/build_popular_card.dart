@@ -75,7 +75,7 @@ Widget buildPopularCard(
                 width: double.infinity,
                 height: 80,
                 child: Material(
-                  color: Colors.white.withValues(alpha: 0.4),
+                  color: Colors.white.withValues(alpha: 0.6),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(24),
                     bottomRight: Radius.circular(24),
@@ -93,7 +93,7 @@ Widget buildPopularCard(
                                 title,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: AppTextStyle.heading7,
+                                style: AppTextStyle.heading6,
                               ),
                               Text(
                                 author,
@@ -112,7 +112,13 @@ Widget buildPopularCard(
                             width: 80,
                             child: Material(
                               color: AppColors.surface,
-                              borderRadius: BorderRadius.circular(24),
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: AppColors.primary,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
                               child: Center(
                                 child: Text('Lihat', style: AppTextStyle.body3),
                               ),

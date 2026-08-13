@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/core/theme/color_theme.dart';
 import 'package:seleraku/app/core/theme/text_theme.dart';
 import 'package:seleraku/app/core/widgets/texts/eror_data.dart';
@@ -79,10 +80,18 @@ class DetailUserView extends GetView<DetailUserController> {
                     width: 160,
                     height: 45,
                     child: ElevatedButton(
-                      onPressed: () => Get.toNamed(
-                        Routes.ADD_RESEP,
-                        parameters: {'author': user.name ?? ''},
-                      ),
+                      onPressed: () {
+                        if (user.name != null || user.name != '') {
+                          Get.toNamed(
+                            Routes.ADD_RESEP,
+                            parameters: {'author': user.name ?? ''},
+                          );
+                        } else {
+                          SnackBarHelper.info(
+                            'Lengkapi profil anda untuk dapat menambah resep',
+                          );
+                        }
+                      },
                       child: Text('Tambah Resep', style: AppTextStyle.body5),
                     ),
                   ),
@@ -99,7 +108,7 @@ class DetailUserView extends GetView<DetailUserController> {
                             padding: const EdgeInsets.only(bottom: 8),
                             child: buildListResep(
                               () => Get.toNamed(
-                                Routes.DETAIL,
+                                Routes.UPDATE_RESEP,
                                 parameters: {'rId': resep[index].rId},
                               ),
                               resep[index].imageUrl,

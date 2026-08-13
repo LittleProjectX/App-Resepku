@@ -1,36 +1,26 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path/path.dart' as path;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
-import 'package:seleraku/app/domain/models/data_author_favorite_model.dart';
+import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
-import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_liked_author_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/save_resep_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_resep_byid_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/update_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/upload_image_usecase.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
 
-class AddResepController extends GetxController {
-  final GetCurrentUidUsecase getUid;
+class UpdateResepController extends GetxController {
   final UploadImageUsecase uploadImage;
-  final SaveResepUsecase saveResep;
-  final GetLikedAuthorUsecase getLikedAuthor;
-  final SendNotificationUsecase sendNotification;
-  AddResepController(
-    this.uploadImage,
-    this.saveResep,
-    this.getUid,
-    this.getLikedAuthor,
-    this.sendNotification,
-  );
+  final UpdateResepUsecase updateResep;
+  final GetResepByidUsecase getResepbyId;
+  UpdateResepController(this.uploadImage, this.updateResep, this.getResepbyId);
 
   late TextEditingController title;
   late TextEditingController description;
@@ -41,16 +31,29 @@ class AddResepController extends GetxController {
   late TextEditingController additiveAmount;
   late TextEditingController tutorial;
 
-  Rx<File?> selectedFile = Rx<File?>(null);
+  RxBool pageLoading = false.obs;
   RxBool isLoading = false.obs;
-  late String uId = '';
-  late String author = '';
+  RxBool isNewImage = false.obs;
+  RxBool isMainIng = false.obs;
+  RxBool isAddittive = false.obs;
+  RxBool isTutorial = false.obs;
+
+  late int mainIndex = 0;
+  late int additiveIndex = 0;
+  late int tutorialIndex = 0;
+
+  late Timestamp mainTime = Timestamp.now();
+  late Timestamp additiveTime = Timestamp.now();
+  late Timestamp tutorialTime = Timestamp.now();
+
+  Rx<File?> selectedFile = Rx<File?>(null);
+  late String rId = '';
+  late String longestImage = '';
   RxString category = 'Makanan Utama'.obs;
   final listMainIngredient = <DataIngredientModel>[].obs;
   final listAdditiveIngredient = <DataIngredientModel>[].obs;
   final listTutorial = <DataTutorialModel>[].obs;
-  var listLikedAuthor = <DataAuthorFavoriteModel>[].obs;
-  late List<String> receiverId = [];
+  var resepData = Rxn<DataResepEntity>();
 
   @override
   void onInit() {
@@ -63,9 +66,8 @@ class AddResepController extends GetxController {
     additive = TextEditingController();
     additiveAmount = TextEditingController();
     tutorial = TextEditingController();
-    uId = getUid();
-    author = Get.parameters['author'] ?? '';
-    fetchGetLikedAuthor(uId);
+    rId = Get.parameters['rId'].toString();
+    fetchResep(rId);
   }
 
   @override
@@ -94,19 +96,75 @@ class AddResepController extends GetxController {
     Get.back();
   }
 
-  Future<void> fetchGetLikedAuthor(String afId) async {
+  void clearTutorial() {
+    tutorial.clear();
+  }
+
+  void clearAdditive() {
+    additive.clear();
+    additiveAmount.clear();
+  }
+
+  void clearMainIngredient() {
+    mainIngredient.clear();
+    mainIngredientAmount.clear();
+  }
+
+  void updateMainIngredient(
+    int index,
+    String mainIngridient,
+    String amount,
+    Timestamp createdAt,
+  ) {
+    listMainIngredient[index] = DataIngredientModel(
+      ingredient: mainIngridient,
+      amount: amount,
+      createdAt: createdAt,
+    );
+    clearMainIngredient();
+  }
+
+  void updateAdditive(
+    int index,
+    String additive,
+    String amount,
+    Timestamp createdAt,
+  ) {
+    listAdditiveIngredient[index] = DataIngredientModel(
+      ingredient: additive,
+      amount: amount,
+      createdAt: createdAt,
+    );
+    clearAdditive();
+  }
+
+  void updateTutorial(int index, String tutorial, Timestamp createdAt) {
+    listTutorial[index] = DataTutorialModel(
+      tutorial: tutorial,
+      createdAt: createdAt,
+    );
+    clearTutorial();
+  }
+
+  Future<void> fetchResep(String rId) async {
     try {
-      final allAuthor = await getLikedAuthor(afId);
-      listLikedAuthor.value = allAuthor.map((e) {
-        final data = e.data() as Map<String, dynamic>;
-        return DataAuthorFavoriteModel.fromFirebase(data);
-      }).toList();
-      receiverId = listLikedAuthor.map((element) {
-        final id = element.uId;
-        return id;
-      }).toList();
+      pageLoading.value = true;
+
+      final result = await getResepbyId(rId);
+      resepData.value = result;
+
+      longestImage = result.imageUrl;
+      title.text = result.title;
+      category.value = result.category;
+      portion.text = result.portion;
+      description.text = result.description;
+      listMainIngredient.value = result.mainIngredient;
+      listAdditiveIngredient.value = result.additive;
+      listTutorial.value = result.tutorial;
     } catch (e) {
-      SnackBarHelper.warning('Gagal mengambil data ($e)');
+      SnackBarHelper.error('Terjadi kesalahan: $e');
+    } finally {
+      pageLoading.value = false;
     }
   }
 
@@ -132,6 +190,7 @@ class AddResepController extends GetxController {
 
       if (result != null && result.files.single.path != null) {
         selectedFile.value = File(result.files.single.path!);
+        isNewImage.value = true;
       }
     } catch (e) {
       Get.snackbar('File Picker Error', e.toString());
@@ -149,7 +208,7 @@ class AddResepController extends GetxController {
       final compressed = await FlutterImageCompress.compressAndGetFile(
         file.absolute.path,
         targetPath,
-        quality: 70, // 60–70 ideal untuk foto profil
+        quality: 70,
         minWidth: 1080,
         minHeight: 1080,
         format: CompressFormat.jpeg,
@@ -170,9 +229,9 @@ class AddResepController extends GetxController {
     }
   }
 
-  Future<void> saveReseptoFirebase(
+  Future<void> updateReseptoFirebase(
     String uId,
-    String author,
+    String rId,
     String title,
     String description,
     String category,
@@ -181,8 +240,6 @@ class AddResepController extends GetxController {
     List<DataIngredientModel> additive,
     List<DataTutorialModel> tutorial,
     List<String> receiverIds,
-    String titleMsg,
-    String msg,
   ) async {
     try {
       isLoading.value = true;
@@ -212,39 +269,23 @@ class AddResepController extends GetxController {
       }
 
       // 💾 simpan ke firestore
-      final int likes = 0;
-      final int saves = 0;
       final Timestamp createdAt = Timestamp.now();
-      final bool isRead = false;
 
-      await saveResep.call(
-        uId,
-        author,
+      await updateResep.call(
+        rId,
         title,
         description,
+        portion,
         category,
         imageUrl,
-        portion,
         mainIngredient,
         additive,
         tutorial,
-        likes,
-        saves,
         createdAt,
       );
-      if (listLikedAuthor.isNotEmpty) {
-        sendNotification.call(
-          uId,
-          receiverIds,
-          imageUrl,
-          titleMsg,
-          msg,
-          isRead,
-          createdAt,
-        );
-      }
-      SnackBarHelper.success('Berhasil menyimpan resep');
 
+      SnackBarHelper.success('Berhasil menyimpan resep');
+      clearField();
       Get.offAllNamed(Routes.MAIN);
     } catch (e) {
       SnackBarHelper.error('Gagal menyimpan resep ($e)');

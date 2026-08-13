@@ -194,6 +194,40 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
+  Future<void> updateResep(
+    String rId,
+    String title,
+    String description,
+    String portion,
+    String category,
+    String imageUrl,
+    List<DataIngredientModel> mainIngredient,
+    List<DataIngredientModel> additive,
+    List<DataTutorialModel> tutorial,
+    Timestamp createdAt,
+  ) {
+    return remote.updateResep(
+      rId,
+      title,
+      description,
+      portion,
+      category,
+      imageUrl,
+      mainIngredient,
+      additive,
+      tutorial,
+      createdAt,
+    );
+  }
+
+  @override
+  Future<List<QueryDocumentSnapshot<Object?>>> getUserByListId(
+    List<String> listId,
+  ) {
+    return remote.getUserByListId(listId);
+  }
+
+  @override
   Future<List<QueryDocumentSnapshot<Object?>>> getMyNotification(String uId) {
     return remote.getMyNotification(uId);
   }

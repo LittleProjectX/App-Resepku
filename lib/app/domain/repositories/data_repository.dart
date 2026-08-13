@@ -32,6 +32,18 @@ abstract class DataRepository {
     int saves,
     Timestamp createdAt,
   );
+  Future<void> updateResep(
+    String rId,
+    String title,
+    String description,
+    String portion,
+    String category,
+    String imageUrl,
+    List<DataIngredientModel> mainIngredient,
+    List<DataIngredientModel> additive,
+    List<DataTutorialModel> tutorial,
+    Timestamp createdAt,
+  );
   Future<void> sendNotification(
     String senderId,
     List<String> receiverId,
@@ -76,4 +88,5 @@ abstract class DataRepository {
   Future<void> readNotification(String uId, String notifId, bool isRead);
   Stream<List<QueryDocumentSnapshot>> searchResep(String title);
   Future<List<QueryDocumentSnapshot>> getUserbyEmail(String email);
+  Future<List<QueryDocumentSnapshot>> getUserByListId(List<String> listId);
 }

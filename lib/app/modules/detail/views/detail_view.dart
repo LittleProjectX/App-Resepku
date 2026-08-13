@@ -27,7 +27,11 @@ class DetailView extends GetView<DetailController> {
       final author = c.dataAuthor.value;
 
       if (resep == null || author == null) {
-        return UnknowPage();
+        return Scaffold(
+          body: Center(
+            child: Text('Tidak ada data', style: AppTextStyle.body2),
+          ),
+        );
       }
 
       return Scaffold(
@@ -150,7 +154,7 @@ class DetailView extends GetView<DetailController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(resep.title, style: AppTextStyle.heading4),
+                          Text(resep.title, style: AppTextStyle.heading8),
                           Text(resep.category, style: AppTextStyle.body7),
                           const SizedBox(height: 4),
                           Row(
@@ -161,9 +165,9 @@ class DetailView extends GetView<DetailController> {
                                 color: AppColors.textSecondary,
                               ),
                               const SizedBox(width: 4),
-                              Text(resep.portion, style: AppTextStyle.body6),
+                              Text(resep.portion, style: AppTextStyle.body7),
                               const SizedBox(width: 8),
-                              Text('|', style: AppTextStyle.body6),
+                              Text('|', style: AppTextStyle.body7),
                               const SizedBox(width: 8),
                               Icon(
                                 Iconsax.heart,
@@ -173,7 +177,7 @@ class DetailView extends GetView<DetailController> {
                               const SizedBox(width: 4),
                               Text(
                                 resep.likes.toString(),
-                                style: AppTextStyle.body6,
+                                style: AppTextStyle.body7,
                               ),
                             ],
                           ),
@@ -266,14 +270,20 @@ class DetailView extends GetView<DetailController> {
                               );
                               final mainIngredient = ingredientFilter[index];
 
-                              return Text(
-                                '${index + 1}. ${mainIngredient.ingredient} ${mainIngredient.amount}',
-                                style: AppTextStyle.body3,
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 4,
+                                ),
+                                child: Text(
+                                  '${index + 1}. ${mainIngredient.ingredient} ${mainIngredient.amount}',
+                                  style: AppTextStyle.body3,
+                                ),
                               );
                             },
                           ),
                           const SizedBox(height: 16),
-                          buildRecipeLabel('Bahan Tambahan'),
+                          if (resep.additive.isNotEmpty)
+                            buildRecipeLabel('Bahan Tambahan'),
                           const SizedBox(height: 4),
                           if (resep.additive.isNotEmpty)
                             ListView.builder(
@@ -287,9 +297,14 @@ class DetailView extends GetView<DetailController> {
                                 );
                                 final additive = additiveFilter[index];
 
-                                return Text(
-                                  '${index + 1}. ${additive.ingredient} ${additive.amount}',
-                                  style: AppTextStyle.body3,
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
+                                  child: Text(
+                                    '${index + 1}. ${additive.ingredient} ${additive.amount}',
+                                    style: AppTextStyle.body3,
+                                  ),
                                 );
                               },
                             ),
@@ -307,9 +322,14 @@ class DetailView extends GetView<DetailController> {
                               );
                               final tutorial = tutorialFilter[index];
 
-                              return Text(
-                                '${index + 1}. ${tutorial.tutorial}',
-                                style: AppTextStyle.body3,
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 4,
+                                ),
+                                child: Text(
+                                  '${index + 1}. ${tutorial.tutorial}',
+                                  style: AppTextStyle.body3,
+                                ),
                               );
                             },
                           ),

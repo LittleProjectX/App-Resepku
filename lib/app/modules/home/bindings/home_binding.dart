@@ -5,7 +5,13 @@ class HomeBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<HomeController>(
-      () => HomeController(Get.find(), Get.find(), Get.find(), Get.find()),
+      () => HomeController(
+        Get.find(),
+        Get.find(),
+        Get.find(),
+        Get.find(),
+        Get.find(),
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:seleraku/app/core/constants/recipe_category.dart';
 import 'package:seleraku/app/core/theme/color_theme.dart';
 import 'package:seleraku/app/core/theme/text_theme.dart';
+import 'package:seleraku/app/core/utils/loading_page.dart';
 import 'package:seleraku/app/core/widgets/buttons/build_button_all.dart';
 import 'package:seleraku/app/core/widgets/global_widgets/build_resep.dart';
 import 'package:seleraku/app/core/widgets/textfields/search_field.dart';
@@ -18,6 +19,10 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      if (controller.isPageLoading.value == true) {
+        return loadingPage();
+      }
+
       final allNotificaion = controller.listNotification;
       final filterNotification = allNotificaion.where(
         (notif) => notif.isRead == false,
@@ -301,7 +306,8 @@ class HomeView extends GetView<HomeController> {
                             const SizedBox(height: 8),
 
                             Obx(() {
-                              final allUser = controller.listUser.toList();
+                              final allUser = controller.listFilterUser
+                                  .toList();
                               allUser.sort(
                                 (a, b) => b.likes.compareTo(a.likes),
                               );

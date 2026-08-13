@@ -9,9 +9,13 @@ class MainView extends GetView<MainController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() => controller.currentPage[controller.currentIndext.value]),
+      body: SafeArea(
+        child: Obx(
+          () => controller.currentPage[controller.currentIndext.value],
+        ),
+      ),
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(16),
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         padding: EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: Colors.white,

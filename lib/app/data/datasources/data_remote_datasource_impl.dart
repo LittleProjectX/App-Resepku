@@ -135,6 +135,55 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
+  Future<void> updateResep(
+    String rId,
+    String title,
+    String description,
+    String portion,
+    String category,
+    String imageUrl,
+    List<DataIngredientModel> mainIngredient,
+    List<DataIngredientModel> additive,
+    List<DataTutorialModel> tutorial,
+    Timestamp createdAt,
+  ) async {
+    try {
+      final dataIngredient = mainIngredient.map((e) => e.toJson()).toList();
+      final dataAdditive = additive.map((e) => e.toJson()).toList();
+      final dataTutorial = tutorial.map((e) => e.toJson()).toList();
+      final upperTitle = title[0].toUpperCase() + title.substring(1);
+
+      await reseps.doc(rId).set({
+        'title': upperTitle,
+        'description': description,
+        'portion': portion,
+        'category': category,
+        'imageUrl': imageUrl,
+        'mainIngredient': dataIngredient,
+        'additive': dataAdditive,
+        'tutorial': dataTutorial,
+        'createdAt': createdAt,
+      }, SetOptions(merge: true));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<QueryDocumentSnapshot<Object?>>> getUserByListId(
+    List<String> listId,
+  ) async {
+    try {
+      final docRef = await users
+          .where(FieldPath.documentId, whereIn: listId)
+          .get();
+      return docRef.docs;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Stream<List<QueryDocumentSnapshot<Object?>>> getMyResep(String uId) {
     try {
       final reseps = firestore.collection('resep');

@@ -44,6 +44,8 @@ import '../modules/started/bindings/started_binding.dart';
 import '../modules/started/views/started_view.dart';
 import '../modules/update_password/bindings/update_password_binding.dart';
 import '../modules/update_password/views/update_password_view.dart';
+import '../modules/update_resep/bindings/update_resep_binding.dart';
+import '../modules/update_resep/views/update_resep_view.dart';
 import '../modules/wait_reset_password/bindings/wait_reset_password_binding.dart';
 import '../modules/wait_reset_password/views/wait_reset_password_view.dart';
 
@@ -169,6 +171,11 @@ class AppPages {
       name: _Paths.UPDATE_PASSWORD,
       page: () => const UpdatePasswordView(),
       binding: UpdatePasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_RESEP,
+      page: () => const UpdateResepView(),
+      binding: UpdateResepBinding(),
     ),
   ];
 }

@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/dislike_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_like_byid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_resep_byid_usecase.dart';
@@ -17,7 +16,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_use
 import 'package:seleraku/app/domain/usecases/data_usecases/unsave_resep_usecase.dart';
 
 class DetailController extends GetxController {
-  final FirebaseAuth auth;
+  final GetCurrentUidUsecase getUid;
   final GetResepByidUsecase getResep;
   final GetUserOnceUsecase getAuthor;
   final GetSaveByidUsecase isSave;
@@ -28,7 +27,7 @@ class DetailController extends GetxController {
   final DislikeResepUsecase disLikeResep;
   final SendNotificationUsecase sendNotification;
   DetailController(
-    this.auth,
+    this.getUid,
     this.getResep,
     this.getAuthor,
     this.isSave,
@@ -56,10 +55,10 @@ class DetailController extends GetxController {
     super.onInit();
     isLoading.value = true;
     rId = Get.parameters['rId'].toString();
-    uId = auth.currentUser!.uid;
+    uId = getUid();
     fetchDataResep(rId);
-    fetchIsSave(auth.currentUser!.uid, rId);
-    fetchIsLike(auth.currentUser!.uid, rId);
+    fetchIsSave(uId, rId);
+    fetchIsLike(uId, rId);
     isLoading.value = false;
   }
 

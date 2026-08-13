@@ -20,6 +20,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/get_saved_resep_bylis
 import 'package:seleraku/app/domain/usecases/data_usecases/get_saved_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/getuser_bylistid_usecase.dart';
 import 'package:seleraku/app/modules/detailUser/controllers/detail_user_controller.dart';
 import 'package:seleraku/app/modules/home/controllers/home_controller.dart';
 import 'package:seleraku/app/modules/profile/controllers/profile_controller.dart';
@@ -30,7 +31,9 @@ import '../controllers/main_controller.dart';
 class MainBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => FirebaseAuth.instance);
+    Get.lazyPut<MainController>(
+      () => MainController(Get.find(), Get.find(), Get.find()),
+    );
     Get.lazyPut(() => FirebaseFirestore.instance);
     Get.lazyPut<AuthRemoteDatasource>(
       () => AuthRemoteDatasourceImpl(Get.find(), Get.find()),
@@ -40,10 +43,14 @@ class MainBinding extends Bindings {
     Get.lazyPut<DataRemoteDatasource>(
       () => DataRemoteDatasourceImpl(Get.find()),
     );
-    Get.lazyPut(() => GetuserUsecase(Get.find()));
-    Get.lazyPut(() => LogoutUsecase(Get.find()));
     Get.lazyPut(
-      () => HomeController(Get.find(), Get.find(), Get.find(), Get.find()),
+      () => HomeController(
+        Get.find(),
+        Get.find(),
+        Get.find(),
+        Get.find(),
+        Get.find(),
+      ),
     );
     Get.lazyPut(() => SaveResepController(Get.find(), Get.find(), Get.find()));
     Get.lazyPut(() => ProfileController(Get.find()));
@@ -51,7 +58,10 @@ class MainBinding extends Bindings {
       () =>
           DetailUserController(Get.find(), Get.find(), Get.find(), Get.find()),
     );
+    Get.lazyPut(() => GetuserUsecase(Get.find()));
+    Get.lazyPut(() => LogoutUsecase(Get.find()));
     Get.lazyPut(() => GetUserOnceUsecase(Get.find()));
+    Get.lazyPut(() => GetuserBylistidUsecase(Get.find()));
     Get.lazyPut(() => GetAllUserUsecase(Get.find()));
     Get.lazyPut(() => GetCurrentUidUsecase(Get.find()));
     Get.lazyPut(() => GetSavedResepBylistidUsecase(Get.find()));
@@ -63,8 +73,5 @@ class MainBinding extends Bindings {
     Get.lazyPut(() => GetMyResepUsecase(Get.find()));
     Get.lazyPut(() => GetuserUsecase(Get.find()));
     Get.lazyPut(() => GetUserOnceUsecase(Get.find()));
-    Get.lazyPut<MainController>(
-      () => MainController(Get.find(), Get.find(), Get.find()),
-    );
   }
 }
