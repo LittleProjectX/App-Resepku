@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seleraku/app/core/theme/color_theme.dart';
 import 'package:seleraku/app/core/theme/text_theme.dart';
 
 Widget buildSearchField({
@@ -32,7 +33,7 @@ Widget buildSearchField({
 
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
-        borderSide: const BorderSide(color: Colors.orange, width: 1.5),
+        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
       ),
     ),
   );

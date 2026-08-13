@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:seleraku/app/core/utils/snacbar_helper.dart';
+import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/reset_password_usecase.dart';
 
 class WaitResetPasswordController extends GetxController {

@@ -9,4 +9,5 @@ abstract class AuthRemoteDatasource {
   Stream<User?> getStream();
   String getCurrentUid();
   Future<UserCredential?> loginWithGoogle();
+  Future<void> updatePassword(String newPassword);
 }

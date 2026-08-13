@@ -1,16 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:seleraku/app/core/utils/snacbar_helper.dart';
+import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/domain/models/data_notification_model.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_notification_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/read_notification_usecase.dart';
 
 class NotificationController extends GetxController {
-  final FirebaseAuth auth;
+  final GetCurrentUidUsecase getUid;
   final GetMyNotificationUsecase getMyNotification;
   final ReadNotificationUsecase readNotification;
   NotificationController(
-    this.auth,
+    this.getUid,
     this.getMyNotification,
     this.readNotification,
   );
@@ -20,7 +20,7 @@ class NotificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    uId = auth.currentUser!.uid;
+    uId = getUid();
     fetchGetMyNotification(uId);
   }
 

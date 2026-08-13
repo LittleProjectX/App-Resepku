@@ -13,28 +13,27 @@ class InstructionView extends GetView<InstructionController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                buttonCircle(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 12),
+              Align(
+                alignment: AlignmentGeometry.topLeft,
+                child: buttonCircle(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back,
-                  left: 24,
                 ),
-                const SizedBox(width: 12),
-                Text('Panduan Penggunaan', style: AppTextStyle.heading5),
-              ],
-            ),
-            Container(
-              padding: const EdgeInsets.all(24),
-              margin: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: AppColors.surface,
               ),
-              child: Text('''Panduan Penggunaan SELERAKU
+              const SizedBox(width: 24),
+              Center(child: Text('Panduan', style: AppTextStyle.heading2)),
+              Container(
+                padding: const EdgeInsets.all(24),
+                margin: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.surface,
+                ),
+                child: Text('''Panduan Penggunaan SELERAKU
 
 1. Melihat Resep
 • Buka halaman Beranda.
@@ -54,8 +53,9 @@ class InstructionView extends GetView<InstructionController> {
 
 Selamat menggunakan SELERAKU! Temukan berbagai inspirasi masakan dan bagikan resep terbaik Anda kepada pengguna lainnya.
 ''', style: AppTextStyle.body3),
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

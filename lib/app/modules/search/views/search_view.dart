@@ -27,11 +27,13 @@ class SearchView extends GetView<SearchControllers> {
                   focusNode: controller.currenctFocus,
                   onClear: () {
                     controller.clearSearch();
-                    Get.back();
+                    Get.offAllNamed(Routes.MAIN);
                   },
                   onChange: (value) {
                     if (value.isNotEmpty) {
                       controller.fetchSearchResep(value);
+                    } else {
+                      Get.offAllNamed(Routes.MAIN);
                     }
                   },
                   autoFocus: true,

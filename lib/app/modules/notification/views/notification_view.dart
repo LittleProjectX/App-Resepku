@@ -14,8 +14,36 @@ class NotificationView extends GetView<NotificationController> {
     return Obx(() {
       if (controller.listNotification.isEmpty) {
         return Scaffold(
-          body: Center(
-            child: Text('Tidak ada notifikasi', style: AppTextStyle.body3),
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsetsGeometry.only(top: 12),
+              child: Stack(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Align(
+                        alignment: AlignmentGeometry.topLeft,
+                        child: buttonCircle(
+                          onTap: () => Get.back(),
+                          icon: Icons.arrow_back,
+                        ),
+                      ),
+                      const SizedBox(width: 24),
+                      Center(
+                        child: Text('Notifikasi', style: AppTextStyle.heading2),
+                      ),
+                    ],
+                  ),
+                  Center(
+                    child: Text(
+                      'Tidak ada notifikasi',
+                      style: AppTextStyle.body2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       }

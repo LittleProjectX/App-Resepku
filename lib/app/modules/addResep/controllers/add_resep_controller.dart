@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path/path.dart' as path;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/domain/models/data_author_favorite_model.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_liked_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/save_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
@@ -19,7 +19,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/upload_image_usecase.
 import 'package:seleraku/app/routes/app_pages.dart';
 
 class AddResepController extends GetxController {
-  final FirebaseAuth auth;
+  final GetCurrentUidUsecase getUid;
   final UploadImageUsecase uploadImage;
   final SaveResepUsecase saveResep;
   final GetLikedAuthorUsecase getLikedAuthor;
@@ -27,7 +27,7 @@ class AddResepController extends GetxController {
   AddResepController(
     this.uploadImage,
     this.saveResep,
-    this.auth,
+    this.getUid,
     this.getLikedAuthor,
     this.sendNotification,
   );
@@ -63,7 +63,7 @@ class AddResepController extends GetxController {
     additive = TextEditingController();
     additiveAmount = TextEditingController();
     tutorial = TextEditingController();
-    uId = auth.currentUser!.uid;
+    uId = getUid();
     author = Get.parameters['author'] ?? '';
     fetchGetLikedAuthor(uId);
   }

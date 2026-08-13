@@ -83,23 +83,13 @@ class DetailUserView extends GetView<DetailUserController> {
                         Routes.ADD_RESEP,
                         parameters: {'author': user.name ?? ''},
                       ),
-                      child: Row(
-                        children: [
-                          Text('Tambah Resep', style: AppTextStyle.body5),
-                          const SizedBox(width: 4),
-                          Icon(
-                            Iconsax.add_copy,
-                            size: 22,
-                            color: AppColors.surface,
-                          ),
-                        ],
-                      ),
+                      child: Text('Tambah Resep', style: AppTextStyle.body5),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
                 resep.isEmpty
-                    ? errorData(text: 'Anda belum memiliki resep')
+                    ? errorData(text: 'Tidak ada data')
                     : ListView.builder(
                         itemCount: resep.length,
                         physics: NeverScrollableScrollPhysics(),

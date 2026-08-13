@@ -47,7 +47,10 @@ class HomeView extends GetView<HomeController> {
                         onTap: () => Get.toNamed(Routes.NOTIFICATION),
                         child: Badge(
                           smallSize: 18,
-                          label: Text(filterNotification.length.toString()),
+                          label: Text(
+                            filterNotification.length.toString(),
+                            style: AppTextStyle.body5,
+                          ),
                           isLabelVisible: true,
                           child: SizedBox(
                             height: 46,
@@ -146,8 +149,8 @@ class HomeView extends GetView<HomeController> {
                   () => controller.listResep.isEmpty
                       ? Center(
                           child: Text(
-                            'Tidak ada resep yang ditemukan.',
-                            style: AppTextStyle.body3,
+                            'Tidak ada data',
+                            style: AppTextStyle.body2,
                           ),
                         )
                       : Column(

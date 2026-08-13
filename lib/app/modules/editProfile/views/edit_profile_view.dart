@@ -23,18 +23,16 @@ class EditProfileView extends GetView<EditProfileController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  buttonCircle(
-                    onTap: () => Get.back(),
-                    icon: Icons.arrow_back,
-                    left: 24,
-                  ),
-                  const SizedBox(width: 12),
-                  Text('Ganti Profil', style: AppTextStyle.heading5),
-                ],
+              const SizedBox(height: 12),
+              Align(
+                alignment: AlignmentGeometry.topLeft,
+                child: buttonCircle(
+                  onTap: () => Get.back(),
+                  icon: Icons.arrow_back,
+                ),
               ),
+              const SizedBox(width: 24),
+              Center(child: Text('Edit Profile', style: AppTextStyle.heading2)),
               const SizedBox(height: 24),
               Align(
                 alignment: AlignmentGeometry.center,
@@ -99,7 +97,7 @@ class EditProfileView extends GetView<EditProfileController> {
                       alignment: Alignment.center,
                       child: TextButton(
                         onPressed: () => Get.back(),
-                        child: Text('Batal', style: AppTextStyle.button2),
+                        child: Text('Batal', style: AppTextStyle.button3),
                       ),
                     ),
                   ],

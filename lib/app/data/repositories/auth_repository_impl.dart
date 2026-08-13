@@ -60,4 +60,9 @@ class AuthRepositoryImpl implements AuthRepository {
       isVerified: user.emailVerified,
     );
   }
+
+  @override
+  Future<void> updatePassword(String newPassword) {
+    return remote.updatePassword(newPassword);
+  }
 }

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/erors/login_eror.dart';
-import 'package:seleraku/app/core/utils/snacbar_helper.dart';
+import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/login_with_google_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
@@ -42,7 +42,7 @@ class LoginController extends GetxController {
   Future<void> callLogin(String email, String password) async {
     try {
       if (email.trim().isEmpty || password.trim().isEmpty) {
-        SnackBarHelper.cautionSnacbar('Mohon untuk mengisi email dan password');
+        SnackBarHelper.warning('Mohon untuk mengisi email dan password');
         return;
       }
 
@@ -54,16 +54,14 @@ class LoginController extends GetxController {
 
       if (user != null) {
         if (!user.isVerified) {
-          SnackBarHelper.cautionSnacbar(
-            'Silakan verifikasi email terlebih dahulu',
-          );
+          SnackBarHelper.warning('Silakan verifikasi email terlebih dahulu');
           return;
         }
 
         final dataUser = getUser.call(user.uId);
         dataUser.listen((snapshot) {
           if (!snapshot.exists) {
-            SnackBarHelper.cautionSnacbar('Data tidak ditemukan');
+            SnackBarHelper.warning('Data tidak ditemukan');
             return;
           }
           final dataUser = snapshot.data() as Map<String, dynamic>;
@@ -71,8 +69,9 @@ class LoginController extends GetxController {
           final isComplete = data.isProfileComplete;
           if (isComplete == true) {
             Get.offAllNamed(Routes.MAIN);
+          } else {
+            Get.offAllNamed(Routes.FIRST_USER_DATA);
           }
-          Get.offAllNamed(Routes.FIRST_USER_DATA);
         });
         // print(dataUser);
       }

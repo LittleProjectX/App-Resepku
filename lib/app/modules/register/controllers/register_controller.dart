@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/erors/register_eror.dart';
-import 'package:seleraku/app/core/utils/snacbar_helper.dart';
+import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/register_usecase.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
 
@@ -50,9 +50,7 @@ class RegisterController extends GetxController {
       if (email.trim().isEmpty ||
           password.trim().isEmpty ||
           repeatPassword.trim().isEmpty) {
-        SnackBarHelper.cautionSnacbar(
-          'Mohon untuk mengisi seluruh data dengan benar',
-        );
+        SnackBarHelper.warning('Mohon untuk mengisi seluruh data dengan benar');
         return;
       }
 
@@ -62,9 +60,7 @@ class RegisterController extends GetxController {
       }
 
       if (password.trim().toString() != repeatPassword.trim().toString()) {
-        SnackBarHelper.cautionSnacbar(
-          'Password tidak sesuai, mohon periksa kembali',
-        );
+        SnackBarHelper.warning('Password tidak sesuai, mohon periksa kembali');
         return;
       }
 

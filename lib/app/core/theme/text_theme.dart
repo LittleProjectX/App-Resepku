@@ -62,7 +62,7 @@ class AppTextStyle {
     color: AppColors.textPrimary,
   );
   static TextStyle body3 = GoogleFonts.poppins(
-    fontSize: 12,
+    fontSize: 14,
     color: AppColors.textPrimary,
   );
   static TextStyle body4 = GoogleFonts.poppins(
@@ -70,7 +70,7 @@ class AppTextStyle {
     color: AppColors.textPrimary,
   );
   static TextStyle body5 = GoogleFonts.poppins(
-    fontSize: 12,
+    fontSize: 14,
     color: AppColors.surface,
   );
   static TextStyle body6 = GoogleFonts.poppins(

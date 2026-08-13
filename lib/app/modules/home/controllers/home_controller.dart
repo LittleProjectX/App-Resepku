@@ -8,17 +8,18 @@ import 'package:seleraku/app/domain/models/data_favorite_model.dart';
 import 'package:seleraku/app/domain/models/data_notification_model.dart';
 import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_notification_usecase.dart';
 
 class HomeController extends GetxController {
-  final FirebaseAuth auth;
+  final GetCurrentUidUsecase getUid;
   final GetAllResepUsecase getAllResep;
   final GetAllUserUsecase getAllUser;
   final GetMyNotificationUsecase getMyNotification;
   HomeController(
-    this.auth,
+    this.getUid,
     this.getAllResep,
     this.getAllUser,
     this.getMyNotification,
@@ -34,12 +35,13 @@ class HomeController extends GetxController {
   RxBool isLike = true.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     search = TextEditingController();
+    final uId = getUid.call();
     fetchGetAllResep();
     fetchGetAllUser();
-    fetchGetMyNotification(auth.currentUser!.uid);
+    await fetchGetMyNotification(uId);
   }
 
   @override

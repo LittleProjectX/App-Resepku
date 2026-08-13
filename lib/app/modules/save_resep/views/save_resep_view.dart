@@ -19,6 +19,10 @@ class SaveResepView extends GetView<SaveResepController> {
       }
       final resep = controller.listResep;
 
+      if (controller.listFavorite.isEmpty) {
+        return Center(child: Text('Tidak ada data', style: AppTextStyle.body2));
+      }
+
       return Padding(
         padding: const EdgeInsets.all(24),
         child: ListView.builder(

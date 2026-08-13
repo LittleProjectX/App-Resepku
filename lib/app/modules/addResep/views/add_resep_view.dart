@@ -24,19 +24,16 @@ class AddResepView extends GetView<AddResepController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Row(
-                  children: [
-                    buttonCircle(
-                      onTap: () => Get.back(),
-                      icon: Icons.arrow_back,
-                    ),
-                    const SizedBox(width: 16),
-                    Text('Tambah Resep', style: AppTextStyle.heading5),
-                  ],
+              const SizedBox(height: 12),
+              Align(
+                alignment: AlignmentGeometry.topLeft,
+                child: buttonCircle(
+                  onTap: () => Get.back(),
+                  icon: Icons.arrow_back,
                 ),
               ),
+              const SizedBox(width: 24),
+              Center(child: Text('Tambah Resep', style: AppTextStyle.heading2)),
               Padding(
                 padding: EdgeInsetsGeometry.symmetric(
                   horizontal: 32,

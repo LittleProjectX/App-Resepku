@@ -15,7 +15,7 @@ class EditPasswordView extends GetView<EditPasswordController> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -50,9 +50,9 @@ class EditPasswordView extends GetView<EditPasswordController> {
                 buildLargeButton(
                   label: 'Reset Password',
                   isLoading: controller.isLoading.value,
-                  onTap: () {
-                    controller.resetPasswordUser(controller.email.text);
-                  },
+                  onTap: () => controller.isLoading.value
+                      ? null
+                      : controller.resetPasswordUser(controller.email.text),
                 ),
               ],
             ),

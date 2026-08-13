@@ -35,11 +35,11 @@ class LoginView extends GetView<LoginController> {
               children: [
                 SafeArea(
                   child: Padding(
-                    padding: EdgeInsetsGeometry.only(top: 8),
+                    padding: EdgeInsetsGeometry.only(top: 12),
                     child: buttonCircle(
                       onTap: () => Get.back(),
                       icon: Icons.arrow_back,
-                      left: 24,
+                      left: 32,
                     ),
                   ),
                 ),
@@ -53,7 +53,7 @@ class LoginView extends GetView<LoginController> {
                       top: Radius.circular(24),
                     ),
                     child: Padding(
-                      padding: EdgeInsetsGeometry.all(24),
+                      padding: EdgeInsetsGeometry.all(32),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -100,10 +100,16 @@ class LoginView extends GetView<LoginController> {
                             () => buildLargeButton(
                               label: 'Masuk',
                               isLoading: controller.isLoading.value,
-                              onTap: () => controller.callLogin(
-                                controller.email.text,
-                                controller.password.text,
-                              ),
+                              onTap: () {
+                                if (controller.isLoading.value) {
+                                  null;
+                                } else {
+                                  controller.callLogin(
+                                    controller.email.text,
+                                    controller.password.text,
+                                  );
+                                }
+                              },
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -160,8 +166,14 @@ class LoginView extends GetView<LoginController> {
                                   width: 2,
                                 ),
                               ),
-                              onPressed: () =>
-                                  controller.callSigninWithGoogle(),
+                              onPressed: () {
+                                if (controller.isLoading.value) {
+                                  null;
+                                } else {
+                                  controller.callSigninWithGoogle();
+                                }
+                              },
+
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

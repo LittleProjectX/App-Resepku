@@ -25,7 +25,7 @@ class ProfileView extends GetView<ProfileController> {
             Iconsax.lock_1_copy,
             'Password',
             'ubah password anda',
-            () => Get.toNamed(Routes.EDIT_PASSWORD),
+            () => Get.toNamed(Routes.UPDATE_PASSWORD),
           ),
           const SizedBox(height: 10),
           buildListTileProfile(

@@ -82,13 +82,7 @@ class CustomDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: Text(
-                      textCancel.tr,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    child: Text(textCancel.tr, style: AppTextStyle.body3),
                   ),
                 ),
 
@@ -105,13 +99,7 @@ class CustomDialog extends StatelessWidget {
                       ),
                       backgroundColor: AppColors.primary,
                     ),
-                    child: Text(
-                      textConfirm.tr,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: Text(textConfirm.tr, style: AppTextStyle.body5),
                   ),
                 ),
               ],

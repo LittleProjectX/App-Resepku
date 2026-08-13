@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:seleraku/app/core/utils/snacbar_helper.dart';
+import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/core/widgets/custom_dialog.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';

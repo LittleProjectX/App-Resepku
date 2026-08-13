@@ -134,7 +134,6 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       );
       final user = userCredential.user;
 
-      print(user?.displayName);
       await firestore.collection('users').doc(user?.uid).set({
         'uId': user?.uid,
         'email': user?.email,
@@ -149,6 +148,17 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         return null;
       }
 
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      await auth.currentUser!.updatePassword(newPassword);
+    } on FirebaseAuthException catch (_) {
       rethrow;
     } catch (e) {
       rethrow;

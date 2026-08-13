@@ -17,7 +17,7 @@ Widget buildListTileProfile(
       color: AppColors.textSecondary,
     ),
     title: Text(title, style: AppTextStyle.body2),
-    subtitle: Text(subtitle, style: AppTextStyle.body6),
+    subtitle: Text(subtitle, style: AppTextStyle.body7),
     tileColor: AppColors.surface,
     onTap: onTap,
   );

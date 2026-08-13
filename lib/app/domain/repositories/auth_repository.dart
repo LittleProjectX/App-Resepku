@@ -10,4 +10,5 @@ abstract class AuthRepository {
   Stream<fa.User?> getStream();
   String getCurrentUid();
   Future<AuthUserEntity?> loginWithGoogle();
+  Future<void> updatePassword(String newPassword);
 }

@@ -51,7 +51,9 @@ class MainBinding extends Bindings {
       () =>
           DetailUserController(Get.find(), Get.find(), Get.find(), Get.find()),
     );
+    Get.lazyPut(() => GetUserOnceUsecase(Get.find()));
     Get.lazyPut(() => GetAllUserUsecase(Get.find()));
+    Get.lazyPut(() => GetCurrentUidUsecase(Get.find()));
     Get.lazyPut(() => GetSavedResepBylistidUsecase(Get.find()));
     Get.lazyPut(() => GetSavedResepUsecase(Get.find()));
     Get.lazyPut(() => GetMyNotificationUsecase(Get.find()));

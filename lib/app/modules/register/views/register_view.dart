@@ -35,11 +35,11 @@ class RegisterView extends GetView<RegisterController> {
               children: [
                 SafeArea(
                   child: Padding(
-                    padding: EdgeInsetsGeometry.only(top: 8),
+                    padding: EdgeInsetsGeometry.only(top: 12),
                     child: buttonCircle(
                       onTap: () => Get.back(),
                       icon: Icons.arrow_back,
-                      left: 24,
+                      left: 32,
                     ),
                   ),
                 ),
@@ -53,7 +53,7 @@ class RegisterView extends GetView<RegisterController> {
                       top: Radius.circular(24),
                     ),
                     child: Padding(
-                      padding: EdgeInsetsGeometry.all(24),
+                      padding: EdgeInsetsGeometry.all(32),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -104,11 +104,13 @@ class RegisterView extends GetView<RegisterController> {
                             () => buildLargeButton(
                               label: 'Daftar',
                               isLoading: controller.isLoading.value,
-                              onTap: () => controller.callRegister(
-                                controller.email.text,
-                                controller.password.text,
-                                controller.confirmPassword.text,
-                              ),
+                              onTap: () => controller.isLoading.value
+                                  ? null
+                                  : controller.callRegister(
+                                      controller.email.text,
+                                      controller.password.text,
+                                      controller.confirmPassword.text,
+                                    ),
                             ),
                           ),
                           const SizedBox(height: 8),
