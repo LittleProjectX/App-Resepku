@@ -40,6 +40,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/report/bindings/report_binding.dart';
+import '../modules/report/views/report_view.dart';
 import '../modules/save_resep/bindings/save_resep_binding.dart';
 import '../modules/save_resep/views/save_resep_view.dart';
 import '../modules/search/bindings/search_binding.dart';
@@ -190,6 +192,11 @@ class AppPages {
       name: _Paths.ALL_USER,
       page: () => const AllUserView(),
       binding: AllUserBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT,
+      page: () => const ReportView(),
+      binding: ReportBinding(),
     ),
   ];
 }

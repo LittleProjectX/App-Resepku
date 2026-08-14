@@ -245,4 +245,9 @@ class DataRepositoryImpl implements DataRepository {
   Future<List<QueryDocumentSnapshot<Object?>>> getUserbyEmail(String email) {
     return remote.getUserByEmail(email);
   }
+
+  @override
+  Future<void> sendReport(String uId, String report, Timestamp createdAt) {
+    return remote.sendReport(uId, report, createdAt);
+  }
 }

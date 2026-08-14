@@ -29,6 +29,7 @@ abstract class Routes {
   static const UPDATE_RESEP = _Paths.UPDATE_RESEP;
   static const ALL_POPULAR = _Paths.ALL_POPULAR;
   static const ALL_USER = _Paths.ALL_USER;
+  static const REPORT = _Paths.REPORT;
 }
 
 abstract class _Paths {
@@ -59,4 +60,5 @@ abstract class _Paths {
   static const UPDATE_RESEP = '/update-resep';
   static const ALL_POPULAR = '/all-popular';
   static const ALL_USER = '/all-user';
+  static const REPORT = '/report';
 }

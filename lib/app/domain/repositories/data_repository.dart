@@ -89,4 +89,5 @@ abstract class DataRepository {
   Stream<List<QueryDocumentSnapshot>> searchResep(String title);
   Future<List<QueryDocumentSnapshot>> getUserbyEmail(String email);
   Future<List<QueryDocumentSnapshot>> getUserByListId(List<String> listId);
+  Future<void> sendReport(String uId, String report, Timestamp createdAt);
 }

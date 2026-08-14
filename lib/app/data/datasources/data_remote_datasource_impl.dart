@@ -23,6 +23,8 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
       .collection('resepSave');
   late final CollectionReference<Map<String, dynamic>> authorLike = firestore
       .collection('authorLike');
+  late final CollectionReference<Map<String, dynamic>> reports = firestore
+      .collection('report');
 
   @override
   Stream<DocumentSnapshot> getUser(String uId) {
@@ -492,6 +494,27 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
     try {
       final docRef = await users.where('email', isEqualTo: email).get();
       return docRef.docs;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> sendReport(
+    String uId,
+    String report,
+    Timestamp createdAt,
+  ) async {
+    try {
+      final docRef = reports.doc();
+      String docId = docRef.id;
+
+      docRef.set({
+        'dId': docId,
+        'uId': uId,
+        'report': report,
+        'createdAt': createdAt,
+      });
     } catch (e) {
       rethrow;
     }

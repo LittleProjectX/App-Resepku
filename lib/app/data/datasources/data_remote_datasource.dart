@@ -86,4 +86,5 @@ abstract class DataRemoteDatasource {
     List<DataTutorialModel> tutorial,
     Timestamp createdAt,
   );
+  Future<void> sendReport(String uId, String report, Timestamp createdAt);
 }

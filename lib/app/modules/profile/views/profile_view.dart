@@ -40,6 +40,12 @@ class ProfileView extends GetView<ProfileController> {
             'petunjuk penggunaan aplikasi',
             () => Get.toNamed(Routes.INSTRUCTION),
           ),
+          buildListTileProfile(
+            Icons.lightbulb_outline,
+            'Saran',
+            'kritik dan saran mengenai aplikasi',
+            () => Get.toNamed(Routes.REPORT),
+          ),
           const SizedBox(height: 10),
           buildListTileProfile(
             Iconsax.logout_1_copy,
@@ -50,7 +56,7 @@ class ProfileView extends GetView<ProfileController> {
             },
           ),
           const SizedBox(height: 32),
-          Text('Seleraku v1.0.0', style: AppTextStyle.body6),
+          Text('powered by', style: AppTextStyle.body4),
           Text('@LittleProjext', style: AppTextStyle.body6),
         ],
       ),

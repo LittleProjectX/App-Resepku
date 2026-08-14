@@ -69,4 +69,10 @@ class AuthGateController extends GetxController {
     subscription.cancel();
     super.dispose();
   }
+
+  @override
+  void onClose() {
+    subscription.cancel();
+    super.onClose();
+  }
 }
