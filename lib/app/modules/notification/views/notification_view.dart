@@ -29,7 +29,6 @@ class NotificationView extends GetView<NotificationController> {
                           icon: Icons.arrow_back,
                         ),
                       ),
-                      const SizedBox(width: 24),
                       Center(
                         child: Text('Notifikasi', style: AppTextStyle.heading2),
                       ),

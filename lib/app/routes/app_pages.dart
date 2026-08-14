@@ -4,8 +4,12 @@ import '../modules/about/bindings/about_binding.dart';
 import '../modules/about/views/about_view.dart';
 import '../modules/addResep/bindings/add_resep_binding.dart';
 import '../modules/addResep/views/add_resep_view.dart';
+import '../modules/all_popular/bindings/all_popular_binding.dart';
+import '../modules/all_popular/views/all_popular_view.dart';
 import '../modules/all_resep/bindings/all_resep_binding.dart';
 import '../modules/all_resep/views/all_resep_view.dart';
+import '../modules/all_user/bindings/all_user_binding.dart';
+import '../modules/all_user/views/all_user_view.dart';
 import '../modules/auth_gate/bindings/auth_gate_binding.dart';
 import '../modules/auth_gate/views/auth_gate_view.dart';
 import '../modules/author/bindings/author_binding.dart';
@@ -176,6 +180,16 @@ class AppPages {
       name: _Paths.UPDATE_RESEP,
       page: () => const UpdateResepView(),
       binding: UpdateResepBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_POPULAR,
+      page: () => const AllPopularView(),
+      binding: AllPopularBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_USER,
+      page: () => const AllUserView(),
+      binding: AllUserBinding(),
     ),
   ];
 }

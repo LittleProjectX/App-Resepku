@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/data/datasources/auth_remote_datasource.dart';
 import 'package:seleraku/app/data/datasources/auth_remote_datasource_impl.dart';

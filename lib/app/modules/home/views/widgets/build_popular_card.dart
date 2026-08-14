@@ -120,7 +120,10 @@ Widget buildPopularCard(
                                 borderRadius: BorderRadius.circular(24),
                               ),
                               child: Center(
-                                child: Text('Lihat', style: AppTextStyle.body3),
+                                child: Text(
+                                  'Lihat',
+                                  style: AppTextStyle.button2,
+                                ),
                               ),
                             ),
                           ),

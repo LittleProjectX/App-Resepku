@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:seleraku/app/core/theme/color_theme.dart';
 import 'package:seleraku/app/core/theme/text_theme.dart';
-import 'package:seleraku/app/core/utils/unknow_page.dart';
 import 'package:seleraku/app/core/utils/loading_page.dart';
 import 'package:seleraku/app/core/widgets/buttons/button_back.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
@@ -17,9 +16,9 @@ class DetailView extends GetView<DetailController> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final c = Get.find<DetailController>();
 
     return Obx(() {
+      final c = Get.find<DetailController>();
       if (c.isLoading.value = true) {
         loadingPage();
       }

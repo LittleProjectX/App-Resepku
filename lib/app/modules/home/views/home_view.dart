@@ -172,7 +172,10 @@ class HomeView extends GetView<HomeController> {
                                 buildButtonAll(
                                   () => Get.toNamed(
                                     Routes.ALL_RESEP,
-                                    parameters: {'category': 'Semua'},
+                                    parameters: {
+                                      'category':
+                                          controller.currentCategory.value,
+                                    },
                                   ),
                                 ),
                               ],
@@ -193,6 +196,14 @@ class HomeView extends GetView<HomeController> {
                                   }
                                 }).toList();
 
+                                if (filterResep.isEmpty) {
+                                  return Center(
+                                    child: Text(
+                                      'Tidak ada data',
+                                      style: AppTextStyle.body3,
+                                    ),
+                                  );
+                                }
                                 return ListView.builder(
                                   itemCount:
                                       controller.currentCategory.value ==
@@ -220,7 +231,9 @@ class HomeView extends GetView<HomeController> {
 
                                     if (index == lenData) {
                                       return GestureDetector(
-                                        onTap: () {},
+                                        onTap: () {
+                                          null;
+                                        },
                                         child: Container(
                                           width: 100,
                                           margin: const EdgeInsets.all(8),
@@ -258,8 +271,8 @@ class HomeView extends GetView<HomeController> {
                                 buildLabel2('Teratas'),
                                 buildButtonAll(
                                   () => Get.toNamed(
-                                    Routes.ALL_RESEP,
-                                    parameters: {'category': 'Semua'},
+                                    Routes.ALL_POPULAR,
+                                    parameters: {'type': 'Teratas'},
                                   ),
                                 ),
                               ],
@@ -299,7 +312,7 @@ class HomeView extends GetView<HomeController> {
                               children: [
                                 buildLabel2('Pembuat'),
                                 buildButtonAll(
-                                  () => Get.toNamed(Routes.ALL_RESEP),
+                                  () => Get.toNamed(Routes.ALL_USER),
                                 ),
                               ],
                             ),
@@ -366,7 +379,7 @@ class HomeView extends GetView<HomeController> {
                                                   maxLines: 1,
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                  style: AppTextStyle.label1,
+                                                  style: AppTextStyle.body8,
                                                 ),
                                                 Row(
                                                   mainAxisAlignment:
@@ -410,8 +423,8 @@ class HomeView extends GetView<HomeController> {
                                 buildLabel2('Terbaru'),
                                 buildButtonAll(
                                   () => Get.toNamed(
-                                    Routes.ALL_RESEP,
-                                    parameters: {'category': 'Semua'},
+                                    Routes.ALL_POPULAR,
+                                    parameters: {'type': 'Terbaru'},
                                   ),
                                 ),
                               ],

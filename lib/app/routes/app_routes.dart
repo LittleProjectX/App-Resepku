@@ -27,6 +27,8 @@ abstract class Routes {
   static const WAIT_RESET_PASSWORD = _Paths.WAIT_RESET_PASSWORD;
   static const UPDATE_PASSWORD = _Paths.UPDATE_PASSWORD;
   static const UPDATE_RESEP = _Paths.UPDATE_RESEP;
+  static const ALL_POPULAR = _Paths.ALL_POPULAR;
+  static const ALL_USER = _Paths.ALL_USER;
 }
 
 abstract class _Paths {
@@ -55,4 +57,6 @@ abstract class _Paths {
   static const WAIT_RESET_PASSWORD = '/wait-reset-password';
   static const UPDATE_PASSWORD = '/update-password';
   static const UPDATE_RESEP = '/update-resep';
+  static const ALL_POPULAR = '/all-popular';
+  static const ALL_USER = '/all-user';
 }

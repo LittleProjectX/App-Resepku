@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/data/datasources/data_remote_datasource.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
-import 'package:seleraku/app/data/entities/data_user_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';

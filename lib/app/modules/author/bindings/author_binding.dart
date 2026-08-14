@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/data/datasources/data_remote_datasource.dart';
 import 'package:seleraku/app/data/datasources/data_remote_datasource_impl.dart';
@@ -9,7 +8,6 @@ import 'package:seleraku/app/domain/usecases/data_usecases/dislike_author_usecas
 import 'package:seleraku/app/domain/usecases/data_usecases/get_author_fav_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/like_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
 

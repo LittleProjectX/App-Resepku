@@ -1,20 +1,21 @@
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
+import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_resep_usecase.dart';
 
-class AllResepController extends GetxController {
+class AllPopularController extends GetxController {
   final GetAllResepUsecase getAllResep;
-  AllResepController(this.getAllResep);
+  AllPopularController(this.getAllResep);
 
-  RxString category = ''.obs;
-  var listAllResep = <DataResepModel>[].obs;
+  var listAllResep = <DataResepEntity>[].obs;
+  RxString type = ''.obs;
   RxBool isPageLoading = false.obs;
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
-    category.value = Get.parameters['category'].toString();
+    type.value = Get.parameters['type'].toString();
     fetchAllResep();
   }
 

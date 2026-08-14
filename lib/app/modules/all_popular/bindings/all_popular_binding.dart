@@ -5,16 +5,16 @@ import 'package:seleraku/app/data/repositories/data_repository_impl.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_resep_usecase.dart';
 
-import '../controllers/all_resep_controller.dart';
+import '../controllers/all_popular_controller.dart';
 
-class AllResepBinding extends Bindings {
+class AllPopularBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<AllResepController>(() => AllResepController(Get.find()));
-    Get.lazyPut(() => GetAllResepUsecase(Get.find()));
+    Get.lazyPut<AllPopularController>(() => AllPopularController(Get.find()));
     Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
     Get.lazyPut<DataRemoteDatasource>(
       () => DataRemoteDatasourceImpl(Get.find()),
     );
+    Get.lazyPut(() => GetAllResepUsecase(Get.find()));
   }
 }

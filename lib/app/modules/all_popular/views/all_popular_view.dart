@@ -7,57 +7,48 @@ import 'package:seleraku/app/core/widgets/buttons/button_back.dart';
 import 'package:seleraku/app/core/widgets/global_widgets/build_resep.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
 
-import '../controllers/all_resep_controller.dart';
+import '../controllers/all_popular_controller.dart';
 
-class AllResepView extends GetView<AllResepController> {
-  const AllResepView({super.key});
+class AllPopularView extends GetView<AllPopularController> {
+  const AllPopularView({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isPageLoading.value) {
         return Scaffold(body: loadingPage());
       }
+      final popularFilter = controller.listAllResep;
+      popularFilter.sort((a, b) => b.likes.compareTo(a.likes));
+      final terbaruFilter = controller.listAllResep;
+      terbaruFilter.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      final allResep = controller.type.value == 'Teratas'
+          ? popularFilter
+          : terbaruFilter;
 
-      final allResep = controller.listAllResep;
-      final filterResep = allResep.where((resep) {
-        if (controller.category.value == 'Semua') {
-          return true;
-        } else {
-          return resep.category == controller.category.value;
-        }
-      }).toList();
-      if (filterResep.isEmpty) {
-        return Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 12),
-                Align(
-                  alignment: AlignmentGeometry.topLeft,
-                  child: buttonCircle(
-                    onTap: () => Get.back(),
-                    icon: Icons.arrow_back,
-                  ),
+      if (allResep.isEmpty) {
+        return SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 12),
+              Align(
+                alignment: AlignmentGeometry.topLeft,
+                child: buttonCircle(
+                  onTap: () => Get.back(),
+                  icon: Icons.arrow_back,
                 ),
-                const SizedBox(width: 24),
-                Center(
-                  child: Obx(
-                    () => Text(
-                      controller.category.value,
-                      style: AppTextStyle.heading2,
-                    ),
-                  ),
+              ),
+              Center(
+                child: Text(
+                  controller.type.value,
+                  style: AppTextStyle.heading2,
                 ),
-                const SizedBox(height: 24),
-                Center(
-                  child: Text('Tidak ada data', style: AppTextStyle.body3),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 24),
+              Center(child: Text('Tidak ada data', style: AppTextStyle.body3)),
+            ],
           ),
         );
       }
-
       return Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
@@ -71,28 +62,24 @@ class AllResepView extends GetView<AllResepController> {
                     icon: Icons.arrow_back,
                   ),
                 ),
-                const SizedBox(width: 24),
                 Center(
-                  child: Obx(
-                    () => Text(
-                      controller.category.value,
-                      style: AppTextStyle.heading2,
-                    ),
+                  child: Text(
+                    controller.type.value,
+                    style: AppTextStyle.heading2,
                   ),
                 ),
                 GridView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                  itemCount: filterResep.length,
+                  itemCount: allResep.length > 20 ? 20 : allResep.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 4,
                     mainAxisSpacing: 8,
                   ),
                   itemBuilder: (context, index) {
-                    final resep = filterResep[index];
-
+                    final resep = allResep[index];
                     return buildResep(
                       resep.imageUrl,
                       resep.title,
