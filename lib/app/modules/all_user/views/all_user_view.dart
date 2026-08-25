@@ -29,7 +29,7 @@ class AllUserView extends GetView<AllUserController> {
                 const SizedBox(height: 12),
                 Align(
                   alignment: AlignmentGeometry.topLeft,
-                  child: buttonCircle(
+                  child: ButtonCircle(
                     onTap: () => Get.back(),
                     icon: Icons.arrow_back,
                   ),
@@ -53,7 +53,7 @@ class AllUserView extends GetView<AllUserController> {
                 const SizedBox(height: 12),
                 Align(
                   alignment: AlignmentGeometry.topLeft,
-                  child: buttonCircle(
+                  child: ButtonCircle(
                     onTap: () => Get.back(),
                     icon: Icons.arrow_back,
                   ),

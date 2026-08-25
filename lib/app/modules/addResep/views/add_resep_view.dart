@@ -27,7 +27,7 @@ class AddResepView extends GetView<AddResepController> {
               const SizedBox(height: 12),
               Align(
                 alignment: AlignmentGeometry.topLeft,
-                child: buttonCircle(
+                child: ButtonCircle(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back,
                 ),
@@ -86,7 +86,7 @@ class AddResepView extends GetView<AddResepController> {
                     ),
                     const SizedBox(height: 16),
                     buildLabel('Judul'),
-                    buildMainField(
+                    BuildMainField(
                       hintText: 'Judul Resep',
                       controller: controller.title,
                     ),
@@ -110,7 +110,7 @@ class AddResepView extends GetView<AddResepController> {
                       children: [
                         SizedBox(
                           width: 120,
-                          child: buildMainField(
+                          child: BuildMainField(
                             hintText: '0',
                             keyboardType: TextInputType.number,
                             controller: controller.portion,
@@ -122,7 +122,7 @@ class AddResepView extends GetView<AddResepController> {
                     ),
                     const SizedBox(height: 16),
                     buildLabel('Deskripsi'),
-                    buildMultiField(
+                    BuildMultiField(
                       hintText: 'Keterangan Resep',
                       minLines: 3,
                       controller: controller.description,
@@ -132,7 +132,7 @@ class AddResepView extends GetView<AddResepController> {
                     Row(
                       children: [
                         Expanded(
-                          child: buildMainField(
+                          child: BuildMainField(
                             hintText: 'Bahan Utama',
                             controller: controller.mainIngredient,
                           ),
@@ -140,7 +140,7 @@ class AddResepView extends GetView<AddResepController> {
                         const SizedBox(width: 8),
                         SizedBox(
                           width: 90,
-                          child: buildMainField(
+                          child: BuildMainField(
                             hintText: 'Jmlh',
                             controller: controller.mainIngredientAmount,
                           ),
@@ -206,7 +206,7 @@ class AddResepView extends GetView<AddResepController> {
                     Row(
                       children: [
                         Expanded(
-                          child: buildMainField(
+                          child: BuildMainField(
                             hintText: 'Bahan Tambahan',
                             controller: controller.additive,
                           ),
@@ -214,7 +214,7 @@ class AddResepView extends GetView<AddResepController> {
                         const SizedBox(width: 8),
                         SizedBox(
                           width: 90,
-                          child: buildMainField(
+                          child: BuildMainField(
                             hintText: 'Jmlh',
                             controller: controller.additiveAmount,
                           ),
@@ -277,7 +277,7 @@ class AddResepView extends GetView<AddResepController> {
                     ),
                     const SizedBox(height: 16),
                     buildLabel('Tutorial'),
-                    buildMainField(
+                    BuildMainField(
                       hintText: 'Tutorial Memasak',
                       controller: controller.tutorial,
                     ),
@@ -352,7 +352,7 @@ class AddResepView extends GetView<AddResepController> {
                             ),
                     ),
                     const SizedBox(height: 12),
-                    secondaryLargeButton(
+                    SecondaryLargeButton(
                       label: 'Batal',
                       onTap: () => controller.clearField(),
                     ),

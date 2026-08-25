@@ -105,16 +105,16 @@ class DetailUserView extends GetView<DetailUserController> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8),
-                            child: buildListResep(
-                              () => Get.toNamed(
+                            child: BuildListResep(
+                              menuTap: () => Get.toNamed(
                                 Routes.UPDATE_RESEP,
                                 parameters: {'rId': resep[index].rId},
                               ),
-                              resep[index].imageUrl,
-                              resep[index].title,
-                              resep[index].likes,
-                              resep[index].description,
-                              () {
+                              imageUrl: resep[index].imageUrl,
+                              title: resep[index].title,
+                              likes: resep[index].likes,
+                              description: resep[index].description,
+                              onDelete: () {
                                 controller.fetchDeleteResep(resep[index].rId);
                               },
                             ),

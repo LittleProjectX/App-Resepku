@@ -36,7 +36,7 @@ class RegisterView extends GetView<RegisterController> {
                 SafeArea(
                   child: Padding(
                     padding: EdgeInsetsGeometry.only(top: 12),
-                    child: buttonCircle(
+                    child: ButtonCircle(
                       onTap: () => Get.back(),
                       icon: Icons.arrow_back,
                       left: 32,
@@ -68,7 +68,7 @@ class RegisterView extends GetView<RegisterController> {
                             alignment: Alignment.centerLeft,
                             child: buildLabel('Email'),
                           ),
-                          buildEmailField(
+                          BuildEmailField(
                             hintText: 'Email',
                             controller: controller.email,
                           ),
@@ -78,7 +78,7 @@ class RegisterView extends GetView<RegisterController> {
                             child: buildLabel('Password'),
                           ),
                           Obx(
-                            () => buildPasswordField(
+                            () => BuildPasswordField(
                               hintText: 'Password',
                               eyeTap: () => controller.isPasswordObs.toggle(),
                               isObs: controller.isPasswordObs.value,
@@ -91,7 +91,7 @@ class RegisterView extends GetView<RegisterController> {
                             child: buildLabel('Ulangi Password'),
                           ),
                           Obx(
-                            () => buildPasswordField(
+                            () => BuildPasswordField(
                               hintText: 'Ulangi Password',
                               eyeTap: () =>
                                   controller.isConfirmPasswordObs.toggle(),

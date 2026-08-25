@@ -5,7 +5,7 @@ class AppColors {
   static const Color primaryLight = Color(0xFFf6d4ee);
   // static const Color primaryDark = Color(0xFF0c2461);
 
-  static const Color background = Color(0xFFFAF5FF);
+  static const Color background = Color(0xFFFFFAE5);
   static const Color surface = Color(0xFFFFFFFF);
   static const Color delete = Color(0xFFC62828);
 

@@ -40,7 +40,7 @@ class AuthorView extends GetView<AuthorController> {
                 children: [
                   Row(
                     children: [
-                      buttonCircle(
+                      ButtonCircle(
                         onTap: () => Get.back(),
                         icon: Icons.arrow_back,
                         left: 0,
@@ -48,7 +48,7 @@ class AuthorView extends GetView<AuthorController> {
                       const Spacer(),
 
                       Obx(
-                        () => buttonCircle(
+                        () => ButtonCircle(
                           onTap: () => controller.isAuthorLike.value
                               ? controller.fetchUnLikeAuthor(
                                   controller.afId,

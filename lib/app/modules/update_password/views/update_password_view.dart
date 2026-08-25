@@ -29,7 +29,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                 children: [
                   Align(
                     alignment: AlignmentGeometry.topLeft,
-                    child: buttonCircle(
+                    child: ButtonCircle(
                       onTap: () => Get.back(),
                       icon: Icons.arrow_back,
                     ),
@@ -51,7 +51,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                       children: [
                         buildLabel('Password Lama'),
                         Obx(
-                          () => buildPasswordField(
+                          () => BuildPasswordField(
                             hintText: 'Password Lama',
                             eyeTap: () => controller.isOldPasswordObs.toggle(),
                             isObs: controller.isOldPasswordObs.value,
@@ -61,7 +61,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                         const SizedBox(height: 24),
                         buildLabel('Password Baru'),
                         Obx(
-                          () => buildPasswordField(
+                          () => BuildPasswordField(
                             hintText: 'Password Baru',
                             eyeTap: () => controller.isNewPasswordObs.toggle(),
                             isObs: controller.isNewPasswordObs.value,
@@ -71,7 +71,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                         const SizedBox(height: 24),
                         buildLabel('Konfirmasi Password'),
                         Obx(
-                          () => buildPasswordField(
+                          () => BuildPasswordField(
                             hintText: 'Konfirmasi Password',
                             eyeTap: () =>
                                 controller.isConfirmPasswordObs.toggle(),

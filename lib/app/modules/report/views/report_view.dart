@@ -27,7 +27,7 @@ class ReportView extends GetView<ReportController> {
               children: [
                 Align(
                   alignment: AlignmentGeometry.topLeft,
-                  child: buttonCircle(
+                  child: ButtonCircle(
                     onTap: () => Get.back(),
                     icon: Icons.arrow_back,
                   ),
@@ -48,7 +48,7 @@ class ReportView extends GetView<ReportController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       buildLabel('Pesan'),
-                      buildMultiField(
+                      BuildMultiField(
                         hintText: 'ketik pesan',
                         controller: controller.msg,
                       ),

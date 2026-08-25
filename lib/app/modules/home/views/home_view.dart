@@ -73,9 +73,9 @@ class HomeView extends GetView<HomeController> {
                 ),
                 const SizedBox(height: 24),
 
-                buildSearchField(
+                BuildSearchField(
                   label: 'cari resep',
-                  ctrl: controller.search,
+                  controller: controller.search,
                   focusNode: controller.currenctFocus,
                   onClear: controller.clearSearch,
                   onChange: (value) {
@@ -169,8 +169,8 @@ class HomeView extends GetView<HomeController> {
                                     controller.currentCategory.value,
                                   ),
                                 ),
-                                buildButtonAll(
-                                  () => Get.toNamed(
+                                BuildButtonAll(
+                                  onTap: () => Get.toNamed(
                                     Routes.ALL_RESEP,
                                     parameters: {
                                       'category':
@@ -250,12 +250,12 @@ class HomeView extends GetView<HomeController> {
                                       );
                                     }
 
-                                    return buildResep(
-                                      dataResep.imageUrl,
-                                      dataResep.title,
-                                      dataResep.portion,
-                                      dataResep.likes,
-                                      () => Get.toNamed(
+                                    return BuildResep(
+                                      imageUrl: dataResep.imageUrl,
+                                      title: dataResep.title,
+                                      portion: dataResep.portion,
+                                      likes: dataResep.likes,
+                                      onTap: () => Get.toNamed(
                                         Routes.DETAIL,
                                         parameters: {'rId': dataResep.rId},
                                       ),
@@ -269,8 +269,8 @@ class HomeView extends GetView<HomeController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 buildLabel2('Teratas'),
-                                buildButtonAll(
-                                  () => Get.toNamed(
+                                BuildButtonAll(
+                                  onTap: () => Get.toNamed(
                                     Routes.ALL_POPULAR,
                                     parameters: {'type': 'Teratas'},
                                   ),
@@ -293,12 +293,12 @@ class HomeView extends GetView<HomeController> {
                                     (a, b) => b.likes.compareTo(a.likes),
                                   );
 
-                                  return buildResep(
-                                    bestResep[index].imageUrl,
-                                    bestResep[index].title,
-                                    bestResep[index].portion,
-                                    bestResep[index].likes,
-                                    () => Get.toNamed(
+                                  return BuildResep(
+                                    imageUrl: bestResep[index].imageUrl,
+                                    title: bestResep[index].title,
+                                    portion: bestResep[index].portion,
+                                    likes: bestResep[index].likes,
+                                    onTap: () => Get.toNamed(
                                       Routes.DETAIL,
                                       parameters: {'rId': bestResep[index].rId},
                                     ),
@@ -311,8 +311,8 @@ class HomeView extends GetView<HomeController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 buildLabel2('Pembuat'),
-                                buildButtonAll(
-                                  () => Get.toNamed(Routes.ALL_USER),
+                                BuildButtonAll(
+                                  onTap: () => Get.toNamed(Routes.ALL_USER),
                                 ),
                               ],
                             ),
@@ -421,8 +421,8 @@ class HomeView extends GetView<HomeController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 buildLabel2('Terbaru'),
-                                buildButtonAll(
-                                  () => Get.toNamed(
+                                BuildButtonAll(
+                                  onTap: () => Get.toNamed(
                                     Routes.ALL_POPULAR,
                                     parameters: {'type': 'Terbaru'},
                                   ),
@@ -446,12 +446,12 @@ class HomeView extends GetView<HomeController> {
                                       (a, b) =>
                                           b.createdAt.compareTo(a.createdAt),
                                     );
-                                    return buildResep(
-                                      filterNewResep[index].imageUrl,
-                                      filterNewResep[index].title,
-                                      filterNewResep[index].portion,
-                                      filterNewResep[index].likes,
-                                      () => Get.toNamed(
+                                    return BuildResep(
+                                      imageUrl: filterNewResep[index].imageUrl,
+                                      title: filterNewResep[index].title,
+                                      portion: filterNewResep[index].portion,
+                                      likes: filterNewResep[index].likes,
+                                      onTap: () => Get.toNamed(
                                         Routes.DETAIL,
                                         parameters: {
                                           'rId': filterNewResep[index].rId,

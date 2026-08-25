@@ -24,7 +24,7 @@ class NotificationView extends GetView<NotificationController> {
                     children: [
                       Align(
                         alignment: AlignmentGeometry.topLeft,
-                        child: buttonCircle(
+                        child: ButtonCircle(
                           onTap: () => Get.back(),
                           icon: Icons.arrow_back,
                         ),
@@ -57,7 +57,7 @@ class NotificationView extends GetView<NotificationController> {
                   padding: EdgeInsetsGeometry.only(top: 8),
                   child: Row(
                     children: [
-                      buttonCircle(
+                      ButtonCircle(
                         onTap: () => Get.back(),
                         icon: Icons.arrow_back,
                       ),

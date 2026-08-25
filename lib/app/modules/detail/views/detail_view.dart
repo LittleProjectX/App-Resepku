@@ -78,13 +78,13 @@ class DetailView extends GetView<DetailController> {
                       padding: const EdgeInsets.only(top: 8),
                       child: Row(
                         children: [
-                          buttonCircle(
+                          ButtonCircle(
                             onTap: () => Get.back(),
                             icon: Icons.arrow_back,
                           ),
                           const Spacer(),
                           Obx(
-                            () => buttonCircle(
+                            () => ButtonCircle(
                               onTap: () => c.isResepSave.value
                                   ? c.fetchUnsaveResep(
                                       c.saveId,
@@ -105,7 +105,7 @@ class DetailView extends GetView<DetailController> {
                             ),
                           ),
                           Obx(
-                            () => buttonCircle(
+                            () => ButtonCircle(
                               onTap: () {
                                 final List<String> receiverId = [];
                                 receiverId.add(author.uId);

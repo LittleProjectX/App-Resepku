@@ -21,9 +21,9 @@ class SearchView extends GetView<SearchControllers> {
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
             child: Column(
               children: [
-                buildSearchField(
+                BuildSearchField(
                   label: 'cari buku',
-                  ctrl: controller.search,
+                  controller: controller.search,
                   focusNode: controller.currenctFocus,
                   onClear: () {
                     controller.clearSearch();

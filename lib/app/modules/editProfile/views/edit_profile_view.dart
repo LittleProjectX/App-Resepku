@@ -26,7 +26,7 @@ class EditProfileView extends GetView<EditProfileController> {
               const SizedBox(height: 12),
               Align(
                 alignment: AlignmentGeometry.topLeft,
-                child: buttonCircle(
+                child: ButtonCircle(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back,
                 ),
@@ -37,11 +37,11 @@ class EditProfileView extends GetView<EditProfileController> {
               Align(
                 alignment: AlignmentGeometry.center,
                 child: Obx(
-                  () => editAvatar(
-                    controller.imageUrl.value == ''
+                  () => EditAvatar(
+                    profile: controller.imageUrl.value == ''
                         ? AssetImage('assets/images/profile.jpg')
                         : NetworkImage(controller.imageUrl.value),
-                    () => Get.toNamed(
+                    onTap: () => Get.toNamed(
                       Routes.LOAD_IMAGE,
                       parameters: {
                         'imageUrl': controller.imageUrl.value,
@@ -63,19 +63,19 @@ class EditProfileView extends GetView<EditProfileController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     buildLabel('Nama'),
-                    buildMainField(
+                    BuildMainField(
                       hintText: 'Nama Pengguna',
                       controller: controller.name,
                     ),
                     const SizedBox(height: 24),
                     buildLabel('Email'),
-                    buildEmailField(
+                    BuildEmailField(
                       hintText: 'Email Pengguna',
                       controller: controller.email,
                     ),
                     const SizedBox(height: 24),
                     buildLabel('Telepon'),
-                    buildPhoneField(
+                    BuildPhoneField(
                       hintText: 'No. Telepon Pengguna',
                       controller: controller.phone,
                     ),

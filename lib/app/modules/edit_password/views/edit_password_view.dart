@@ -21,7 +21,7 @@ class EditPasswordView extends GetView<EditPasswordController> {
               children: [
                 Align(
                   alignment: AlignmentGeometry.centerLeft,
-                  child: buttonCircle(
+                  child: ButtonCircle(
                     onTap: () => Get.back(),
                     icon: Icons.arrow_back,
                     left: 0,
@@ -42,7 +42,7 @@ class EditPasswordView extends GetView<EditPasswordController> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
-                buildEmailField(
+                BuildEmailField(
                   hintText: 'Email',
                   controller: controller.email,
                 ),

@@ -36,7 +36,7 @@ class LoginView extends GetView<LoginController> {
                 SafeArea(
                   child: Padding(
                     padding: EdgeInsetsGeometry.only(top: 12),
-                    child: buttonCircle(
+                    child: ButtonCircle(
                       onTap: () => Get.back(),
                       icon: Icons.arrow_back,
                       left: 32,
@@ -68,7 +68,7 @@ class LoginView extends GetView<LoginController> {
                             alignment: AlignmentGeometry.centerLeft,
                             child: buildLabel('Email'),
                           ),
-                          buildEmailField(
+                          BuildEmailField(
                             hintText: 'Email',
                             controller: controller.email,
                           ),
@@ -78,7 +78,7 @@ class LoginView extends GetView<LoginController> {
                             child: buildLabel('Password'),
                           ),
                           Obx(
-                            () => buildPasswordField(
+                            () => BuildPasswordField(
                               hintText: 'Password',
                               eyeTap: () => controller.isObs.toggle(),
                               isObs: controller.isObs.value,

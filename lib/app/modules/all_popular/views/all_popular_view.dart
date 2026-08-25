@@ -32,7 +32,7 @@ class AllPopularView extends GetView<AllPopularController> {
               const SizedBox(height: 12),
               Align(
                 alignment: AlignmentGeometry.topLeft,
-                child: buttonCircle(
+                child: ButtonCircle(
                   onTap: () => Get.back(),
                   icon: Icons.arrow_back,
                 ),
@@ -57,7 +57,7 @@ class AllPopularView extends GetView<AllPopularController> {
                 const SizedBox(height: 12),
                 Align(
                   alignment: AlignmentGeometry.topLeft,
-                  child: buttonCircle(
+                  child: ButtonCircle(
                     onTap: () => Get.back(),
                     icon: Icons.arrow_back,
                   ),
@@ -80,12 +80,12 @@ class AllPopularView extends GetView<AllPopularController> {
                   ),
                   itemBuilder: (context, index) {
                     final resep = allResep[index];
-                    return buildResep(
-                      resep.imageUrl,
-                      resep.title,
-                      resep.portion,
-                      resep.likes,
-                      () => Get.toNamed(
+                    return BuildResep(
+                      imageUrl: resep.imageUrl,
+                      title: resep.title,
+                      portion: resep.portion,
+                      likes: resep.likes,
+                      onTap: () => Get.toNamed(
                         Routes.DETAIL,
                         parameters: {'rId': resep.rId},
                       ),
