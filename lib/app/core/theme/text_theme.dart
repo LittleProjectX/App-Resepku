@@ -118,4 +118,9 @@ class AppTextStyle {
     fontSize: 12,
     color: AppColors.textSecondary,
   );
+
+  static TextStyle fieldEror = GoogleFonts.poppins(
+    fontSize: 10,
+    color: AppColors.error,
+  );
 }

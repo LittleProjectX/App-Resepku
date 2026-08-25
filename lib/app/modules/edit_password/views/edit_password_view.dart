@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:seleraku/app/core/theme/color_theme.dart';
 import 'package:seleraku/app/core/theme/text_theme.dart';
 import 'package:seleraku/app/core/widgets/buttons/button_back.dart';
 import 'package:seleraku/app/core/widgets/buttons/large_button.dart';
@@ -12,6 +13,7 @@ class EditPasswordView extends GetView<EditPasswordController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -41,12 +43,13 @@ class EditPasswordView extends GetView<EditPasswordController> {
                   style: AppTextStyle.body7,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
                 BuildEmailField(
                   hintText: 'Email',
                   controller: controller.email,
+                  validator: (value) {},
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
                 buildLargeButton(
                   label: 'Reset Password',
                   isLoading: controller.isLoading.value,

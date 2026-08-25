@@ -19,6 +19,7 @@ class LoginController extends GetxController {
   late TextEditingController password;
   RxBool isObs = true.obs;
   RxBool isLoading = false.obs;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {

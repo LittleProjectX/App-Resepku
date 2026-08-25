@@ -10,6 +10,7 @@ class BuildPasswordField extends StatelessWidget {
     required this.eyeTap,
     required this.isObs,
     required this.controller,
+    required this.validator,
   });
 
   final int maxLines;
@@ -17,15 +18,17 @@ class BuildPasswordField extends StatelessWidget {
   final VoidCallback eyeTap;
   final bool isObs;
   final TextEditingController controller;
+  final FormFieldValidator<String> validator;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: TextField(
+      child: TextFormField(
         style: AppTextStyle.body2,
         keyboardType: TextInputType.text,
-
+        validator: validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         maxLines: isObs ? 1 : maxLines,
         obscureText: isObs,
         controller: controller,
@@ -33,8 +36,8 @@ class BuildPasswordField extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
           hintText: hintText,
-          hintStyle: AppTextStyle.body1,
-
+          hintStyle: AppTextStyle.body7,
+          errorStyle: AppTextStyle.fieldEror,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 14,
@@ -50,12 +53,16 @@ class BuildPasswordField extends StatelessWidget {
           ),
 
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(color: AppColors.border),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.error),
           ),
 
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
           ),
         ),

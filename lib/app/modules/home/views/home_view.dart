@@ -46,27 +46,53 @@ class HomeView extends GetView<HomeController> {
                         filterQuality: FilterQuality.medium,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () => Get.toNamed(Routes.NOTIFICATION),
-                        child: Badge(
-                          smallSize: 18,
-                          label: Text(
-                            filterNotification.length.toString(),
-                            style: AppTextStyle.body5,
-                          ),
-                          isLabelVisible: true,
-                          child: SizedBox(
-                            height: 46,
-                            width: 46,
-                            child: Material(
-                              color: AppColors.surface,
-                              shape: CircleBorder(),
-                              child: Icon(Iconsax.notification_bing_copy),
+                    SizedBox(
+                      width: 46,
+                      height: 46,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Material(
+                            color: AppColors.surface,
+                            shape: const CircleBorder(),
+                            child: InkWell(
+                              customBorder: const CircleBorder(),
+                              onTap: () => Get.toNamed(Routes.NOTIFICATION),
+                              child: const SizedBox(
+                                width: 46,
+                                height: 46,
+                                child: Icon(
+                                  Iconsax.notification_bing_copy,
+                                  size: 22,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+
+                          if (filterNotification.isNotEmpty)
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Container(
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                ),
+                                decoration: const BoxDecoration(
+                                  color: Colors.red,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Text(
+                                  '${filterNotification.length}',
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyle.body6,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ],

@@ -37,11 +37,6 @@ class MainBinding extends Bindings {
     Get.lazyPut<AuthRemoteDatasource>(
       () => AuthRemoteDatasourceImpl(Get.find(), Get.find()),
     );
-    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
-    Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
-    Get.lazyPut<DataRemoteDatasource>(
-      () => DataRemoteDatasourceImpl(Get.find()),
-    );
     Get.lazyPut(
       () => HomeController(
         Get.find(),
@@ -53,6 +48,12 @@ class MainBinding extends Bindings {
     );
     Get.lazyPut(() => SaveResepController(Get.find(), Get.find(), Get.find()));
     Get.lazyPut(() => ProfileController(Get.find()));
+    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
+    Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
+    Get.lazyPut<DataRemoteDatasource>(
+      () => DataRemoteDatasourceImpl(Get.find()),
+    );
+
     Get.lazyPut(
       () =>
           DetailUserController(Get.find(), Get.find(), Get.find(), Get.find()),

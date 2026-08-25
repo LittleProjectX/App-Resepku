@@ -17,6 +17,7 @@ class RegisterController extends GetxController {
   RxBool isPasswordObs = true.obs;
   RxBool isConfirmPasswordObs = true.obs;
   RxBool isLoading = false.obs;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -40,6 +41,10 @@ class RegisterController extends GetxController {
     confirmPassword.clear();
   }
 
+  void snackHelper(String message) {
+    return SnackBarHelper.warning(message);
+  }
+
   Future<void> callRegister(
     String email,
     String password,
@@ -47,22 +52,6 @@ class RegisterController extends GetxController {
   ) async {
     try {
       isLoading.value = true;
-      if (email.trim().isEmpty ||
-          password.trim().isEmpty ||
-          repeatPassword.trim().isEmpty) {
-        SnackBarHelper.warning('Mohon untuk mengisi seluruh data dengan benar');
-        return;
-      }
-
-      if (password.trim().length < 6) {
-        SnackBarHelper.warning('Password minimal 6 karakter');
-        return;
-      }
-
-      if (password.trim().toString() != repeatPassword.trim().toString()) {
-        SnackBarHelper.warning('Password tidak sesuai, mohon periksa kembali');
-        return;
-      }
 
       await register.call(email.trim(), password.trim());
       SnackBarHelper.success(

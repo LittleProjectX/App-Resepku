@@ -71,6 +71,7 @@ class FirstUserDataView extends GetView<FirstUserDataController> {
                   BuildEmailField(
                     hintText: 'Email Pengguna',
                     controller: controller.email,
+                    validator: (value) {},
                   ),
                   const SizedBox(height: 24),
                   buildLabel('Telepon'),
