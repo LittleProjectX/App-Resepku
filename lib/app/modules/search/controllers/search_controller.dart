@@ -13,7 +13,7 @@ class SearchControllers extends GetxController {
 
   late TextEditingController search;
   var listResep = <DataResepModel>[].obs;
-  FocusNode currenctFocus = FocusNode();
+  final currenctFocus = FocusNode();
   late StreamSubscription<List<QueryDocumentSnapshot>>? _searchSubscription;
 
   @override
@@ -24,8 +24,16 @@ class SearchControllers extends GetxController {
   }
 
   @override
+  void onReady() {
+    currenctFocus.requestFocus();
+    super.onReady();
+  }
+
+  @override
   void onClose() {
     _searchSubscription?.cancel();
+    search.dispose();
+    currenctFocus.dispose();
     super.onClose();
   }
 
@@ -37,7 +45,6 @@ class SearchControllers extends GetxController {
   void fetchSearchResep(String title) {
     try {
       final dataResep = searchResep.call(title);
-      print("Search: $title");
       _searchSubscription = dataResep.listen(
         (snapshot) {
           listResep.value = snapshot.map((doc) {

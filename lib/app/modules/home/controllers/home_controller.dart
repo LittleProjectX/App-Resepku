@@ -11,16 +11,19 @@ import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_useca
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_notification_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/getuser_bylistid_usecase.dart';
 
 class HomeController extends GetxController {
   final GetCurrentUidUsecase getUid;
+  final GetuserUsecase getUser;
   final GetAllResepUsecase getAllResep;
   final GetAllUserUsecase getAllUser;
   final GetMyNotificationUsecase getMyNotification;
   final GetuserBylistidUsecase getUserbyListId;
   HomeController(
     this.getUid,
+    this.getUser,
     this.getAllResep,
     this.getAllUser,
     this.getMyNotification,
@@ -32,6 +35,7 @@ class HomeController extends GetxController {
   RxString currentCategory = 'Semua'.obs;
   FocusNode currenctFocus = FocusNode();
   var listResep = <DataResepEntity>[].obs;
+  var user = Rxn<DataUserEntity>();
   var listUser = <DataUserEntity>[].obs;
   var listUserId = <String>[].obs;
   var listFilterUser = <DataUserEntity>[].obs;
@@ -44,6 +48,7 @@ class HomeController extends GetxController {
     super.onInit();
     search = TextEditingController();
     final uId = getUid.call();
+    fetchGetUser(uId);
     await fetchGetAllResep();
     await fetchGetAllUser();
     await fetchGetMyNotification(uId);
@@ -58,6 +63,18 @@ class HomeController extends GetxController {
   void clearSearch() {
     search.clear();
     currenctFocus.unfocus();
+  }
+
+  void fetchGetUser(String uId) {
+    try {
+      final result = getUser(uId);
+      result.listen((snapshot) {
+        final data = snapshot.data() as Map<String, dynamic>;
+        user.value = DataUserModel.fromFirebase(data);
+      });
+    } catch (e) {
+      SnackBarHelper.error('Terjadi kesalahan');
+    }
   }
 
   Future<void> fetchGetMyNotification(String uId) async {

@@ -23,29 +23,52 @@ class HomeView extends GetView<HomeController> {
         return loadingPage();
       }
 
+      final user = controller.user;
+      if (user.value == null) {
+        return Center(child: Text('Tidak Ada data', style: AppTextStyle.body2));
+      }
+
       final allNotificaion = controller.listNotification;
-      final filterNotification = allNotificaion.where(
-        (notif) => notif.isRead == false,
-      );
+      final filterNotification = allNotificaion
+          .where((notif) => notif.isRead == false)
+          .toList();
 
       return SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      height: 50,
-                      width: 130,
-                      child: Image.asset(
-                        'assets/images/seleraku.png',
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.medium,
+                    Obx(
+                      () => CircleAvatar(
+                        radius: 32,
+                        backgroundImage:
+                            user.value?.imageUrl?.isNotEmpty == true
+                            ? NetworkImage(user.value!.imageUrl!)
+                            : const AssetImage('assets/images/profile.jpg'),
                       ),
                     ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Selamat data', style: AppTextStyle.body7),
+                          Obx(
+                            () => Text(
+                              user.value?.name ?? '',
+                              style: AppTextStyle.heading5,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
                     SizedBox(
                       width: 46,
                       height: 46,
@@ -99,17 +122,34 @@ class HomeView extends GetView<HomeController> {
                 ),
                 const SizedBox(height: 24),
 
-                BuildSearchField(
-                  label: 'cari resep',
-                  controller: controller.search,
-                  focusNode: controller.currenctFocus,
-                  onClear: controller.clearSearch,
-                  onChange: (value) {
-                    if (value.isNotEmpty) {
-                      Get.toNamed(Routes.SEARCH, parameters: {'value': value});
-                      controller.clearSearch();
-                    }
-                  },
+                Hero(
+                  tag: 'search-field',
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => Get.toNamed(Routes.SEARCH),
+                      child: Container(
+                        height: 50,
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.search, color: AppColors.border),
+                            const SizedBox(width: 4),
+                            Text('cari resep..', style: AppTextStyle.body1),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 24),
                 Obx(() {

@@ -21,29 +21,35 @@ class SearchView extends GetView<SearchControllers> {
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
             child: Column(
               children: [
-                BuildSearchField(
-                  label: 'cari buku',
-                  controller: controller.search,
-                  focusNode: controller.currenctFocus,
-                  onClear: () {
-                    controller.clearSearch();
-                    Get.offAllNamed(Routes.MAIN);
-                  },
-                  onChange: (value) {
-                    if (value.isNotEmpty) {
-                      controller.fetchSearchResep(value);
-                    } else {
-                      Get.offAllNamed(Routes.MAIN);
-                    }
-                  },
-                  autoFocus: true,
+                Hero(
+                  tag: 'search-field',
+                  child: Material(
+                    color: Colors.transparent,
+                    child: BuildSearchField(
+                      autoFocus: true,
+                      label: 'cari resep..',
+                      controller: controller.search,
+                      focusNode: controller.currenctFocus,
+                      onClear: () {
+                        controller.clearSearch();
+                        Get.back();
+                      },
+                      onChange: (value) {
+                        if (value.isNotEmpty) {
+                          controller.fetchSearchResep(value);
+                        } else {
+                          null;
+                        }
+                      },
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 if (controller.listResep.isEmpty)
-                  const Center(
+                  Center(
                     child: Text(
                       'Tidak ada resep ditemukan',
-                      style: TextStyle(fontSize: 16),
+                      style: AppTextStyle.body2,
                     ),
                   )
                 else

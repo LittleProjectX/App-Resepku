@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/data/datasources/auth_remote_datasource.dart';
 import 'package:seleraku/app/data/datasources/auth_remote_datasource_impl.dart';
@@ -33,10 +34,6 @@ class MainBinding extends Bindings {
     Get.lazyPut<MainController>(
       () => MainController(Get.find(), Get.find(), Get.find()),
     );
-    Get.lazyPut(() => FirebaseFirestore.instance);
-    Get.lazyPut<AuthRemoteDatasource>(
-      () => AuthRemoteDatasourceImpl(Get.find(), Get.find()),
-    );
     Get.lazyPut(
       () => HomeController(
         Get.find(),
@@ -44,20 +41,26 @@ class MainBinding extends Bindings {
         Get.find(),
         Get.find(),
         Get.find(),
+        Get.find(),
       ),
+    );
+    Get.lazyPut(
+      () =>
+          DetailUserController(Get.find(), Get.find(), Get.find(), Get.find()),
     );
     Get.lazyPut(() => SaveResepController(Get.find(), Get.find(), Get.find()));
     Get.lazyPut(() => ProfileController(Get.find()));
+    Get.lazyPut(() => FirebaseAuth.instance);
+    Get.lazyPut(() => FirebaseFirestore.instance);
+    Get.lazyPut<AuthRemoteDatasource>(
+      () => AuthRemoteDatasourceImpl(Get.find(), Get.find()),
+    );
     Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
     Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
     Get.lazyPut<DataRemoteDatasource>(
       () => DataRemoteDatasourceImpl(Get.find()),
     );
 
-    Get.lazyPut(
-      () =>
-          DetailUserController(Get.find(), Get.find(), Get.find(), Get.find()),
-    );
     Get.lazyPut(() => GetuserUsecase(Get.find()));
     Get.lazyPut(() => LogoutUsecase(Get.find()));
     Get.lazyPut(() => GetUserOnceUsecase(Get.find()));
