@@ -46,6 +46,11 @@ class AppTextStyle {
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
   );
+  static TextStyle heading9 = GoogleFonts.poppins(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: AppColors.surface,
+  );
 
   static TextStyle label1 = GoogleFonts.poppins(
     fontSize: 14,
@@ -62,6 +67,7 @@ class AppTextStyle {
     color: AppColors.textPrimary,
   );
   static TextStyle body3 = GoogleFonts.poppins(
+    fontWeight: FontWeight.w400,
     fontSize: 14,
     color: AppColors.textPrimary,
   );
@@ -90,6 +96,10 @@ class AppTextStyle {
   static TextStyle body9 = GoogleFonts.poppins(
     fontSize: 12,
     color: AppColors.textPrimary,
+  );
+  static TextStyle body10 = GoogleFonts.poppins(
+    fontSize: 10,
+    color: AppColors.surface,
   );
 
   static TextStyle textButton = GoogleFonts.poppins(

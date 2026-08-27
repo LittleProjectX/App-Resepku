@@ -125,7 +125,7 @@ class AuthorController extends GetxController {
         title,
         msg,
         isRead,
-        Timestamp.now(),
+        DateTime.now(),
       );
     } catch (e) {
       SnackBarHelper.error('Gagal menyukai resep ($e)');

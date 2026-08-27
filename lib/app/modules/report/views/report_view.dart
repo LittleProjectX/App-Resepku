@@ -23,47 +23,63 @@ class ReportView extends GetView<ReportController> {
       return Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Align(
-                  alignment: AlignmentGeometry.topLeft,
-                  child: ButtonCircle(
-                    onTap: () => Get.back(),
-                    icon: Icons.arrow_back,
+            child: Form(
+              key: controller.formKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: AlignmentGeometry.topLeft,
+                    child: ButtonCircle(
+                      onTap: () => Get.back(),
+                      icon: Icons.arrow_back,
+                      left: 12,
+                    ),
                   ),
-                ),
-                Center(
-                  child: Text('Kritik & Saran', style: AppTextStyle.heading2),
-                ),
-                const SizedBox(height: 24),
-                // buildLabel('Saran'),
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsetsGeometry.all(24),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(24),
+                  Center(
+                    child: Text('Kritik & Saran', style: AppTextStyle.heading2),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildLabel('Pesan'),
-                      BuildMultiField(
-                        hintText: 'ketik pesan',
-                        controller: controller.msg,
-                      ),
-                      const SizedBox(height: 24),
-                      buildLargeButton(
-                        label: 'Kirim',
-                        onTap: () => controller.callSendReport(
-                          controller.uId,
-                          controller.msg.text,
+                  const SizedBox(height: 24),
+                  // buildLabel('Saran'),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsetsGeometry.all(24),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildLabel('Pesan'),
+                        BuildMultiField(
+                          hintText: 'ketik pesan',
+                          controller: controller.msg,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Masukkan pesan";
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 24),
+                        buildLargeButton(
+                          label: 'Kirim',
+                          onTap: () {
+                            if (controller.formKey.currentState!.validate()) {
+                              controller.callSendReport(
+                                controller.uId,
+                                controller.msg.text,
+                              );
+                              null;
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

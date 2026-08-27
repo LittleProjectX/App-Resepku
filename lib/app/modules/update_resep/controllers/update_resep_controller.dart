@@ -42,18 +42,20 @@ class UpdateResepController extends GetxController {
   late int additiveIndex = 0;
   late int tutorialIndex = 0;
 
-  late Timestamp mainTime = Timestamp.now();
-  late Timestamp additiveTime = Timestamp.now();
-  late Timestamp tutorialTime = Timestamp.now();
+  late DateTime mainTime = DateTime.now();
+  late DateTime additiveTime = DateTime.now();
+  late DateTime tutorialTime = DateTime.now();
 
   Rx<File?> selectedFile = Rx<File?>(null);
   late String rId = '';
   late String longestImage = '';
+  RxInt intPortion = 1.obs;
   RxString category = 'Makanan Utama'.obs;
   final listMainIngredient = <DataIngredientModel>[].obs;
   final listAdditiveIngredient = <DataIngredientModel>[].obs;
   final listTutorial = <DataTutorialModel>[].obs;
   var resepData = Rxn<DataResepEntity>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -114,7 +116,7 @@ class UpdateResepController extends GetxController {
     int index,
     String mainIngridient,
     String amount,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) {
     listMainIngredient[index] = DataIngredientModel(
       ingredient: mainIngridient,
@@ -128,7 +130,7 @@ class UpdateResepController extends GetxController {
     int index,
     String additive,
     String amount,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) {
     listAdditiveIngredient[index] = DataIngredientModel(
       ingredient: additive,
@@ -138,7 +140,7 @@ class UpdateResepController extends GetxController {
     clearAdditive();
   }
 
-  void updateTutorial(int index, String tutorial, Timestamp createdAt) {
+  void updateTutorial(int index, String tutorial, DateTime createdAt) {
     listTutorial[index] = DataTutorialModel(
       tutorial: tutorial,
       createdAt: createdAt,
@@ -239,7 +241,6 @@ class UpdateResepController extends GetxController {
     List<DataIngredientModel> mainIngredient,
     List<DataIngredientModel> additive,
     List<DataTutorialModel> tutorial,
-    List<String> receiverIds,
   ) async {
     try {
       isLoading.value = true;
@@ -269,7 +270,7 @@ class UpdateResepController extends GetxController {
       }
 
       // 💾 simpan ke firestore
-      final Timestamp createdAt = Timestamp.now();
+      final DateTime createdAt = DateTime.now();
 
       await updateResep.call(
         rId,
@@ -303,7 +304,7 @@ class UpdateResepController extends GetxController {
       DataIngredientModel(
         ingredient: ingredient,
         amount: amount,
-        createdAt: Timestamp.now(),
+        createdAt: DateTime.now(),
       ),
     );
     mainIngredient.clear();
@@ -322,7 +323,7 @@ class UpdateResepController extends GetxController {
       DataIngredientModel(
         ingredient: additiveIngredient,
         amount: amount,
-        createdAt: Timestamp.now(),
+        createdAt: DateTime.now(),
       ),
     );
     additive.clear();
@@ -338,7 +339,7 @@ class UpdateResepController extends GetxController {
       SnackBarHelper.warning('Harap mengisi field tutorial');
     }
     listTutorial.add(
-      DataTutorialModel(tutorial: tutorialText, createdAt: Timestamp.now()),
+      DataTutorialModel(tutorial: tutorialText, createdAt: DateTime.now()),
     );
     tutorial.clear();
   }

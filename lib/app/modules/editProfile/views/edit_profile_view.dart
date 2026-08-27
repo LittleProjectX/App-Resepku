@@ -20,91 +20,125 @@ class EditProfileView extends GetView<EditProfileController> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 12),
-              Align(
-                alignment: AlignmentGeometry.topLeft,
-                child: ButtonCircle(
-                  onTap: () => Get.back(),
-                  icon: Icons.arrow_back,
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 12),
+                Align(
+                  alignment: AlignmentGeometry.topLeft,
+                  child: ButtonCircle(
+                    onTap: () => Get.back(),
+                    icon: Icons.arrow_back,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 24),
-              Center(child: Text('Edit Profile', style: AppTextStyle.heading2)),
-              const SizedBox(height: 24),
-              Align(
-                alignment: AlignmentGeometry.center,
-                child: Obx(
-                  () => EditAvatar(
-                    profile: controller.imageUrl.value == ''
-                        ? AssetImage('assets/images/profile.jpg')
-                        : NetworkImage(controller.imageUrl.value),
-                    onTap: () => Get.toNamed(
-                      Routes.LOAD_IMAGE,
-                      parameters: {
-                        'imageUrl': controller.imageUrl.value,
-                        'uId': controller.uId,
-                      },
+                const SizedBox(width: 24),
+                Center(
+                  child: Text('Edit Profile', style: AppTextStyle.heading2),
+                ),
+                const SizedBox(height: 24),
+                Align(
+                  alignment: AlignmentGeometry.center,
+                  child: Obx(
+                    () => EditAvatar(
+                      profile: controller.imageUrl.value == ''
+                          ? AssetImage('assets/images/profile.jpg')
+                          : NetworkImage(controller.imageUrl.value),
+                      onTap: () => Get.toNamed(
+                        Routes.LOAD_IMAGE,
+                        parameters: {
+                          'imageUrl': controller.imageUrl.value,
+                          'uId': controller.uId,
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 32),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(32),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildLabel('Nama'),
-                    BuildMainField(
-                      hintText: 'Nama Pengguna',
-                      controller: controller.name,
-                    ),
-                    const SizedBox(height: 24),
-                    buildLabel('Email'),
-                    BuildEmailField(
-                      hintText: 'Email Pengguna',
-                      controller: controller.email,
-                      validator: (value) {},
-                    ),
-                    const SizedBox(height: 24),
-                    buildLabel('Telepon'),
-                    BuildPhoneField(
-                      hintText: 'No. Telepon Pengguna',
-                      controller: controller.phone,
-                    ),
-                    const SizedBox(height: 32),
-                    buildLargeButton(
-                      label: 'Simpan',
-                      isLoading: controller.isLoading.value,
-                      onTap: () {
-                        controller.setUser(
-                          controller.uId,
-                          controller.name.text,
-                          controller.email.text,
-                          controller.phone.text,
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    Align(
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        onPressed: () => Get.back(),
-                        child: Text('Batal', style: AppTextStyle.button3),
+                const SizedBox(height: 32),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildLabel('Nama'),
+                      BuildMainField(
+                        hintText: 'Nama Pengguna',
+                        controller: controller.name,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Silahkan masukkan username';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 24),
+                      buildLabel('Email'),
+                      BuildEmailField(
+                        hintText: 'Email Pengguna',
+                        controller: controller.email,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Silahkan masukkan username';
+                          }
+                          if (!value.contains('@')) {
+                            return "Email tidak valid";
+                          }
+                          if (!value.contains(".")) {
+                            return "Email tidak valid";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 24),
+                      buildLabel('Telepon'),
+                      BuildPhoneField(
+                        hintText: 'No. Telepon Pengguna',
+                        controller: controller.phone,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Silahkan masukkan telepon';
+                          }
+                          if (value.length < 9) {
+                            return 'Telepon tidak valid';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 32),
+                      buildLargeButton(
+                        label: 'Simpan',
+                        isLoading: controller.isLoading.value,
+                        onTap: () {
+                          if (controller.formKey.currentState!.validate()) {
+                            controller.setUser(
+                              controller.uId,
+                              controller.name.text,
+                              controller.email.text,
+                              controller.phone.text,
+                            );
+                            null;
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          onPressed: () => Get.back(),
+                          child: Text('Batal', style: AppTextStyle.button3),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

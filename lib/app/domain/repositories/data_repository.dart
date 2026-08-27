@@ -8,7 +8,7 @@ import 'package:seleraku/app/domain/models/data_user_model.dart';
 
 abstract class DataRepository {
   Future<DataUserModel?> getUserOnce(String uId);
-  Stream<DocumentSnapshot> getUser(String uId);
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUser(String uId);
   Future<String> uploadImage(File? image, String uId);
   Future<void> saveImageUrl(String imageUrl, String uId);
   Future<void> setUserProfile(
@@ -30,7 +30,7 @@ abstract class DataRepository {
     List<DataTutorialModel> tutorial,
     int likes,
     int saves,
-    Timestamp createdAt,
+    DateTime createdAt,
   );
   Future<void> updateResep(
     String rId,
@@ -42,7 +42,7 @@ abstract class DataRepository {
     List<DataIngredientModel> mainIngredient,
     List<DataIngredientModel> additive,
     List<DataTutorialModel> tutorial,
-    Timestamp createdAt,
+    DateTime createdAt,
   );
   Future<void> sendNotification(
     String senderId,
@@ -51,13 +51,13 @@ abstract class DataRepository {
     String title,
     String msg,
     bool isRead,
-    Timestamp createdAt,
+    DateTime createdAt,
   );
 
   Future<List<QueryDocumentSnapshot>> getLikedAuthor(String afId);
 
   Stream<List<QueryDocumentSnapshot>> getMyResep(String uId);
-  Future<List<QueryDocumentSnapshot>> getAllResep();
+  Future<List<Map<String, dynamic>>> getAllResep();
 
   Future<void> deleteResep(String rId);
   Future<List<QueryDocumentSnapshot>> getAllUser();
@@ -89,5 +89,5 @@ abstract class DataRepository {
   Stream<List<QueryDocumentSnapshot>> searchResep(String title);
   Future<List<QueryDocumentSnapshot>> getUserbyEmail(String email);
   Future<List<QueryDocumentSnapshot>> getUserByListId(List<String> listId);
-  Future<void> sendReport(String uId, String report, Timestamp createdAt);
+  Future<void> sendReport(String uId, String report, DateTime createdAt);
 }

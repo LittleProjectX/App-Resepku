@@ -8,17 +8,21 @@ class BuildPhoneField extends StatelessWidget {
     this.maxLines = 1,
     required this.hintText,
     required this.controller,
+    required this.validator,
   });
 
   final int maxLines;
   final String hintText;
   final TextEditingController controller;
+  final FormFieldValidator<String> validator;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       style: AppTextStyle.body2,
       keyboardType: TextInputType.phone,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: maxLines,
       controller: controller,
       decoration: InputDecoration(

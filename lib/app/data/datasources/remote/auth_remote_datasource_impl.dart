@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:seleraku/app/data/datasources/auth_remote_datasource.dart';
+import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
+import 'package:seleraku/app/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';
 
@@ -58,7 +59,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         'email': email,
         'isProfileComplete': false,
         'likes': 0,
-        'createdAt': Timestamp.now(),
+        'createdAt': DateTime.now(),
       });
       await auth.signOut();
 
@@ -139,7 +140,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
         'email': user?.email,
         'isProfileComplete': false,
         'likes': 0,
-        'createdAt': Timestamp.now(),
+        'createdAt': DateTime.now(),
       });
 
       return userCredential;
@@ -158,6 +159,30 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   Future<void> updatePassword(String newPassword) async {
     try {
       await auth.currentUser!.updatePassword(newPassword);
+    } on FirebaseAuthException catch (_) {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> resendVerificationEmail() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        return;
+      }
+
+      if (user.emailVerified) {
+        SnackBarHelper.success('Email sudah terverifikasi');
+        return;
+      }
+
+      await user.sendEmailVerification();
+
+      SnackBarHelper.success('Email verifikasi berhasil dikirim ulang');
     } on FirebaseAuthException catch (_) {
       rethrow;
     } catch (e) {

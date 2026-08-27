@@ -84,7 +84,7 @@ class SaveResepView extends GetView<SaveResepController> {
                             ),
                             Text(
                               resep[index].description,
-                              style: AppTextStyle.body6,
+                              style: AppTextStyle.body7,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),

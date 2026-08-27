@@ -14,7 +14,7 @@ class DataFavoriteModel extends DataFavoriteEntity {
       fId: json['fId'] ?? '',
       uId: json['uId'] ?? '',
       rId: json['rId'] ?? '',
-      createdAt: json['createdAt'] ?? Timestamp.now(),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 }

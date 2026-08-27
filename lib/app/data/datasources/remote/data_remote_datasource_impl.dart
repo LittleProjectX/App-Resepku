@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:seleraku/app/data/datasources/data_remote_datasource.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_resep_model.dart';
@@ -27,7 +28,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
       .collection('report');
 
   @override
-  Stream<DocumentSnapshot> getUser(String uId) {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUser(String uId) {
     try {
       final result = users.doc(uId).snapshots();
       return result;
@@ -40,9 +41,18 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   Future<DataUserModel?> getUserOnce(String uId) async {
     try {
       final docRef = await users.doc(uId).get();
-      final user = docRef.data() as Map<String, dynamic>;
+      final data = docRef.data();
 
-      return DataUserModel.fromFirebase(user);
+      if (data == null) {
+        return null;
+      }
+
+      final user = DataUserModel.fromFirebase(data);
+
+      final box = Hive.box('user');
+      await box.put('currentUser', user.toJson());
+
+      return user;
     } catch (e) {
       rethrow;
     }
@@ -105,7 +115,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
     List<DataTutorialModel> tutorial,
     int likes,
     int save,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) async {
     try {
       final docRef = reseps.doc();
@@ -147,7 +157,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
     List<DataIngredientModel> mainIngredient,
     List<DataIngredientModel> additive,
     List<DataTutorialModel> tutorial,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) async {
     try {
       final dataIngredient = mainIngredient.map((e) => e.toJson()).toList();
@@ -199,9 +209,17 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getAllResep() {
+  Future<List<Map<String, dynamic>>> getAllResep() async {
     try {
-      return reseps.get().then((value) => value.docs);
+      final docRef = await reseps.get();
+      final listResep = docRef.docs.map((e) {
+        final data = e.data();
+        return data;
+      }).toList();
+      // final box = Hive.box('reseps');
+      // await box.put('listResep', listResep);
+
+      return listResep;
     } catch (e) {
       rethrow;
     }
@@ -251,7 +269,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
             'fId': idDoc,
             'rId': rId,
             'uId': uId,
-            'createdAt': Timestamp.now(),
+            'createdAt': DateTime.now(),
           })
           .then((value) {
             reseps.doc(rId).set({'save': saves}, SetOptions(merge: true));
@@ -282,7 +300,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
             'fId': idDoc,
             'uId': uId,
             'rId': rId,
-            'createdAt': Timestamp.now(),
+            'createdAt': DateTime.now(),
           })
           .then((value) {
             reseps.doc(rId).set({'likes': likes}, SetOptions(merge: true));
@@ -363,7 +381,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
             'aId': docId,
             'uId': uId,
             'afId': afId,
-            'createdAt': Timestamp.now(),
+            'createdAt': DateTime.now(),
           })
           .then((value) {
             users.doc(afId).set({'likes': likes}, SetOptions(merge: true));
@@ -416,7 +434,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
     String title,
     String msg,
     bool isRead,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) async {
     try {
       for (final recId in receiverId) {
@@ -500,11 +518,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
-  Future<void> sendReport(
-    String uId,
-    String report,
-    Timestamp createdAt,
-  ) async {
+  Future<void> sendReport(String uId, String report, DateTime createdAt) async {
     try {
       final docRef = reports.doc();
       String docId = docRef.id;

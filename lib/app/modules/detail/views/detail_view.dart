@@ -81,6 +81,7 @@ class DetailView extends GetView<DetailController> {
                           ButtonCircle(
                             onTap: () => Get.back(),
                             icon: Icons.arrow_back,
+                            left: 24,
                           ),
                           const Spacer(),
                           Obx(
@@ -198,7 +199,7 @@ class DetailView extends GetView<DetailController> {
                               ),
                               decoration: BoxDecoration(
                                 color: AppColors.primary,
-                                borderRadius: BorderRadius.circular(24),
+                                borderRadius: BorderRadius.circular(12),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withAlpha(40),
@@ -241,15 +242,6 @@ class DetailView extends GetView<DetailController> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Material(
-                                      color: AppColors.surface,
-                                      shape: CircleBorder(),
-                                      child: Icon(Icons.arrow_right),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -273,9 +265,21 @@ class DetailView extends GetView<DetailController> {
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 4,
                                 ),
-                                child: Text(
-                                  '${index + 1}. ${mainIngredient.ingredient} ${mainIngredient.amount}',
-                                  style: AppTextStyle.body3,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${index + 1}.",
+                                      style: AppTextStyle.body3,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        '${mainIngredient.ingredient} ${mainIngredient.amount}',
+                                        style: AppTextStyle.body3,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },
@@ -300,9 +304,22 @@ class DetailView extends GetView<DetailController> {
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 4,
                                   ),
-                                  child: Text(
-                                    '${index + 1}. ${additive.ingredient} ${additive.amount}',
-                                    style: AppTextStyle.body3,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${index + 1}.",
+                                        style: AppTextStyle.body3,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          '${additive.ingredient} ${additive.amount}',
+                                          style: AppTextStyle.body3,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               },
@@ -325,9 +342,21 @@ class DetailView extends GetView<DetailController> {
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 4,
                                 ),
-                                child: Text(
-                                  '${index + 1}. ${tutorial.tutorial}',
-                                  style: AppTextStyle.body3,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${index + 1}.",
+                                      style: AppTextStyle.body3,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        tutorial.tutorial,
+                                        style: AppTextStyle.body3,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },

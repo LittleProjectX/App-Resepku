@@ -1,12 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:seleraku/app/core/theme/app_theme.dart';
 import 'package:seleraku/app/core/utils/page_transition.dart';
 import 'package:seleraku/firebase_options.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('user');
+  await Hive.openBox('reseps');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:seleraku/app/data/datasources/data_remote_datasource.dart';
-import 'package:seleraku/app/data/datasources/data_remote_datasource_impl.dart';
+import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart';
+import 'package:seleraku/app/data/datasources/remote/data_remote_datasource_impl.dart';
 import 'package:seleraku/app/data/repositories/data_repository_impl.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_resep_byid_usecase.dart';

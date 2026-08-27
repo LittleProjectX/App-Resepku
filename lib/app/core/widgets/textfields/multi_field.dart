@@ -9,24 +9,29 @@ class BuildMultiField extends StatelessWidget {
     this.minLines = 8,
     required this.hintText,
     required this.controller,
+    required this.validator,
   });
 
   final int maxLines;
   final int minLines;
   final String hintText;
   final TextEditingController controller;
+  final FormFieldValidator<String> validator;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       style: AppTextStyle.body2,
       keyboardType: TextInputType.multiline,
       controller: controller,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       minLines: minLines,
       maxLines: maxLines,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
+        errorStyle: AppTextStyle.fieldEror,
         hintText: hintText,
         hintStyle: AppTextStyle.body1,
         contentPadding: const EdgeInsets.symmetric(

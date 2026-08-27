@@ -16,7 +16,7 @@ class DataAuthorFavoriteModel extends DataAuthorFavoriteEntity {
       aId: json['aId'] ?? '',
       uId: json['uId'] ?? '',
       name: json['name'] ?? '',
-      createdAt: json['createdAt'] ?? Timestamp.now(),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 }

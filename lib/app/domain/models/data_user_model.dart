@@ -21,29 +21,19 @@ class DataUserModel extends DataUserEntity {
       email: json['email'] ?? '',
       isProfileComplete: json['isProfileComplete'] ?? false,
       likes: json['likes'] ?? 0,
-      createdAt: json['createdAt'] ?? Timestamp.now(),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'uId': uId,
+      'name': name,
+      'phone': phone,
+      'imageUrl': imageUrl,
+      'email': email,
+      'isProfileComplete': isProfileComplete,
+      'likes': likes,
+      'createdAt': createdAt,
+    };
+  }
 }
-
-
-
-// factory DataUserModel.fromFirebase(DataUserEntity? json, String uId) {
-//     if (json != null) {
-//       return DataUserModel(
-//         uId: json.uId,
-//         email: json.email,
-//         isProfileComplete: json.isProfileComplete,
-//         likes: json.likes,
-//         createdAt: json.createdAt,
-//       );
-//     } else {
-//       return DataUserModel(
-//         uId: '',
-//         email: '',
-//         isProfileComplete: false,
-//         likes: 0,
-//         createdAt: '',
-//       );
-//     }
-//   }

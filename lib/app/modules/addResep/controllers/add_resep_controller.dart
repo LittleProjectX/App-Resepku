@@ -34,7 +34,6 @@ class AddResepController extends GetxController {
 
   late TextEditingController title;
   late TextEditingController description;
-  late TextEditingController portion;
   late TextEditingController mainIngredient;
   late TextEditingController mainIngredientAmount;
   late TextEditingController additive;
@@ -45,19 +44,20 @@ class AddResepController extends GetxController {
   RxBool isLoading = false.obs;
   late String uId = '';
   late String author = '';
+  RxInt intPortion = 1.obs;
   RxString category = 'Makanan Utama'.obs;
   final listMainIngredient = <DataIngredientModel>[].obs;
   final listAdditiveIngredient = <DataIngredientModel>[].obs;
   final listTutorial = <DataTutorialModel>[].obs;
   var listLikedAuthor = <DataAuthorFavoriteModel>[].obs;
   late List<String> receiverId = [];
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
     super.onInit();
     title = TextEditingController();
     description = TextEditingController();
-    portion = TextEditingController();
     mainIngredient = TextEditingController();
     mainIngredientAmount = TextEditingController();
     additive = TextEditingController();
@@ -69,28 +69,27 @@ class AddResepController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
     title.dispose();
     description.dispose();
-    portion.dispose();
     mainIngredient.dispose();
     mainIngredientAmount.dispose();
     additive.dispose();
     additiveAmount.dispose();
     tutorial.dispose();
-    super.dispose();
+    super.onClose();
   }
 
   void clearField() {
     selectedFile.value = null;
     title.clear();
     description.clear();
-    portion.clear();
     mainIngredient.clear();
     mainIngredientAmount.clear();
     additive.clear();
     additiveAmount.clear();
     tutorial.clear();
+    intPortion.value = 1;
     Get.back();
   }
 
@@ -188,7 +187,6 @@ class AddResepController extends GetxController {
       isLoading.value = true;
       if (title.trim().isEmpty ||
           category.trim().isEmpty ||
-          portion.trim().isEmpty ||
           description.trim().isEmpty ||
           mainIngredient.isEmpty ||
           tutorial.isEmpty) {
@@ -214,7 +212,7 @@ class AddResepController extends GetxController {
       // 💾 simpan ke firestore
       final int likes = 0;
       final int saves = 0;
-      final Timestamp createdAt = Timestamp.now();
+      final DateTime createdAt = DateTime.now();
       final bool isRead = false;
 
       await saveResep.call(
@@ -262,7 +260,7 @@ class AddResepController extends GetxController {
       DataIngredientModel(
         ingredient: ingredient,
         amount: amount,
-        createdAt: Timestamp.now(),
+        createdAt: DateTime.now(),
       ),
     );
     mainIngredient.clear();
@@ -281,7 +279,7 @@ class AddResepController extends GetxController {
       DataIngredientModel(
         ingredient: additiveIngredient,
         amount: amount,
-        createdAt: Timestamp.now(),
+        createdAt: DateTime.now(),
       ),
     );
     additive.clear();
@@ -297,7 +295,7 @@ class AddResepController extends GetxController {
       SnackBarHelper.warning('Harap mengisi field tutorial');
     }
     listTutorial.add(
-      DataTutorialModel(tutorial: tutorialText, createdAt: Timestamp.now()),
+      DataTutorialModel(tutorial: tutorialText, createdAt: DateTime.now()),
     );
     tutorial.clear();
   }

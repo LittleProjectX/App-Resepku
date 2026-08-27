@@ -14,7 +14,7 @@ class DataReportModel extends DataReportEntity {
       dId: json['dId'] ?? '',
       uId: json['uId'] ?? '',
       report: json['report'] ?? '',
-      createdAt: json['createdAt'] ?? Timestamp.now(),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 }

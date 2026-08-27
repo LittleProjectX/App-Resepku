@@ -42,7 +42,7 @@ class DataResepModel extends DataResepEntity {
           .toList(),
       likes: json['likes'] ?? 0,
       saves: json['saves'] ?? 0,
-      createdAt: json['createdAt'] ?? Timestamp.now(),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 

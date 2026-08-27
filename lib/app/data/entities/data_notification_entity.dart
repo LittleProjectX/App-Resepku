@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class DataNotificationEntity {
   final String docId;
   final String senderId;
@@ -8,7 +6,7 @@ class DataNotificationEntity {
   final String msg;
   final String imageUrl;
   final bool isRead;
-  final Timestamp createdAt;
+  final DateTime createdAt;
 
   DataNotificationEntity({
     required this.docId,

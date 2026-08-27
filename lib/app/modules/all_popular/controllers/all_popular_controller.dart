@@ -24,8 +24,7 @@ class AllPopularController extends GetxController {
       isPageLoading.value = true;
       final result = await getAllResep();
       listAllResep.value = result.map((e) {
-        final data = e.data() as Map<String, dynamic>;
-        return DataResepModel.fromFirebase(data);
+        return DataResepModel.fromFirebase(e);
       }).toList();
     } catch (e) {
       SnackBarHelper.error('Terjadi kesalahan : $e');

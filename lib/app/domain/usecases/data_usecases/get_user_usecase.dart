@@ -5,7 +5,7 @@ class GetuserUsecase {
   final DataRepository repository;
   GetuserUsecase(this.repository);
 
-  Stream<DocumentSnapshot> call(String uId) {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> call(String uId) {
     return repository.getUser(uId);
   }
 }

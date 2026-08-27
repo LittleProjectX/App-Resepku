@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class DataReportEntity {
   final String dId;
   final String uId;
   final String report;
-  final Timestamp createdAt;
+  final DateTime createdAt;
 
   DataReportEntity({
     required this.dId,

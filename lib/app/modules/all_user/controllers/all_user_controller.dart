@@ -34,8 +34,7 @@ class AllUserController extends GetxController {
 
       listUid = result
           .map((e) {
-            final data = e.data() as Map<String, dynamic>;
-            final resep = DataResepModel.fromFirebase(data);
+            final resep = DataResepModel.fromFirebase(e);
 
             return resep.uId;
           })

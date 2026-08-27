@@ -65,19 +65,45 @@ class FirstUserDataView extends GetView<FirstUserDataController> {
                   BuildMainField(
                     hintText: 'Nama Pengguna',
                     controller: controller.name,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Silahkan masukkan username';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 24),
                   buildLabel('Email'),
                   BuildEmailField(
                     hintText: 'Email Pengguna',
                     controller: controller.email,
-                    validator: (value) {},
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Silahkan masukkan username';
+                      }
+                      if (!value.contains('@')) {
+                        return "Email tidak valid";
+                      }
+                      if (!value.contains(".")) {
+                        return "Email tidak valid";
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 24),
                   buildLabel('Telepon'),
                   BuildPhoneField(
                     hintText: 'No. Telepon Pengguna',
                     controller: controller.phone,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Silahkan masukkan telepon';
+                      }
+                      if (value.length < 9) {
+                        return "Telepon tidak valid";
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 32),
                   buildLargeButton(

@@ -7,7 +7,7 @@ class DataTutorialModel extends DataTutorialEntity {
   factory DataTutorialModel.fromJson(Map<String, dynamic> json) {
     return DataTutorialModel(
       tutorial: json['tutorial'],
-      createdAt: json['createdAt'] ?? Timestamp.now(),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 }

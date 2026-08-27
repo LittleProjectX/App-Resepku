@@ -28,17 +28,12 @@ class RegisterController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
+    FocusManager.instance.primaryFocus?.unfocus();
     email.dispose();
     password.dispose();
     confirmPassword.dispose();
-    super.dispose();
-  }
-
-  void clearFields() {
-    email.clear();
-    password.clear();
-    confirmPassword.clear();
+    super.onClose();
   }
 
   void snackHelper(String message) {
@@ -57,14 +52,14 @@ class RegisterController extends GetxController {
       SnackBarHelper.success(
         'Silahkan cek email anda untuk melakukan verifikasi',
       );
-      clearFields();
+      Get.offAllNamed(Routes.CONFIRM_EMAIL_REGIS);
     } on FirebaseAuthException catch (e) {
       RegisterEror().handleRegisterError(e);
-    } catch (_) {
-      SnackBarHelper.error('Terjadi kesalahan');
+    } catch (a) {
+      SnackBarHelper.error('Terjadi kesalahan $a');
+      print('ctrl $a');
     } finally {
       isLoading.value = false;
-      Get.offAllNamed(Routes.LOGIN);
     }
   }
 }

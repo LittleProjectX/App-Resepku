@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class DataIngredientEntity {
   final String ingredient;
   final String amount;
-  final Timestamp createdAt;
+  final DateTime createdAt;
 
   DataIngredientEntity({
     required this.ingredient,

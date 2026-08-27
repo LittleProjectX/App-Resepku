@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class DataAuthorFavoriteEntity {
   final String afId;
   final String aId;
   final String uId;
   final String name;
-  final Timestamp createdAt;
+  final DateTime createdAt;
   DataAuthorFavoriteEntity({
     required this.afId,
     required this.aId,

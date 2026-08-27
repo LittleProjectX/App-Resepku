@@ -4,6 +4,6 @@ import 'package:seleraku/app/core/theme/text_theme.dart';
 Widget buildLabel(String label) {
   return Padding(
     padding: EdgeInsetsGeometry.only(bottom: 8),
-    child: Text(label, style: AppTextStyle.body9),
+    child: Text(label, style: AppTextStyle.body2),
   );
 }

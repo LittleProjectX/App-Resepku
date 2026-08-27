@@ -11,4 +11,5 @@ abstract class AuthRepository {
   String getCurrentUid();
   Future<AuthUserEntity?> loginWithGoogle();
   Future<void> updatePassword(String newPassword);
+  Future<void> resendVerificationEmail();
 }

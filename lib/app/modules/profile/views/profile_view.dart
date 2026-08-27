@@ -13,52 +13,54 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          buildListTileProfile(
-            Iconsax.user_copy,
-            'Profil',
-            'ubah profil dan data anda',
-            () => Get.toNamed(Routes.EDIT_PROFILE),
-          ),
-          buildListTileProfile(
-            Iconsax.lock_1_copy,
-            'Password',
-            'ubah password anda',
-            () => Get.toNamed(Routes.UPDATE_PASSWORD),
-          ),
-          const SizedBox(height: 10),
-          buildListTileProfile(
-            Iconsax.info_circle_copy,
-            'Tentang',
-            'penjelasan mengenai aplikasi',
-            () => Get.toNamed(Routes.ABOUT),
-          ),
-          buildListTileProfile(
-            Iconsax.document_copy,
-            'Panduan',
-            'petunjuk penggunaan aplikasi',
-            () => Get.toNamed(Routes.INSTRUCTION),
-          ),
-          buildListTileProfile(
-            Icons.lightbulb_outline,
-            'Saran',
-            'kritik dan saran mengenai aplikasi',
-            () => Get.toNamed(Routes.REPORT),
-          ),
-          const SizedBox(height: 10),
-          buildListTileProfile(
-            Iconsax.logout_1_copy,
-            'Logout',
-            'keluar dari aplikasi',
-            () {
-              controller.logout();
-            },
-          ),
-          const SizedBox(height: 32),
-          Text('powered by', style: AppTextStyle.body4),
-          Text('@LittleProjext', style: AppTextStyle.body6),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            buildListTileProfile(
+              Iconsax.user_copy,
+              'Profil',
+              'ubah profil dan data anda',
+              () => Get.toNamed(Routes.EDIT_PROFILE),
+            ),
+            buildListTileProfile(
+              Iconsax.lock_1_copy,
+              'Password',
+              'ubah password anda',
+              () => Get.toNamed(Routes.UPDATE_PASSWORD),
+            ),
+            const SizedBox(height: 10),
+            buildListTileProfile(
+              Iconsax.info_circle_copy,
+              'Tentang',
+              'penjelasan mengenai aplikasi',
+              () => Get.toNamed(Routes.ABOUT),
+            ),
+            buildListTileProfile(
+              Iconsax.document_copy,
+              'Panduan',
+              'petunjuk penggunaan aplikasi',
+              () => Get.toNamed(Routes.INSTRUCTION),
+            ),
+            buildListTileProfile(
+              Icons.lightbulb_outline,
+              'Saran',
+              'kritik dan saran mengenai aplikasi',
+              () => Get.toNamed(Routes.REPORT),
+            ),
+            const SizedBox(height: 10),
+            buildListTileProfile(
+              Iconsax.logout_1_copy,
+              'Logout',
+              'keluar dari aplikasi',
+              () {
+                controller.logout();
+              },
+            ),
+            const SizedBox(height: 32),
+            Text('powered by', style: AppTextStyle.body4),
+            Text('@LittleProjext', style: AppTextStyle.body9),
+          ],
+        ),
       ),
     );
   }

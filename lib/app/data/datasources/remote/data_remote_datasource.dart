@@ -8,7 +8,7 @@ import 'package:seleraku/app/domain/models/data_user_model.dart';
 
 abstract class DataRemoteDatasource {
   Future<DataUserModel?> getUserOnce(String uId);
-  Stream<DocumentSnapshot> getUser(String uId);
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUser(String uId);
   Future<String> uploadImage(File? image, String uId);
   Future<void> saveImageUrl(String imageUrl, String uId);
   Future<void> setUserProfile(
@@ -30,10 +30,10 @@ abstract class DataRemoteDatasource {
     List<DataTutorialModel> tutorial,
     int likes,
     int saves,
-    Timestamp createdAt,
+    DateTime createdAt,
   );
   Stream<List<QueryDocumentSnapshot>> getMyResep(String uId);
-  Future<List<QueryDocumentSnapshot>> getAllResep();
+  Future<List<Map<String, dynamic>>> getAllResep();
   Future<void> deleteResep(String rId);
   Future<List<QueryDocumentSnapshot>> getAllUser();
   Future<DataResepEntity> getResepbyId(String rId);
@@ -66,7 +66,7 @@ abstract class DataRemoteDatasource {
     String title,
     String msg,
     bool isRead,
-    Timestamp createdAt,
+    DateTime createdAt,
   );
   Future<List<QueryDocumentSnapshot>> getLikedAuthor(String afId);
   Future<List<QueryDocumentSnapshot>> getMyNotification(String uId);
@@ -84,7 +84,7 @@ abstract class DataRemoteDatasource {
     List<DataIngredientModel> mainIngredient,
     List<DataIngredientModel> additive,
     List<DataTutorialModel> tutorial,
-    Timestamp createdAt,
+    DateTime createdAt,
   );
-  Future<void> sendReport(String uId, String report, Timestamp createdAt);
+  Future<void> sendReport(String uId, String report, DateTime createdAt);
 }

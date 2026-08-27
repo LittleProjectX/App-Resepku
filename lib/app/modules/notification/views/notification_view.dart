@@ -27,12 +27,13 @@ class NotificationView extends GetView<NotificationController> {
                         child: ButtonCircle(
                           onTap: () => Get.back(),
                           icon: Icons.arrow_back,
+                          left: 24,
                         ),
                       ),
-                      Center(
-                        child: Text('Notifikasi', style: AppTextStyle.heading2),
-                      ),
                     ],
+                  ),
+                  Center(
+                    child: Text('Notifikasi', style: AppTextStyle.heading2),
                   ),
                   Center(
                     child: Text(
@@ -55,17 +56,12 @@ class NotificationView extends GetView<NotificationController> {
               children: [
                 Padding(
                   padding: EdgeInsetsGeometry.only(top: 8),
-                  child: Row(
-                    children: [
-                      ButtonCircle(
-                        onTap: () => Get.back(),
-                        icon: Icons.arrow_back,
-                      ),
-                      const SizedBox(width: 12),
-                      Text('Notifikasi', style: AppTextStyle.heading5),
-                    ],
+                  child: ButtonCircle(
+                    onTap: () => Get.back(),
+                    icon: Icons.arrow_back,
                   ),
                 ),
+                Center(child: Text('Notifikasi', style: AppTextStyle.heading2)),
                 const SizedBox(height: 16),
                 ListView.builder(
                   itemCount: controller.listNotification.length,
@@ -77,7 +73,7 @@ class NotificationView extends GetView<NotificationController> {
 
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16,
+                        horizontal: 24,
                         vertical: 8,
                       ),
                       leading: SizedBox(

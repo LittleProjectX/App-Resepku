@@ -22,7 +22,7 @@ class DataNotificationModel extends DataNotificationEntity {
       msg: json['msg'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
       isRead: json['isRead'] ?? false,
-      createdAt: json['createdAt'] ?? Timestamp.now(),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 }

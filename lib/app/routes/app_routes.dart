@@ -30,6 +30,7 @@ abstract class Routes {
   static const ALL_POPULAR = _Paths.ALL_POPULAR;
   static const ALL_USER = _Paths.ALL_USER;
   static const REPORT = _Paths.REPORT;
+  static const CONFIRM_EMAIL_REGIS = _Paths.CONFIRM_EMAIL_REGIS;
 }
 
 abstract class _Paths {
@@ -61,4 +62,5 @@ abstract class _Paths {
   static const ALL_POPULAR = '/all-popular';
   static const ALL_USER = '/all-user';
   static const REPORT = '/report';
+  static const CONFIRM_EMAIL_REGIS = '/confirm-email-regis';
 }

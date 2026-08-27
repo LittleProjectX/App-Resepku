@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seleraku/app/data/datasources/data_remote_datasource.dart';
+import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
@@ -13,7 +13,7 @@ class DataRepositoryImpl implements DataRepository {
   DataRepositoryImpl(this.remote);
 
   @override
-  Stream<DocumentSnapshot> getUser(String uId) {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUser(String uId) {
     return remote.getUser(uId);
   }
 
@@ -56,7 +56,7 @@ class DataRepositoryImpl implements DataRepository {
     List<DataTutorialModel> tutorial,
     int likes,
     int saves,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) async {
     return await remote.saveResep(
       uId,
@@ -81,7 +81,7 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getAllResep() async {
+  Future<List<Map<String, dynamic>>> getAllResep() async {
     return await remote.getAllResep();
   }
 
@@ -174,7 +174,7 @@ class DataRepositoryImpl implements DataRepository {
     String title,
     String msg,
     bool isRead,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) {
     return remote.sendNotification(
       senderId,
@@ -203,7 +203,7 @@ class DataRepositoryImpl implements DataRepository {
     List<DataIngredientModel> mainIngredient,
     List<DataIngredientModel> additive,
     List<DataTutorialModel> tutorial,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) {
     return remote.updateResep(
       rId,
@@ -247,7 +247,7 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<void> sendReport(String uId, String report, Timestamp createdAt) {
+  Future<void> sendReport(String uId, String report, DateTime createdAt) {
     return remote.sendReport(uId, report, createdAt);
   }
 }

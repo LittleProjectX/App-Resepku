@@ -16,7 +16,7 @@ class DataResepEntity {
   final List<DataTutorialModel> tutorial;
   final int likes;
   final int saves;
-  final Timestamp createdAt;
+  final DateTime createdAt;
   DataResepEntity({
     required this.rId,
     required this.uId,

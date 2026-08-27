@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
@@ -20,7 +19,7 @@ class SaveResepUsecase {
     List<DataTutorialModel> tutorial,
     int likes,
     int saves,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) {
     return repository.saveResep(
       uId,

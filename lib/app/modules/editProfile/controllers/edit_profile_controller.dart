@@ -18,6 +18,7 @@ class EditProfileController extends GetxController {
   String uId = '';
   RxString imageUrl = ''.obs;
   RxBool isLoading = false.obs;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() async {

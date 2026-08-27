@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:seleraku/app/data/datasources/auth_remote_datasource.dart';
+import 'package:seleraku/app/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:seleraku/app/data/entities/auth_user_entity.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';
 import 'package:seleraku/app/domain/repositories/auth_repository.dart';
@@ -64,5 +64,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> updatePassword(String newPassword) {
     return remote.updatePassword(newPassword);
+  }
+
+  @override
+  Future<void> resendVerificationEmail() {
+    return remote.resendVerificationEmail();
   }
 }

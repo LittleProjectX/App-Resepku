@@ -9,23 +9,28 @@ class BuildMainField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     required this.hintText,
     required this.controller,
+    required this.validator,
   });
 
   final int maxLines;
   final TextInputType keyboardType;
   final String hintText;
   final TextEditingController controller;
+  final FormFieldValidator<String> validator;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       style: AppTextStyle.body2,
       keyboardType: keyboardType,
       maxLines: maxLines,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
+        errorStyle: AppTextStyle.fieldEror,
         hintText: hintText,
         hintStyle: AppTextStyle.body1,
         contentPadding: const EdgeInsets.symmetric(

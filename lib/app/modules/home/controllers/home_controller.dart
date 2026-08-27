@@ -11,12 +11,12 @@ import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_useca
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_notification_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/getuser_bylistid_usecase.dart';
 
 class HomeController extends GetxController {
   final GetCurrentUidUsecase getUid;
-  final GetuserUsecase getUser;
+  final GetUserOnceUsecase getUser;
   final GetAllResepUsecase getAllResep;
   final GetAllUserUsecase getAllUser;
   final GetMyNotificationUsecase getMyNotification;
@@ -42,6 +42,7 @@ class HomeController extends GetxController {
   var listFavorite = <DataFavoriteModel>[].obs;
   var listNotification = <DataNotificationModel>[].obs;
   RxBool isLike = true.obs;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() async {
@@ -55,9 +56,9 @@ class HomeController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
     search.dispose();
-    super.dispose();
+    super.onClose();
   }
 
   void clearSearch() {
@@ -65,13 +66,10 @@ class HomeController extends GetxController {
     currenctFocus.unfocus();
   }
 
-  void fetchGetUser(String uId) {
+  Future<void> fetchGetUser(String uId) async {
     try {
-      final result = getUser(uId);
-      result.listen((snapshot) {
-        final data = snapshot.data() as Map<String, dynamic>;
-        user.value = DataUserModel.fromFirebase(data);
-      });
+      DataUserModel? result = await getUser(uId);
+      user.value = result!;
     } catch (e) {
       SnackBarHelper.error('Terjadi kesalahan');
     }
@@ -96,16 +94,17 @@ class HomeController extends GetxController {
     try {
       isPageLoading.value = true;
       final result = await getAllResep();
+      print('cek controller $result');
       if (result.isNotEmpty) {
         listResep.value = result.map((e) {
-          final data = e.data() as Map<String, dynamic>;
-          return DataResepModel.fromFirebase(data);
+          return DataResepModel.fromFirebase(e);
         }).toList();
       } else {
         SnackBarHelper.warning('Tidak ada resep yang ditemukan.');
       }
     } catch (e) {
       SnackBarHelper.error('Gagal mengambil data resep : $e');
+      print('ini eror $e');
     } finally {
       isPageLoading.value = false;
     }

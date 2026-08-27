@@ -3,140 +3,137 @@ import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:seleraku/app/core/theme/color_theme.dart';
 import 'package:seleraku/app/core/theme/text_theme.dart';
 
-Widget buildPopularCard(
-  VoidCallback ontap,
-  String title,
-  String author,
-  String imageUrl,
-) {
-  return Container(
-    height: 180,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      color: AppColors.primaryLight,
-      borderRadius: BorderRadius.circular(24),
-    ),
-    child: Stack(
-      children: [
-        SizedBox(
-          height: 180,
-          width: double.infinity,
-          child: ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(24),
-            child: imageUrl.isNotEmpty
-                ? Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        'assets/images/no_image.jpg',
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.low,
-                      );
-                    },
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      );
-                    },
-                  )
-                : Image.asset('assets/images/no_image.jpg', fit: BoxFit.cover),
+class BuildPopularCard extends StatelessWidget {
+  const BuildPopularCard({
+    super.key,
+    required this.title,
+    required this.author,
+    required this.imageUrl,
+    required this.onTap,
+  });
+
+  final String title;
+  final String author;
+  final String imageUrl;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 180,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: AppColors.primaryLight,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 5,
+            color: Colors.black.withAlpha(30),
+            spreadRadius: 1,
+            offset: Offset(2, 2),
           ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: SizedBox(
-                height: 34,
-                width: 34,
-                child: Material(
-                  shape: CircleBorder(),
-                  color: Colors.white.withValues(alpha: 0.8),
-                  child: Icon(
-                    Iconsax.medal_star,
-                    size: 24,
-                    color: AppColors.warning,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: AlignmentGeometry.bottomCenter,
-              child: SizedBox(
-                width: double.infinity,
-                height: 80,
-                child: Material(
-                  color: Colors.white.withValues(alpha: 0.6),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('1st Populer', style: AppTextStyle.body9),
-                              Text(
-                                title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyle.heading6,
-                              ),
-                              Text(
-                                author,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyle.body9,
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        InkWell(
-                          onTap: ontap,
-                          child: SizedBox(
-                            height: 30,
-                            width: 80,
-                            child: Material(
-                              color: AppColors.surface,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  color: AppColors.primary,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Lihat',
-                                  style: AppTextStyle.button2,
-                                ),
-                              ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Center(
+            child: SizedBox(
+              // height: 50,
+              width: double.infinity,
+              child: imageUrl.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadiusGeometry.circular(24),
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: Image.asset(
+                              'assets/images/no_image.jpg',
+                              fit: BoxFit.cover,
+                              filterQuality: FilterQuality.low,
                             ),
-                          ),
-                        ),
-                      ],
+                          );
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Image.asset(
+                      'assets/images/no_image.jpg',
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Material(
+                    shape: CircleBorder(),
+                    color: Colors.white.withValues(alpha: 0.5),
+                    elevation: 2,
+                    child: Icon(
+                      Iconsax.medal_star,
+                      size: 24,
+                      color: AppColors.surface,
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
+              Align(
+                alignment: AlignmentGeometry.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyle.heading9,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.8),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          "@ $author",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyle.body10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }

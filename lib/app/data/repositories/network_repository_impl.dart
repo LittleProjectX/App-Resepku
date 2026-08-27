@@ -1,4 +1,4 @@
-import 'package:seleraku/app/data/datasources/network_remote_datasource.dart';
+import 'package:seleraku/app/data/datasources/remote/network_remote_datasource.dart';
 import 'package:seleraku/app/domain/repositories/network_repository.dart';
 
 class NetworkRepositoryImpl implements NetworkRepository {

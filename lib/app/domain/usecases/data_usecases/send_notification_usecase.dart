@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
 
 class SendNotificationUsecase {
@@ -12,7 +11,7 @@ class SendNotificationUsecase {
     String title,
     String msg,
     bool isRead,
-    Timestamp createdAt,
+    DateTime createdAt,
   ) async {
     return await repository.sendNotification(
       senderId,

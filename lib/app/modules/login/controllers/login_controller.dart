@@ -29,10 +29,11 @@ class LoginController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
+    FocusManager.instance.primaryFocus?.unfocus();
     email.dispose();
     password.dispose();
-    super.dispose();
+    super.onClose();
   }
 
   void clearField() {
@@ -42,16 +43,13 @@ class LoginController extends GetxController {
 
   Future<void> callLogin(String email, String password) async {
     try {
+      isLoading.value = true;
       if (email.trim().isEmpty || password.trim().isEmpty) {
         SnackBarHelper.warning('Mohon untuk mengisi email dan password');
         return;
       }
 
-      isLoading.value = true;
-
       final user = await login.call(email, password);
-
-      clearField();
 
       if (user != null) {
         if (!user.isVerified) {

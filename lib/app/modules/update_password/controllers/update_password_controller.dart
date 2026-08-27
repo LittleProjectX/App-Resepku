@@ -33,6 +33,7 @@ class UpdatePasswordController extends GetxController {
   var dataUser = Rxn<DataUserEntity>();
   RxBool pageLoading = false.obs;
   RxBool buttonLoading = false.obs;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {

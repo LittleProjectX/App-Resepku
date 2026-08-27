@@ -10,4 +10,5 @@ abstract class AuthRemoteDatasource {
   String getCurrentUid();
   Future<UserCredential?> loginWithGoogle();
   Future<void> updatePassword(String newPassword);
+  Future<void> resendVerificationEmail();
 }

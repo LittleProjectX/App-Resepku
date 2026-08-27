@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class DataUserEntity {
   final String uId;
   final String? name;
@@ -8,7 +6,7 @@ class DataUserEntity {
   final String email;
   final bool isProfileComplete;
   final int likes;
-  final Timestamp createdAt;
+  final DateTime createdAt;
   DataUserEntity({
     required this.uId,
     this.name,

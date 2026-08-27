@@ -14,6 +14,8 @@ import '../modules/auth_gate/bindings/auth_gate_binding.dart';
 import '../modules/auth_gate/views/auth_gate_view.dart';
 import '../modules/author/bindings/author_binding.dart';
 import '../modules/author/views/author_view.dart';
+import '../modules/confirm_email_regis/bindings/confirm_email_regis_binding.dart';
+import '../modules/confirm_email_regis/views/confirm_email_regis_view.dart';
 import '../modules/detail/bindings/detail_binding.dart';
 import '../modules/detail/views/detail_view.dart';
 import '../modules/detailUser/bindings/detail_user_binding.dart';
@@ -197,6 +199,11 @@ class AppPages {
       name: _Paths.REPORT,
       page: () => const ReportView(),
       binding: ReportBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONFIRM_EMAIL_REGIS,
+      page: () => const ConfirmEmailRegisView(),
+      binding: ConfirmEmailRegisBinding(),
     ),
   ];
 }

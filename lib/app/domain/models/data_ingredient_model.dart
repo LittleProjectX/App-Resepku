@@ -16,7 +16,7 @@ class DataIngredientModel extends DataIngredientEntity {
     return DataIngredientModel(
       ingredient: json['ingredient'] ?? '',
       amount: json['amount'] ?? '',
-      createdAt: json['createdAt'] ?? Timestamp.now(),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 }

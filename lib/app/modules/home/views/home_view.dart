@@ -8,7 +8,6 @@ import 'package:seleraku/app/core/theme/text_theme.dart';
 import 'package:seleraku/app/core/utils/loading_page.dart';
 import 'package:seleraku/app/core/widgets/buttons/build_button_all.dart';
 import 'package:seleraku/app/core/widgets/global_widgets/build_resep.dart';
-import 'package:seleraku/app/core/widgets/textfields/search_field.dart';
 import 'package:seleraku/app/core/widgets/texts/build_label_2.dart';
 import './widgets/build_popular_card.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
@@ -56,7 +55,7 @@ class HomeView extends GetView<HomeController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Selamat data', style: AppTextStyle.body7),
+                          Text('Selamat datang', style: AppTextStyle.body7),
                           Obx(
                             () => Text(
                               user.value?.name ?? '',
@@ -157,14 +156,14 @@ class HomeView extends GetView<HomeController> {
                     final bestResep = controller.listResep.toList();
                     bestResep.sort((a, b) => b.likes.compareTo(a.likes));
                     final popularResep = bestResep.first;
-                    return buildPopularCard(
-                      () => Get.toNamed(
+                    return BuildPopularCard(
+                      title: popularResep.title,
+                      author: popularResep.author,
+                      imageUrl: popularResep.imageUrl,
+                      onTap: () => Get.toNamed(
                         Routes.DETAIL,
-                        parameters: {'rId': popularResep.rId.toString()},
+                        parameters: {'rId': popularResep.rId},
                       ),
-                      popularResep.title,
-                      popularResep.author,
-                      popularResep.imageUrl,
                     );
                   }
                   return SizedBox();
@@ -310,12 +309,11 @@ class HomeView extends GetView<HomeController> {
                                             ),
                                           ),
                                           child: const Center(
-                                            child: Text("Lihat Semua"),
+                                            child: Text("Semua"),
                                           ),
                                         ),
                                       );
                                     }
-
                                     return BuildResep(
                                       imageUrl: dataResep.imageUrl,
                                       title: dataResep.title,
@@ -399,76 +397,87 @@ class HomeView extends GetView<HomeController> {
                                         scrollDirection: Axis.horizontal,
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
-                                          return Container(
-                                            margin: const EdgeInsets.only(
-                                              right: 12,
+                                          return InkWell(
+                                            onTap: () => Get.toNamed(
+                                              Routes.AUTHOR,
+                                              parameters: {
+                                                'uId': allUser[index].uId,
+                                              },
                                             ),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 8,
-                                            ),
-                                            height: 160,
-                                            width: 120,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.surface,
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                allUser[index].imageUrl !=
-                                                            null ||
-                                                        allUser[index]
-                                                                .imageUrl ==
-                                                            ''
-                                                    ? CircleAvatar(
-                                                        backgroundImage:
-                                                            NetworkImage(
-                                                              allUser[index]
-                                                                  .imageUrl
-                                                                  .toString(),
-                                                            ),
-                                                        radius: 44,
-                                                      )
-                                                    : CircleAvatar(
-                                                        backgroundImage: AssetImage(
-                                                          'assets/images/profile.jpg',
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                right: 12,
+                                              ),
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 8,
+                                              ),
+                                              height: 160,
+                                              width: 120,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.surface,
+                                                borderRadius:
+                                                    BorderRadius.circular(24),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  allUser[index].imageUrl !=
+                                                              null ||
+                                                          allUser[index]
+                                                                  .imageUrl ==
+                                                              ''
+                                                      ? CircleAvatar(
+                                                          backgroundImage:
+                                                              NetworkImage(
+                                                                allUser[index]
+                                                                    .imageUrl
+                                                                    .toString(),
+                                                              ),
+                                                          radius: 44,
+                                                        )
+                                                      : CircleAvatar(
+                                                          backgroundImage:
+                                                              AssetImage(
+                                                                'assets/images/profile.jpg',
+                                                              ),
+                                                          radius: 44,
                                                         ),
-                                                        radius: 44,
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                    allUser[index].name
+                                                        .toString(),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: AppTextStyle.body8,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        Iconsax.heart,
+                                                        color: AppColors
+                                                            .textSecondary,
+                                                        size: 12,
                                                       ),
-                                                const SizedBox(height: 8),
-                                                Text(
-                                                  allUser[index].name
-                                                      .toString(),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: AppTextStyle.body8,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Iconsax.heart,
-                                                      color: AppColors
-                                                          .textSecondary,
-                                                      size: 12,
-                                                    ),
-                                                    const SizedBox(width: 4),
-                                                    Text(
-                                                      allUser[index].likes
-                                                          .toString(),
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: AppTextStyle.body7,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                                      const SizedBox(width: 4),
+                                                      Text(
+                                                        allUser[index].likes
+                                                            .toString(),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style:
+                                                            AppTextStyle.body7,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           );
                                         },

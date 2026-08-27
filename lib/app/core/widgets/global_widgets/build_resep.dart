@@ -77,7 +77,7 @@ class BuildResep extends StatelessWidget {
               maxLines: 1,
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
-              style: AppTextStyle.body8,
+              style: AppTextStyle.body3,
             ),
             const SizedBox(height: 4),
             Row(

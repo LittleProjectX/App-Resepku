@@ -10,7 +10,7 @@ class BuildButtonAll extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Text('lihat semua..', style: AppTextStyle.button2),
+      child: Text('Semua', style: AppTextStyle.button3),
     );
   }
 }

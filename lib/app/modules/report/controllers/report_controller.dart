@@ -15,6 +15,7 @@ class ReportController extends GetxController {
   late String uId = '';
   RxBool isPageLoading = false.obs;
   RxBool isLoading = false.obs;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -48,7 +49,7 @@ class ReportController extends GetxController {
         return;
       }
 
-      Timestamp createdAt = Timestamp.now();
+      DateTime createdAt = DateTime.now();
       sendReport.call(uId, report, createdAt);
       SnackBarHelper.success('Berhasil mengirim pesan');
       Get.offAllNamed(Routes.MAIN);

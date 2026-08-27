@@ -140,6 +140,9 @@ class RegisterView extends GetView<RegisterController> {
                               if (value == null || value.isEmpty) {
                                 return "Harap mengisi ulang password";
                               }
+                              if (value != controller.password.text) {
+                                return "Password tidak sesuai";
+                              }
                               return null;
                             },
                           ),
@@ -150,15 +153,17 @@ class RegisterView extends GetView<RegisterController> {
                             label: 'Daftar',
                             isLoading: controller.isLoading.value,
                             onTap: () {
-                              if (controller.formKey.currentState!.validate()) {
-                                controller.isLoading.value
-                                    ? null
-                                    : controller.callRegister(
-                                        controller.email.text,
-                                        controller.password.text,
-                                        controller.confirmPassword.text,
-                                      );
+                              if (controller.isLoading.value) return;
+
+                              if (!controller.formKey.currentState!
+                                  .validate()) {
+                                return;
                               }
+                              controller.callRegister(
+                                controller.email.text,
+                                controller.password.text,
+                                controller.confirmPassword.text,
+                              );
                             },
                           ),
                         ),
