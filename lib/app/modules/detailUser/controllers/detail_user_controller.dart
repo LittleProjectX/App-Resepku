@@ -52,15 +52,12 @@ class DetailUserController extends GetxController {
   Future<void> fetchResepData() async {
     try {
       isLoading.value = true;
-      Stream<List<QueryDocumentSnapshot<Object?>>> dataRaw = getMyResep.call(
-        uId,
-      );
+      Stream<List<Map<String, dynamic>>> dataRaw = getMyResep.call(uId);
 
       await _streamSubscription?.cancel();
       _streamSubscription = dataRaw.listen((listDoc) {
         listResep.value = listDoc.map((doc) {
-          final data = doc.data() as Map<String, dynamic>;
-          return DataResepModel.fromFirebase(data);
+          return DataResepModel.fromFirebase(doc);
         }).toList();
       });
     } catch (e) {

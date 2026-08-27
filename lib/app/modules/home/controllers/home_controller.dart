@@ -80,8 +80,7 @@ class HomeController extends GetxController {
       isPageLoading.value = true;
       final dataNotification = await getMyNotification(uId);
       listNotification.value = dataNotification.map((e) {
-        final data = e.data() as Map<String, dynamic>;
-        return DataNotificationModel.fromFirebase(data);
+        return DataNotificationModel.fromFirebase(e);
       }).toList();
     } catch (e) {
       SnackBarHelper.warning('Terjadi Kesalahan ($e)');
@@ -94,7 +93,6 @@ class HomeController extends GetxController {
     try {
       isPageLoading.value = true;
       final result = await getAllResep();
-      print('cek controller $result');
       if (result.isNotEmpty) {
         listResep.value = result.map((e) {
           return DataResepModel.fromFirebase(e);
@@ -104,7 +102,6 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       SnackBarHelper.error('Gagal mengambil data resep : $e');
-      print('ini eror $e');
     } finally {
       isPageLoading.value = false;
     }
@@ -116,16 +113,14 @@ class HomeController extends GetxController {
       final result = await getAllUser();
       if (result.isNotEmpty) {
         listUser.value = result.map((e) {
-          final data = e.data() as Map<String, dynamic>;
-          return DataUserModel.fromFirebase(data);
+          return DataUserModel.fromFirebase(e);
         }).toList();
         if (listUser.isNotEmpty) {
           listUserId.value = listResep.map((element) => element.uId).toList();
           if (listUser.isNotEmpty) {
             final filterUser = await getUserbyListId.call(listUserId);
             listFilterUser.value = filterUser.map((e) {
-              final data = e.data() as Map<String, dynamic>;
-              return DataUserModel.fromFirebase(data);
+              return DataUserModel.fromFirebase(e);
             }).toList();
           }
         }
@@ -133,7 +128,7 @@ class HomeController extends GetxController {
         SnackBarHelper.warning('Tidak ada resep yang ditemukan.');
       }
     } catch (e) {
-      SnackBarHelper.error('Gagal mengambil data ALLUSER($e)');
+      SnackBarHelper.error('Gagal mengambil data author($e)');
     } finally {
       isPageLoading.value = false;
     }

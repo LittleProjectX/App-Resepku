@@ -54,9 +54,7 @@ class AllUserController extends GetxController {
       final result = await getUser(listId);
 
       listAllUser.value = result.map((e) {
-        final data = e.data() as Map<String, dynamic>;
-
-        return DataUserModel.fromFirebase(data);
+        return DataUserModel.fromFirebase(e);
       }).toList();
     } catch (e) {
       SnackBarHelper.error('Terjadi kesalahan: $e');

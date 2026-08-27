@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
 
 class SearchResepUsecase {
   final DataRepository dataRepository;
   SearchResepUsecase(this.dataRepository);
 
-  Stream<List<QueryDocumentSnapshot>> call(String title) {
+  Stream<List<Map<String, dynamic>>> call(String title) {
     return dataRepository.searchResep(title);
   }
 }

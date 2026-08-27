@@ -14,7 +14,7 @@ class SearchControllers extends GetxController {
   late TextEditingController search;
   var listResep = <DataResepModel>[].obs;
   final currenctFocus = FocusNode();
-  late StreamSubscription<List<QueryDocumentSnapshot>>? _searchSubscription;
+  late StreamSubscription<List<Map<String, dynamic>>>? _searchSubscription;
 
   @override
   void onInit() {
@@ -48,8 +48,7 @@ class SearchControllers extends GetxController {
       _searchSubscription = dataResep.listen(
         (snapshot) {
           listResep.value = snapshot.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
-            return DataResepModel.fromFirebase(data);
+            return DataResepModel.fromFirebase(doc);
           }).toList();
         },
         onError: (e) {

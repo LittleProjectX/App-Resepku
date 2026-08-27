@@ -182,27 +182,34 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getUserByListId(
+  Future<List<Map<String, dynamic>>> getUserByListId(
     List<String> listId,
   ) async {
     try {
       final docRef = await users
           .where(FieldPath.documentId, whereIn: listId)
           .get();
-      return docRef.docs;
+
+      final result = docRef.docs;
+      final listUser = result.map((e) {
+        final data = e.data();
+        return data;
+      }).toList();
+      return listUser;
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Stream<List<QueryDocumentSnapshot<Object?>>> getMyResep(String uId) {
+  Stream<List<Map<String, dynamic>>> getMyResep(String uId) {
     try {
       final reseps = firestore.collection('resep');
-      return reseps
-          .where('uId', isEqualTo: uId)
-          .snapshots()
-          .map((event) => event.docs);
+      return reseps.where('uId', isEqualTo: uId).snapshots().map((event) {
+        return event.docs.map((doc) {
+          return doc.data();
+        }).toList();
+      });
     } catch (e) {
       rethrow;
     }
@@ -212,10 +219,13 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   Future<List<Map<String, dynamic>>> getAllResep() async {
     try {
       final docRef = await reseps.get();
+
       final listResep = docRef.docs.map((e) {
         final data = e.data();
+
         return data;
       }).toList();
+
       // final box = Hive.box('reseps');
       // await box.put('listResep', listResep);
 
@@ -235,9 +245,13 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getAllUser() {
+  Future<List<Map<String, dynamic>>> getAllUser() {
     try {
-      return users.get().then((value) => value.docs);
+      return users.get().then((value) {
+        return value.docs.map((doc) {
+          return doc.data();
+        }).toList();
+      });
     } catch (e) {
       rethrow;
     }
@@ -413,14 +427,17 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getSavedResepbyListId(
+  Future<List<Map<String, dynamic>>> getSavedResepbyListId(
     List<String> listId,
   ) async {
     try {
       final docRef = await reseps
           .where(FieldPath.documentId, whereIn: listId)
           .get();
-      return docRef.docs;
+      final listResep = docRef.docs.map((e) {
+        return e.data();
+      }).toList();
+      return listResep;
     } catch (e) {
       rethrow;
     }
@@ -458,24 +475,25 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getLikedAuthor(
-    String afId,
-  ) async {
+  Future<List<Map<String, dynamic>>> getLikedAuthor(String afId) async {
     try {
       final docRef = await authorLike.where('afId', isEqualTo: afId).get();
-      return docRef.docs;
+      return docRef.docs.map((doc) {
+        return doc.data();
+      }).toList();
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getMyNotification(
-    String uId,
-  ) async {
+  Future<List<Map<String, dynamic>>> getMyNotification(String uId) async {
     try {
-      final doc = await users.doc(uId).collection('notification').get();
-      return doc.docs;
+      final docRef = await users.doc(uId).collection('notification').get();
+      final listNotif = docRef.docs.map((e) {
+        return e.data();
+      }).toList();
+      return listNotif;
     } catch (e) {
       rethrow;
     }
@@ -493,7 +511,7 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
-  Stream<List<QueryDocumentSnapshot<Object?>>> searchResep(String title) {
+  Stream<List<Map<String, dynamic>>> searchResep(String title) {
     try {
       final upperTitle = title[0].toUpperCase() + title.substring(1);
       final docRef = reseps
@@ -501,7 +519,13 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
           .where('title', isLessThanOrEqualTo: '$upperTitle\uf8ff')
           .snapshots()
           .map((event) => event.docs);
-      return docRef;
+
+      final listResep = docRef.map((event) {
+        return event.map((doc) {
+          return doc.data();
+        }).toList();
+      });
+      return listResep;
     } catch (e) {
       rethrow;
     }

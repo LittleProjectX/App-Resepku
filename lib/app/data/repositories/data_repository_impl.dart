@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
+import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
@@ -76,7 +77,7 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Stream<List<QueryDocumentSnapshot<Object?>>> getMyResep(String uId) {
+  Stream<List<Map<String, dynamic>>> getMyResep(String uId) {
     return remote.getMyResep(uId);
   }
 
@@ -91,7 +92,7 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getAllUser() async {
+  Future<List<Map<String, dynamic>>> getAllUser() async {
     return await remote.getAllUser();
   }
 
@@ -160,7 +161,7 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getSavedResepByListId(
+  Future<List<Map<String, dynamic>>> getSavedResepByListId(
     List<String> listId,
   ) async {
     return await remote.getSavedResepbyListId(listId);
@@ -188,7 +189,7 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getLikedAuthor(String afId) {
+  Future<List<Map<String, dynamic>>> getLikedAuthor(String afId) {
     return remote.getLikedAuthor(afId);
   }
 
@@ -220,14 +221,12 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getUserByListId(
-    List<String> listId,
-  ) {
+  Future<List<Map<String, dynamic>>> getUserByListId(List<String> listId) {
     return remote.getUserByListId(listId);
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getMyNotification(String uId) {
+  Future<List<Map<String, dynamic>>> getMyNotification(String uId) {
     return remote.getMyNotification(uId);
   }
 
@@ -237,7 +236,7 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Stream<List<QueryDocumentSnapshot<Object?>>> searchResep(String title) {
+  Stream<List<Map<String, dynamic>>> searchResep(String title) {
     return remote.searchResep(title);
   }
 

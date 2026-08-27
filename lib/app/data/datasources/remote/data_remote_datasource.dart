@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
+import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';
 
@@ -32,10 +33,10 @@ abstract class DataRemoteDatasource {
     int saves,
     DateTime createdAt,
   );
-  Stream<List<QueryDocumentSnapshot>> getMyResep(String uId);
+  Stream<List<Map<String, dynamic>>> getMyResep(String uId);
   Future<List<Map<String, dynamic>>> getAllResep();
   Future<void> deleteResep(String rId);
-  Future<List<QueryDocumentSnapshot>> getAllUser();
+  Future<List<Map<String, dynamic>>> getAllUser();
   Future<DataResepEntity> getResepbyId(String rId);
   Future<void> saveToMyResep(String uId, String rId, int saves);
   Future<void> unSaveResep(String fId, String rId, int saves);
@@ -56,9 +57,7 @@ abstract class DataRemoteDatasource {
   Future<void> likeAuthor(String uId, String afId, int likes);
   Future<void> unLikeAuthor(String aId, String afId, int likes);
   Future<List<QueryDocumentSnapshot>> getSavedResep(String uId);
-  Future<List<QueryDocumentSnapshot>> getSavedResepbyListId(
-    List<String> listId,
-  );
+  Future<List<Map<String, dynamic>>> getSavedResepbyListId(List<String> listId);
   Future<void> sendNotification(
     String senderId,
     List<String> receiverId,
@@ -68,12 +67,12 @@ abstract class DataRemoteDatasource {
     bool isRead,
     DateTime createdAt,
   );
-  Future<List<QueryDocumentSnapshot>> getLikedAuthor(String afId);
-  Future<List<QueryDocumentSnapshot>> getMyNotification(String uId);
+  Future<List<Map<String, dynamic>>> getLikedAuthor(String afId);
+  Future<List<Map<String, dynamic>>> getMyNotification(String uId);
   Future<void> readNotification(String uId, String notifId, bool isRead);
-  Stream<List<QueryDocumentSnapshot>> searchResep(String title);
+  Stream<List<Map<String, dynamic>>> searchResep(String title);
   Future<List<QueryDocumentSnapshot>> getUserByEmail(String email);
-  Future<List<QueryDocumentSnapshot>> getUserByListId(List<String> listId);
+  Future<List<Map<String, dynamic>>> getUserByListId(List<String> listId);
   Future<void> updateResep(
     String rId,
     String title,

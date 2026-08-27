@@ -36,8 +36,7 @@ class SaveResepController extends GetxController {
         final listId = listFavorite.map((element) => element.rId).toList();
         final dataResep = await getResepByListId.call(listId);
         listResep.value = dataResep.map((e) {
-          final resep = e.data() as Map<String, dynamic>;
-          return DataResepModel.fromFirebase(resep);
+          return DataResepModel.fromFirebase(e);
         }).toList();
       }
     } catch (e) {

@@ -28,8 +28,7 @@ class NotificationController extends GetxController {
     try {
       final dataNotification = await getMyNotification(uId);
       listNotification.value = dataNotification.map((e) {
-        final data = e.data() as Map<String, dynamic>;
-        return DataNotificationModel.fromFirebase(data);
+        return DataNotificationModel.fromFirebase(e);
       }).toList();
     } catch (e) {
       SnackBarHelper.error('Gagal mendapatkan data ($e)');

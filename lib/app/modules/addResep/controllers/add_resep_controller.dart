@@ -97,8 +97,7 @@ class AddResepController extends GetxController {
     try {
       final allAuthor = await getLikedAuthor(afId);
       listLikedAuthor.value = allAuthor.map((e) {
-        final data = e.data() as Map<String, dynamic>;
-        return DataAuthorFavoriteModel.fromFirebase(data);
+        return DataAuthorFavoriteModel.fromFirebase(e);
       }).toList();
       receiverId = listLikedAuthor.map((element) {
         final id = element.uId;
