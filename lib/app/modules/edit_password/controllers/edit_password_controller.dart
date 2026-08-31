@@ -10,6 +10,7 @@ class EditPasswordController extends GetxController {
 
   late TextEditingController email;
   RxBool isLoading = false.obs;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {

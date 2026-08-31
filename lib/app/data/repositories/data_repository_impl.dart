@@ -1,17 +1,29 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:seleraku/app/data/datasources/local/resep_local_datasource.dart';
+import 'package:seleraku/app/data/datasources/local/user_local_datasource.dart';
 import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
+import 'package:seleraku/app/domain/models/data_favorite_model.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
+import 'package:seleraku/app/domain/usecases/network_usecases/is_connected_usecase.dart';
 
 class DataRepositoryImpl implements DataRepository {
   final DataRemoteDatasource remote;
-  DataRepositoryImpl(this.remote);
+  final IsConnectedUsecase isConnection;
+  final UserLocalDatasource localUser;
+  final ResepLocalDatasource localResep;
+  DataRepositoryImpl(
+    this.remote,
+    this.isConnection,
+    this.localUser,
+    this.localResep,
+  );
 
   @override
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUser(String uId) {
@@ -19,8 +31,51 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<DataUserModel?> getUserOnce(String uId) {
-    return remote.getUserOnce(uId);
+  Future<DataUserModel?> getUserOnce(String uId) async {
+    final isConnected = await isConnection();
+    if (isConnected) {
+      try {
+        final data = await remote.getUserOnce(uId);
+        if (data == null) {
+          return null;
+        }
+        await localUser.saveOneUser(data);
+
+        return data;
+      } catch (_) {
+        return localUser.getOneUser();
+      }
+    }
+    return localUser.getOneUser();
+  }
+
+  @override
+  Future<DataUserModel?> getAuthor(String uId) async {
+    print('repo user berjalan');
+
+    final isConnected = await isConnection();
+    if (isConnected) {
+      try {
+        final data = await remote.getUserOnce(uId);
+        if (data == null) {
+          return null;
+        }
+        print(('repo author onconnect $data'));
+
+        await localUser.saveAuthor(data);
+
+        return data;
+      } catch (_) {
+        final data = await localUser.getAuhtor(uId);
+        print(('repo author disconnect 1 $data'));
+
+        return localUser.getAuhtor(uId);
+      }
+    }
+    final data = await localUser.getAuhtor(uId);
+    print(('repo author disconnect 2 $data'));
+
+    return localUser.getAuhtor(uId);
   }
 
   @override
@@ -82,8 +137,42 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getAllResep() async {
-    return await remote.getAllResep();
+  Future<List<DataResepModel>> getAllResep() async {
+    print('jalan');
+    final isConnected = await isConnection();
+    if (isConnected) {
+      try {
+        print('repo list Resep connected');
+        final data = await remote.getAllResep();
+        print('repo list Resep $data');
+
+        final listResep = data
+            .map((resep) => DataResepModel.fromFirebase(resep))
+            .toList();
+        print('repo cek listResep $listResep');
+        await localResep.saveAllResep(listResep);
+
+        return listResep;
+      } catch (e, stackTrace) {
+        print('repo list Resep not connected 1');
+        print('ERROR repo getAllResep: $e');
+        print(stackTrace);
+        final data = await localResep.getAllResep();
+        final listResep = data
+            .map((resep) => DataResepModel.fromJson(resep))
+            .toList();
+
+        return listResep;
+      }
+    }
+    print('repo list Resep not connected 2');
+
+    final data = await localResep.getAllResep();
+    final listResep = data
+        .map((resep) => DataResepModel.fromJson(resep))
+        .toList();
+
+    return listResep;
   }
 
   @override
@@ -92,13 +181,30 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getAllUser() async {
-    return await remote.getAllUser();
+  Future<List<DataUserModel>> getAllUser() async {
+    final data = await remote.getAllUser();
+    final listUser = data
+        .map((user) => DataUserModel.fromFirebase(user))
+        .toList();
+    return listUser;
   }
 
   @override
   Future<DataResepEntity> getResepbyId(String rId) async {
-    return await remote.getResepbyId(rId);
+    final isConnected = await isConnection();
+    print('repo resep berjalan');
+    if (isConnected) {
+      try {
+        return await remote.getResepbyId(rId);
+      } catch (_) {
+        final data = await localResep.getResepbyId(rId);
+        print('repo resepss $data');
+        return data;
+      }
+    }
+    final data = await localResep.getResepbyId(rId);
+    print('repo resepss 2 $data');
+    return data;
   }
 
   @override
@@ -156,15 +262,72 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getSavedResep(String uId) async {
-    return await remote.getSavedResep(uId);
+  Future<List<DataFavoriteModel>> getSavedResep(String uId) async {
+    print('repo saved berjalan');
+    final isConnected = await isConnection();
+    if (isConnected) {
+      try {
+        final data = await remote.getSavedResep(uId);
+        final listFavorite = data
+            .map((resep) => DataFavoriteModel.fromFirebase(resep))
+            .toList();
+
+        await localResep.saveListFavoritResep(listFavorite);
+        return listFavorite;
+      } catch (_) {
+        print('disconected 1 repo');
+        final data = await localResep.getListFavoriteResep();
+        print('dis repo 1 $data');
+        final listFavorite = data
+            .map((resep) => DataFavoriteModel.fromJson(resep))
+            .toList();
+
+        await localResep.saveListFavoritResep(listFavorite);
+
+        return listFavorite;
+      }
+    }
+    print('disconected 1 repo');
+
+    final data = await localResep.getListFavoriteResep();
+    print('dis repo 2 $data');
+
+    final listFavorite = data
+        .map((resep) => DataFavoriteModel.fromJson(resep))
+        .toList();
+
+    return listFavorite;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getSavedResepByListId(
+  Future<List<DataResepModel>> getSavedResepByListId(
     List<String> listId,
   ) async {
-    return await remote.getSavedResepbyListId(listId);
+    final isConnected = await isConnection();
+    if (isConnected) {
+      try {
+        final data = await remote.getSavedResepbyListId(listId);
+        final listResep = data.map((resep) {
+          return DataResepModel.fromFirebase(resep);
+        }).toList();
+        await localResep.saveAllResepSaved(listResep);
+        return listResep;
+      } catch (e) {
+        final data = await localResep.getResepSaved();
+
+        final listResep = data
+            .map((resep) => DataResepModel.fromJson(resep))
+            .toList();
+        return listResep;
+      }
+    }
+    print('repo saved berjalan disconnected 1');
+
+    final data = await localResep.getResepSaved();
+    final listResep = data
+        .map((resep) => DataResepModel.fromJson(resep))
+        .toList();
+    return listResep;
   }
 
   @override
@@ -221,8 +384,30 @@ class DataRepositoryImpl implements DataRepository {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUserByListId(List<String> listId) {
-    return remote.getUserByListId(listId);
+  Future<List<DataUserModel>> getUserByListId(List<String> listId) async {
+    final isConnected = await isConnection();
+
+    if (isConnected) {
+      try {
+        final data = await remote.getUserByListId(listId);
+        final allUser = data
+            .map((user) => DataUserModel.fromFirebase(user))
+            .toList();
+
+        await localUser.saveAllUser(allUser);
+
+        return allUser;
+      } catch (_) {
+        final data = await localUser.getUserByListId();
+        final listUser = data
+            .map((user) => DataUserModel.fromJson(user))
+            .toList();
+        return listUser;
+      }
+    }
+    final data = await localUser.getUserByListId();
+    final listUser = data.map((user) => DataUserModel.fromJson(user)).toList();
+    return listUser;
   }
 
   @override

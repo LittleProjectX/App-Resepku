@@ -11,7 +11,9 @@ class ConfirmEmailRegisBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ConfirmEmailRegisController>(
-      () => ConfirmEmailRegisController(Get.find()),
+      () => ConfirmEmailRegisController(
+        Get.find<ResendVerificationEmailUsecase>(),
+      ),
     );
     Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
     Get.lazyPut<AuthRemoteDatasource>(

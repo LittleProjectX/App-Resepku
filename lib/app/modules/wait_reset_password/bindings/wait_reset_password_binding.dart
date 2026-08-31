@@ -12,7 +12,7 @@ class WaitResetPasswordBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<WaitResetPasswordController>(
-      () => WaitResetPasswordController(Get.find()),
+      () => WaitResetPasswordController(Get.find<ResetPasswordUsecase>()),
     );
     Get.lazyPut(() => FirebaseAuth.instance);
     Get.lazyPut(() => ResetPasswordUsecase(Get.find()));

@@ -17,4 +17,20 @@ class DataFavoriteModel extends DataFavoriteEntity {
       createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
+  factory DataFavoriteModel.fromJson(Map<String, dynamic> json) {
+    return DataFavoriteModel(
+      fId: json['fId'] ?? '',
+      uId: json['uId'] ?? '',
+      rId: json['rId'] ?? '',
+      createdAt: DateTime.parse(json['createdAt']),
+    );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'fId': fId,
+      'uId': uId,
+      'rId': rId,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
 }

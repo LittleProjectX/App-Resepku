@@ -1,11 +1,11 @@
 import 'package:seleraku/app/domain/models/data_user_model.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
 
-class GetuserBylistidUsecase {
+class GetAuthorUsercase {
   final DataRepository repository;
-  GetuserBylistidUsecase(this.repository);
+  GetAuthorUsercase(this.repository);
 
-  Future<List<DataUserModel>> call(List<String> listId) {
-    return repository.getUserByListId(listId);
+  Future<DataUserModel?> call(String uId) {
+    return repository.getAuthor(uId);
   }
 }

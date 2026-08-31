@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/domain/models/data_favorite_model.dart';
-import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_saved_resep_bylistid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_saved_resep_usecase.dart';
@@ -25,21 +24,19 @@ class SaveResepController extends GetxController {
   }
 
   Future<void> fetchSavedResep(String uId) async {
+    print('controller berjalan');
     try {
       isLoading.value = true;
       final dataFavorite = await savedResep(uId);
-      listFavorite.value = dataFavorite.map((e) {
-        final favorite = e.data() as Map<String, dynamic>;
-        return DataFavoriteModel.fromFirebase(favorite);
-      }).toList();
+      print('controller $dataFavorite');
+      listFavorite.value = dataFavorite;
       if (listFavorite.isNotEmpty) {
         final listId = listFavorite.map((element) => element.rId).toList();
         final dataResep = await getResepByListId.call(listId);
-        listResep.value = dataResep.map((e) {
-          return DataResepModel.fromFirebase(e);
-        }).toList();
+        listResep.value = dataResep;
       }
     } catch (e) {
+      print('controller saved $e');
       SnackBarHelper.warning('Gagal mengambil data ($e)');
     } finally {
       isLoading.value = false;

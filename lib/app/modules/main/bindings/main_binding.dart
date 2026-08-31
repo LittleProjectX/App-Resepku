@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:seleraku/app/data/datasources/local/resep_local_datasource.dart';
+import 'package:seleraku/app/data/datasources/local/user_local_datasource.dart';
 import 'package:seleraku/app/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:seleraku/app/data/datasources/remote/auth_remote_datasource_impl.dart';
 import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart';
@@ -21,6 +23,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/get_saved_resep_useca
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/getuser_bylistid_usecase.dart';
+import 'package:seleraku/app/domain/usecases/network_usecases/is_connected_usecase.dart';
 import 'package:seleraku/app/modules/detailUser/controllers/detail_user_controller.dart';
 import 'package:seleraku/app/modules/home/controllers/home_controller.dart';
 import 'package:seleraku/app/modules/profile/controllers/profile_controller.dart';
@@ -31,17 +34,15 @@ import '../controllers/main_controller.dart';
 class MainBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<MainController>(
-      () => MainController(Get.find(), Get.find(), Get.find()),
-    );
+    Get.lazyPut<MainController>(() => MainController());
     Get.lazyPut(
       () => HomeController(
-        Get.find(),
-        Get.find(),
-        Get.find(),
-        Get.find(),
-        Get.find(),
-        Get.find(),
+        Get.find<GetCurrentUidUsecase>(),
+        Get.find<GetUserOnceUsecase>(),
+        Get.find<GetAllResepUsecase>(),
+        Get.find<GetAllUserUsecase>(),
+        Get.find<GetMyNotificationUsecase>(),
+        Get.find<GetuserBylistidUsecase>(),
       ),
     );
     Get.lazyPut(
@@ -56,7 +57,14 @@ class MainBinding extends Bindings {
       () => AuthRemoteDatasourceImpl(Get.find(), Get.find()),
     );
     Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
-    Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
+    Get.lazyPut<DataRepository>(
+      () => DataRepositoryImpl(
+        Get.find<DataRemoteDatasource>(),
+        Get.find<IsConnectedUsecase>(),
+        Get.find<UserLocalDatasource>(),
+        Get.find<ResepLocalDatasource>(),
+      ),
+    );
     Get.lazyPut<DataRemoteDatasource>(
       () => DataRemoteDatasourceImpl(Get.find()),
     );

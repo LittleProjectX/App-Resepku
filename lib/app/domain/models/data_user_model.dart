@@ -12,7 +12,21 @@ class DataUserModel extends DataUserEntity {
     required super.likes,
     required super.createdAt,
   });
-  factory DataUserModel.fromFirebase(Map<String, dynamic> json) {
+
+  factory DataUserModel.fromFirebase(Map<String, dynamic> data) {
+    return DataUserModel(
+      uId: data['uId'] ?? '',
+      name: data['name'] ?? '',
+      phone: data['phone'] ?? '',
+      imageUrl: data['imageUrl'],
+      email: data['email'] ?? '',
+      isProfileComplete: data['isProfileComplete'] ?? false,
+      likes: data['likes'] ?? 0,
+      createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+    );
+  }
+
+  factory DataUserModel.fromJson(Map<String, dynamic> json) {
     return DataUserModel(
       uId: json['uId'] ?? '',
       name: json['name'] ?? '',
@@ -21,9 +35,10 @@ class DataUserModel extends DataUserEntity {
       email: json['email'] ?? '',
       isProfileComplete: json['isProfileComplete'] ?? false,
       likes: json['likes'] ?? 0,
-      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdAt: DateTime.parse(json['createdAt']),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'uId': uId,
@@ -33,7 +48,7 @@ class DataUserModel extends DataUserEntity {
       'email': email,
       'isProfileComplete': isProfileComplete,
       'likes': likes,
-      'createdAt': createdAt,
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 }

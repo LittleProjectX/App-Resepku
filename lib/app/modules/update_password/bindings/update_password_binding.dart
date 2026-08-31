@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:seleraku/app/data/datasources/local/resep_local_datasource.dart';
+import 'package:seleraku/app/data/datasources/local/user_local_datasource.dart';
 import 'package:seleraku/app/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:seleraku/app/data/datasources/remote/auth_remote_datasource_impl.dart';
 import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart';
@@ -13,6 +15,7 @@ import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_useca
 import 'package:seleraku/app/domain/usecases/auth_usecases/login_usecase.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/update_password_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
+import 'package:seleraku/app/domain/usecases/network_usecases/is_connected_usecase.dart';
 
 import '../controllers/update_password_controller.dart';
 
@@ -21,10 +24,10 @@ class UpdatePasswordBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<UpdatePasswordController>(
       () => UpdatePasswordController(
-        Get.find(),
-        Get.find(),
-        Get.find(),
-        Get.find(),
+        Get.find<GetCurrentUidUsecase>(),
+        Get.find<GetUserOnceUsecase>(),
+        Get.find<UpdatePasswordUsecase>(),
+        Get.find<LoginUsecase>(),
       ),
     );
     Get.lazyPut(() => FirebaseAuth.instance);
@@ -34,7 +37,14 @@ class UpdatePasswordBinding extends Bindings {
     Get.lazyPut(() => LoginUsecase(Get.find()));
     Get.lazyPut(() => UpdatePasswordUsecase(Get.find()));
     Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
-    Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
+    Get.lazyPut<DataRepository>(
+      () => DataRepositoryImpl(
+        Get.find<DataRemoteDatasource>(),
+        Get.find<IsConnectedUsecase>(),
+        Get.find<UserLocalDatasource>(),
+        Get.find<ResepLocalDatasource>(),
+      ),
+    );
     Get.lazyPut<AuthRemoteDatasource>(
       () => AuthRemoteDatasourceImpl(Get.find(), Get.find()),
     );

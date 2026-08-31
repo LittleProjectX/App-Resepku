@@ -6,10 +6,10 @@ import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/dislike_resep_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_author_usercase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_like_byid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_resep_byid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_save_byid_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/like_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/save_to_my_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
@@ -18,7 +18,7 @@ import 'package:seleraku/app/domain/usecases/data_usecases/unsave_resep_usecase.
 class DetailController extends GetxController {
   final GetCurrentUidUsecase getUid;
   final GetResepByidUsecase getResep;
-  final GetUserOnceUsecase getAuthor;
+  final GetAuthorUsercase getAuthor;
   final GetSaveByidUsecase isSave;
   final GetLikeByidUsecase isLike;
   final SaveToMyResepUsecase saveResep;
@@ -40,23 +40,25 @@ class DetailController extends GetxController {
   );
   late String rId = '';
   late String uId = '';
+  late String aId = '';
   late String saveId = '';
   late String likeId = '';
   var dataResep = Rxn<DataResepEntity>();
   var dataAuthor = Rxn<DataUserEntity>();
-  late StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _saveStream;
-  late StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _likeStream;
+  late StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _saveStream;
+  late StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _likeStream;
   RxBool isLoading = false.obs;
   final isResepSave = false.obs;
   final isResepLike = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     isLoading.value = true;
     rId = Get.parameters['rId'].toString();
     uId = getUid();
-    fetchDataResep(rId);
+    await fetchDataResep(rId);
+    await fetchUser(dataResep.value!.uId);
     fetchIsSave(uId, rId);
     fetchIsLike(uId, rId);
     isLoading.value = false;
@@ -64,29 +66,40 @@ class DetailController extends GetxController {
 
   @override
   void onClose() {
-    _saveStream.cancel();
-    _likeStream.cancel();
+    _saveStream?.cancel();
+    _likeStream?.cancel();
     super.onClose();
   }
 
   Future<void> fetchDataResep(String rId) async {
+    print('fetch data berjalan');
     try {
       isLoading.value = true;
       DataResepEntity? resep = await getResep.call(rId);
+      print('cek resep $resep');
       dataResep.value = resep;
-      DataUserEntity? author = await getAuthor.call(resep.uId);
-      dataAuthor.value = author;
-      isLoading.value = false;
     } catch (e) {
-      SnackBarHelper.error('Gagal mengambil data ($e)');
+      print('detail eror $e');
+      SnackBarHelper.error('Gagal mengambil resep ($e)');
     } finally {
       isLoading.value = false;
     }
   }
 
+  Future<void> fetchUser(String uId) async {
+    print('fetch user berjalan');
+
+    try {
+      DataUserEntity? author = await getAuthor.call(uId);
+      dataAuthor.value = author;
+      print('cek author $author');
+    } catch (e) {
+      SnackBarHelper.error('Gagal mengambil user ($e)');
+    }
+  }
+
   void fetchIsSave(String uId, String rId) {
     try {
-      isLoading.value = true;
       _saveStream = isSave
           .call(uId, rId)
           .listen(
@@ -104,14 +117,11 @@ class DetailController extends GetxController {
           );
     } catch (e) {
       SnackBarHelper.warning('Terjadi kesahalahan ($e)');
-    } finally {
-      isLoading.value = false;
-    }
+    } finally {}
   }
 
   void fetchIsLike(String uId, String rId) {
     try {
-      isLoading.value = true;
       _likeStream = isLike
           .call(uId, rId)
           .listen(
@@ -129,9 +139,7 @@ class DetailController extends GetxController {
           );
     } catch (e) {
       SnackBarHelper.warning('Terjadi kesalahan ($e)');
-    } finally {
-      isLoading.value = false;
-    }
+    } finally {}
   }
 
   void fetchSaveResep(String uId, String rId, int saves) {

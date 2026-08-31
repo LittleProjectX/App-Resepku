@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
-import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';
 
 abstract class DataRemoteDatasource {
   Future<DataUserModel?> getUserOnce(String uId);
+  Future<DataUserModel> getAuthor(String uId);
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUser(String uId);
   Future<String> uploadImage(File? image, String uId);
   Future<void> saveImageUrl(String imageUrl, String uId);
@@ -56,7 +56,7 @@ abstract class DataRemoteDatasource {
   );
   Future<void> likeAuthor(String uId, String afId, int likes);
   Future<void> unLikeAuthor(String aId, String afId, int likes);
-  Future<List<QueryDocumentSnapshot>> getSavedResep(String uId);
+  Future<List<Map<String, dynamic>>> getSavedResep(String uId);
   Future<List<Map<String, dynamic>>> getSavedResepbyListId(List<String> listId);
   Future<void> sendNotification(
     String senderId,

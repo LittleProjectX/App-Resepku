@@ -1,16 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
+import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/setUser_profile_usecase.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
 
 class EditProfileController extends GetxController {
   final GetUserOnceUsecase getUser;
-  final FirebaseAuth auth;
+  final GetCurrentUidUsecase getUid;
   final SetuserProfileUsecase setUserData;
-  EditProfileController(this.getUser, this.auth, this.setUserData);
+  EditProfileController(this.getUser, this.getUid, this.setUserData);
 
   late TextEditingController name;
   late TextEditingController email;
@@ -27,7 +27,7 @@ class EditProfileController extends GetxController {
     email = TextEditingController();
     phone = TextEditingController();
 
-    uId = auth.currentUser!.uid;
+    uId = getUid();
     final dataUser = await getUser.call(uId);
 
     if (dataUser != null) {

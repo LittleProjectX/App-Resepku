@@ -9,14 +9,26 @@ class DataIngredientModel extends DataIngredientEntity {
   });
 
   Map<String, dynamic> toJson() {
-    return {'ingredient': ingredient, 'amount': amount, 'createdAt': createdAt};
+    return {
+      'ingredient': ingredient,
+      'amount': amount,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
+
+  factory DataIngredientModel.fromFirebase(Map<String, dynamic> json) {
+    return DataIngredientModel(
+      ingredient: json['ingredient'] ?? '',
+      amount: json['amount'] ?? '',
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+    );
   }
 
   factory DataIngredientModel.fromJson(Map<String, dynamic> json) {
     return DataIngredientModel(
       ingredient: json['ingredient'] ?? '',
       amount: json['amount'] ?? '',
-      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdAt: DateTime.parse(json['createdAt']),
     );
   }
 }

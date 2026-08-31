@@ -9,14 +9,14 @@ import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/dislike_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_author_fav_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/get_author_usercase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_my_resep_usecase.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/get_user_once_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/like_author_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
 
 class AuthorController extends GetxController {
   final GetCurrentUidUsecase getUid;
-  final GetUserOnceUsecase getUser;
+  final GetAuthorUsercase getAuthor;
   final GetMyResepUsecase getResep;
   final GetAuthorFavUsecase isAuthorFav;
   final LikeAuthorUsecase likeAuthor;
@@ -24,7 +24,7 @@ class AuthorController extends GetxController {
   final SendNotificationUsecase sendNotification;
   AuthorController(
     this.getUid,
-    this.getUser,
+    this.getAuthor,
     this.getResep,
     this.isAuthorFav,
     this.likeAuthor,
@@ -61,7 +61,7 @@ class AuthorController extends GetxController {
   Future<void> fetchUserData(String uId) async {
     try {
       isLoading.value = true;
-      DataUserEntity? user = await getUser.call(uId);
+      DataUserEntity? user = await getAuthor.call(uId);
       userData.value = user!;
     } catch (e) {
       SnackBarHelper.error('Gagal mengambil data ($e)');

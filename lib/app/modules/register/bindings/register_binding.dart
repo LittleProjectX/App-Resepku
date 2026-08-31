@@ -12,6 +12,9 @@ import '../controllers/register_controller.dart';
 class RegisterBinding extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut<RegisterController>(
+      () => RegisterController(Get.find<RegisterUsecase>()),
+    );
     Get.lazyPut(() => FirebaseAuth.instance);
     Get.lazyPut(() => FirebaseFirestore.instance);
     Get.lazyPut<AuthRemoteDatasource>(
@@ -19,6 +22,5 @@ class RegisterBinding extends Bindings {
     );
     Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
     Get.lazyPut(() => RegisterUsecase(Get.find()));
-    Get.lazyPut<RegisterController>(() => RegisterController(Get.find()));
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seleraku/app/data/entities/data_resep_entity.dart';
+import 'package:seleraku/app/domain/models/data_favorite_model.dart';
 import 'package:seleraku/app/domain/models/data_ingredient_model.dart';
 import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/models/data_tutorial_model.dart';
@@ -9,6 +10,7 @@ import 'package:seleraku/app/domain/models/data_user_model.dart';
 
 abstract class DataRepository {
   Future<DataUserModel?> getUserOnce(String uId);
+  Future<DataUserModel?> getAuthor(String uId);
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUser(String uId);
   Future<String> uploadImage(File? image, String uId);
   Future<void> saveImageUrl(String imageUrl, String uId);
@@ -58,10 +60,10 @@ abstract class DataRepository {
   Future<List<Map<String, dynamic>>> getLikedAuthor(String afId);
 
   Stream<List<Map<String, dynamic>>> getMyResep(String uId);
-  Future<List<Map<String, dynamic>>> getAllResep();
+  Future<List<DataResepModel>> getAllResep();
 
   Future<void> deleteResep(String rId);
-  Future<List<Map<String, dynamic>>> getAllUser();
+  Future<List<DataUserModel>> getAllUser();
   Future<DataResepEntity> getResepbyId(String rId);
   Future<void> saveToMyResep(String uId, String rId, int saves);
   Future<void> unSaveResep(String fId, String rId, int saves);
@@ -81,12 +83,12 @@ abstract class DataRepository {
   );
   Future<void> likeAuthor(String uId, String afId, int likes);
   Future<void> unLikeAthor(String afId, String aId, int likes);
-  Future<List<QueryDocumentSnapshot>> getSavedResep(String uId);
-  Future<List<Map<String, dynamic>>> getSavedResepByListId(List<String> listId);
+  Future<List<DataFavoriteModel>> getSavedResep(String uId);
+  Future<List<DataResepModel>> getSavedResepByListId(List<String> listId);
   Future<List<Map<String, dynamic>>> getMyNotification(String uId);
   Future<void> readNotification(String uId, String notifId, bool isRead);
   Stream<List<Map<String, dynamic>>> searchResep(String title);
   Future<List<QueryDocumentSnapshot>> getUserbyEmail(String email);
-  Future<List<Map<String, dynamic>>> getUserByListId(List<String> listId);
+  Future<List<DataUserModel>> getUserByListId(List<String> listId);
   Future<void> sendReport(String uId, String report, DateTime createdAt);
 }

@@ -12,7 +12,7 @@ class EditPasswordBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<EditPasswordController>(
-      () => EditPasswordController(Get.find()),
+      () => EditPasswordController(Get.find<ResetPasswordUsecase>()),
     );
     Get.lazyPut(() => FirebaseAuth.instance);
     Get.lazyPut(() => ResetPasswordUsecase(Get.find()));

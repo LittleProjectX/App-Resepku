@@ -10,8 +10,12 @@ import '../controllers/all_popular_controller.dart';
 class AllPopularBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<AllPopularController>(() => AllPopularController(Get.find()));
-    Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
+    Get.lazyPut<AllPopularController>(
+      () => AllPopularController(Get.find<GetAllResepUsecase>()),
+    );
+    Get.lazyPut<DataRepository>(
+      () => DataRepositoryImpl(Get.find(), Get.find(), Get.find(), Get.find()),
+    );
     Get.lazyPut<DataRemoteDatasource>(
       () => DataRemoteDatasourceImpl(Get.find()),
     );

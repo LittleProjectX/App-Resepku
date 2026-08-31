@@ -59,6 +59,23 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
+  Future<DataUserModel> getAuthor(String uId) async {
+    try {
+      final docRef = await users.doc(uId).get();
+      final data = docRef.data();
+
+      final user = DataUserModel.fromFirebase(data!);
+
+      final box = Hive.box('user');
+      await box.put('currentUser', user.toJson());
+
+      return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<String> uploadImage(File? image, String uId) async {
     try {
       final fileName =
@@ -218,16 +235,13 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   @override
   Future<List<Map<String, dynamic>>> getAllResep() async {
     try {
-      final docRef = await reseps.get();
+      final docRef = await reseps.limit(50).get();
 
       final listResep = docRef.docs.map((e) {
         final data = e.data();
 
         return data;
       }).toList();
-
-      // final box = Hive.box('reseps');
-      // await box.put('listResep', listResep);
 
       return listResep;
     } catch (e) {
@@ -417,10 +431,13 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
   }
 
   @override
-  Future<List<QueryDocumentSnapshot<Object?>>> getSavedResep(String uId) async {
+  Future<List<Map<String, dynamic>>> getSavedResep(String uId) async {
     try {
       final docRef = await resepSave.where('uId', isEqualTo: uId).get();
-      return docRef.docs;
+      final listResep = docRef.docs.map((e) {
+        return e.data();
+      }).toList();
+      return listResep;
     } catch (e) {
       rethrow;
     }

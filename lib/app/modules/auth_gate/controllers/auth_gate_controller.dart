@@ -12,17 +12,11 @@ import 'package:seleraku/app/domain/usecases/network_usecases/is_connected_useca
 import 'package:seleraku/app/routes/app_pages.dart';
 
 class AuthGateController extends GetxController {
-  final FirebaseAuth auth;
   final GetStreamUsecase getStream;
   final GetuserUsecase getUser;
   final IsConnectedUsecase isConnection;
 
-  AuthGateController(
-    this.auth,
-    this.getStream,
-    this.getUser,
-    this.isConnection,
-  );
+  AuthGateController(this.getStream, this.getUser, this.isConnection);
 
   StreamSubscription<User?>? _authSubscription;
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _userSubscription;
@@ -31,7 +25,6 @@ class AuthGateController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print('auth berjalan');
     _listenConnection();
     _listenAuth();
   }

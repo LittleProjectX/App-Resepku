@@ -87,11 +87,7 @@ class DetailView extends GetView<DetailController> {
                           Obx(
                             () => ButtonCircle(
                               onTap: () => c.isResepSave.value
-                                  ? c.fetchUnsaveResep(
-                                      c.saveId,
-                                      c.rId,
-                                      resep.saves,
-                                    )
+                                  ? c.unSaveResep(c.saveId, c.rId, resep.saves)
                                   : c.fetchSaveResep(
                                       c.uId,
                                       c.rId,

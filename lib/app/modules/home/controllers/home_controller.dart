@@ -5,7 +5,6 @@ import 'package:seleraku/app/data/entities/data_resep_entity.dart';
 import 'package:seleraku/app/data/entities/data_user_entity.dart';
 import 'package:seleraku/app/domain/models/data_favorite_model.dart';
 import 'package:seleraku/app/domain/models/data_notification_model.dart';
-import 'package:seleraku/app/domain/models/data_resep_model.dart';
 import 'package:seleraku/app/domain/models/data_user_model.dart';
 import 'package:seleraku/app/domain/usecases/auth_usecases/get_current_uid_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/get_all_resep_usecase.dart';
@@ -94,13 +93,13 @@ class HomeController extends GetxController {
       isPageLoading.value = true;
       final result = await getAllResep();
       if (result.isNotEmpty) {
-        listResep.value = result.map((e) {
-          return DataResepModel.fromFirebase(e);
-        }).toList();
+        listResep.value = result;
       } else {
         SnackBarHelper.warning('Tidak ada resep yang ditemukan.');
       }
-    } catch (e) {
+    } catch (e, trace) {
+      print('resep $e');
+      print('resep $trace');
       SnackBarHelper.error('Gagal mengambil data resep : $e');
     } finally {
       isPageLoading.value = false;
@@ -112,22 +111,20 @@ class HomeController extends GetxController {
       isPageLoading.value = true;
       final result = await getAllUser();
       if (result.isNotEmpty) {
-        listUser.value = result.map((e) {
-          return DataUserModel.fromFirebase(e);
-        }).toList();
+        listUser.value = result;
         if (listUser.isNotEmpty) {
-          listUserId.value = listResep.map((element) => element.uId).toList();
+          listUserId.value = listResep.map((user) => user.uId).toList();
           if (listUser.isNotEmpty) {
             final filterUser = await getUserbyListId.call(listUserId);
-            listFilterUser.value = filterUser.map((e) {
-              return DataUserModel.fromFirebase(e);
-            }).toList();
+            listFilterUser.value = filterUser;
           }
         }
       } else {
         SnackBarHelper.warning('Tidak ada resep yang ditemukan.');
       }
-    } catch (e) {
+    } catch (e, trace) {
+      print('author $e');
+      print('author $trace');
       SnackBarHelper.error('Gagal mengambil data author($e)');
     } finally {
       isPageLoading.value = false;

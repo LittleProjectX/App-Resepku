@@ -21,7 +21,36 @@ class DataResepModel extends DataResepEntity {
     required super.createdAt,
   });
 
-  factory DataResepModel.fromFirebase(Map<String, dynamic> json) {
+  factory DataResepModel.fromFirebase(Map<String, dynamic> data) {
+    return DataResepModel(
+      rId: data['rId'] ?? '',
+      uId: data['uId'] ?? '',
+      author: data['author'] ?? '',
+      title: data['title'] ?? '',
+      description: data['description'] ?? '',
+      portion: data['portion'] ?? '',
+      category: data['category'] ?? '',
+      imageUrl: data['imageUrl'] ?? '',
+      mainIngredient: (data['mainIngredient'] as List)
+          .map(
+            (e) => DataIngredientModel.fromFirebase(e as Map<String, dynamic>),
+          )
+          .toList(),
+      additive: (data['additive'] as List)
+          .map(
+            (e) => DataIngredientModel.fromFirebase(e as Map<String, dynamic>),
+          )
+          .toList(),
+      tutorial: (data['tutorial'] as List)
+          .map((e) => DataTutorialModel.fromFirebase(e as Map<String, dynamic>))
+          .toList(),
+      likes: data['likes'] ?? 0,
+      saves: data['saves'] ?? 0,
+      createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+    );
+  }
+
+  factory DataResepModel.fromJson(Map<String, dynamic> json) {
     return DataResepModel(
       rId: json['rId'] ?? '',
       uId: json['uId'] ?? '',
@@ -32,17 +61,21 @@ class DataResepModel extends DataResepEntity {
       category: json['category'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
       mainIngredient: (json['mainIngredient'] as List)
-          .map((e) => DataIngredientModel.fromJson(e as Map<String, dynamic>))
+          .map(
+            (e) => DataIngredientModel.fromJson(Map<String, dynamic>.from(e)),
+          )
           .toList(),
       additive: (json['additive'] as List)
-          .map((e) => DataIngredientModel.fromJson(e as Map<String, dynamic>))
+          .map(
+            (e) => DataIngredientModel.fromJson(Map<String, dynamic>.from(e)),
+          )
           .toList(),
       tutorial: (json['tutorial'] as List)
-          .map((e) => DataTutorialModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => DataTutorialModel.fromJson(Map<String, dynamic>.from(e)))
           .toList(),
       likes: json['likes'] ?? 0,
       saves: json['saves'] ?? 0,
-      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdAt: DateTime.parse(json['createdAt']),
     );
   }
 
@@ -50,17 +83,20 @@ class DataResepModel extends DataResepEntity {
     return {
       'rId': rId,
       'uId': uId,
+      'author': author,
       'title': title,
       'description': description,
       'portion': portion,
       'category': category,
       'imageUrl': imageUrl,
-      'mainIngredient': mainIngredient,
-      'additive': additive,
-      'tutorial': tutorial,
+      'mainIngredient': mainIngredient
+          .map((ingredient) => ingredient.toJson())
+          .toList(),
+      'additive': additive.map((ingredient) => ingredient.toJson()).toList(),
+      'tutorial': tutorial.map((tutorial) => tutorial.toJson()).toList(),
       'likes': likes,
       'saves': saves,
-      'createdAt': createdAt,
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 }

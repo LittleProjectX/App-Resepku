@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
 import 'package:seleraku/app/core/widgets/custom_dialog.dart';

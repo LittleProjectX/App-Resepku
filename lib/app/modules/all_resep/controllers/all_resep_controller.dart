@@ -22,9 +22,7 @@ class AllResepController extends GetxController {
     try {
       isPageLoading.value = true;
       final result = await getAllResep();
-      listAllResep.value = result.map((e) {
-        return DataResepModel.fromFirebase(e);
-      }).toList();
+      listAllResep.value = result;
     } catch (e) {
       SnackBarHelper.error('Terjadi kesalahan : $e');
     } finally {

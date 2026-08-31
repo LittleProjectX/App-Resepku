@@ -18,46 +18,64 @@ class EditPasswordView extends GetView<EditPasswordController> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: AlignmentGeometry.centerLeft,
-                  child: ButtonCircle(
-                    onTap: () => Get.back(),
-                    icon: Icons.arrow_back,
-                    left: 0,
+            child: Form(
+              key: controller.formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: AlignmentGeometry.centerLeft,
+                    child: ButtonCircle(
+                      onTap: () => Get.back(),
+                      icon: Icons.arrow_back,
+                      left: 0,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  height: 250,
-                  child: Image.asset(
-                    'assets/images/computer_lock.png',
-                    filterQuality: FilterQuality.medium,
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    height: 250,
+                    child: Image.asset(
+                      'assets/images/computer_lock.png',
+                      filterQuality: FilterQuality.medium,
+                    ),
                   ),
-                ),
-                Text('Reset Password ?', style: AppTextStyle.heading2),
-                Text(
-                  'Untuk dapat mereset password, masukkan\n email yang tertaut dengan\n akun anda.',
-                  style: AppTextStyle.body7,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 32),
-                BuildEmailField(
-                  hintText: 'Email',
-                  controller: controller.email,
-                  validator: (value) {},
-                ),
-                const SizedBox(height: 32),
-                buildLargeButton(
-                  label: 'Reset Password',
-                  isLoading: controller.isLoading.value,
-                  onTap: () => controller.isLoading.value
-                      ? null
-                      : controller.resetPasswordUser(controller.email.text),
-                ),
-              ],
+                  Text('Reset Password ?', style: AppTextStyle.heading2),
+                  Text(
+                    'Untuk dapat mereset password, masukkan\n email yang tertaut dengan\n akun anda.',
+                    style: AppTextStyle.body7,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 32),
+                  BuildEmailField(
+                    hintText: 'Email',
+                    controller: controller.email,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Harap mengisi email";
+                      }
+                      if (!value.contains("@")) {
+                        return "Email tidak valid";
+                      }
+                      if (!value.contains(".")) {
+                        return "Email tidak valid";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 32),
+                  buildLargeButton(
+                    label: 'Reset Password',
+                    isLoading: controller.isLoading.value,
+                    onTap: () {
+                      if (controller.isLoading.value) return;
+                      if (!controller.formKey.currentState!.validate()) {
+                        return;
+                      }
+                      controller.resetPasswordUser(controller.email.text);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

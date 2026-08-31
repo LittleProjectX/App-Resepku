@@ -6,8 +6,6 @@ import 'package:seleraku/app/core/theme/color_theme.dart';
 import 'package:seleraku/app/core/theme/text_theme.dart';
 import 'package:seleraku/app/core/utils/loading_page.dart';
 import 'package:seleraku/app/core/widgets/buttons/button_back.dart';
-import 'package:seleraku/app/core/widgets/global_widgets/build_resep.dart';
-import 'package:seleraku/app/routes/app_pages.dart';
 
 import '../controllers/all_resep_controller.dart';
 

@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:seleraku/app/data/datasources/local/resep_local_datasource.dart';
+import 'package:seleraku/app/data/datasources/local/user_local_datasource.dart';
 import 'package:seleraku/app/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:seleraku/app/data/datasources/remote/auth_remote_datasource_impl.dart';
 import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart';
@@ -14,15 +14,21 @@ import 'package:seleraku/app/domain/usecases/data_usecases/get_liked_author_usec
 import 'package:seleraku/app/domain/usecases/data_usecases/save_resep_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/send_notification_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/upload_image_usecase.dart';
+import 'package:seleraku/app/domain/usecases/network_usecases/is_connected_usecase.dart';
 
 import '../controllers/add_resep_controller.dart';
 
 class AddResepBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => FirebaseAuth.instance);
-    Get.lazyPut(() => FirebaseFirestore.instance);
-    Get.lazyPut<DataRepository>(() => DataRepositoryImpl(Get.find()));
+    Get.lazyPut<DataRepository>(
+      () => DataRepositoryImpl(
+        Get.find<DataRemoteDatasource>(),
+        Get.find<IsConnectedUsecase>(),
+        Get.find<UserLocalDatasource>(),
+        Get.find<ResepLocalDatasource>(),
+      ),
+    );
     Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
     Get.lazyPut<DataRemoteDatasource>(
       () => DataRemoteDatasourceImpl(Get.find()),
@@ -38,11 +44,11 @@ class AddResepBinding extends Bindings {
     Get.lazyPut(() => SaveResepUsecase(Get.find()));
     Get.lazyPut<AddResepController>(
       () => AddResepController(
-        Get.find(),
-        Get.find(),
-        Get.find(),
-        Get.find(),
-        Get.find(),
+        Get.find<UploadImageUsecase>(),
+        Get.find<SaveResepUsecase>(),
+        Get.find<GetCurrentUidUsecase>(),
+        Get.find<GetLikedAuthorUsecase>(),
+        Get.find<SendNotificationUsecase>(),
       ),
     );
   }
