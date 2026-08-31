@@ -24,11 +24,9 @@ class SaveResepController extends GetxController {
   }
 
   Future<void> fetchSavedResep(String uId) async {
-    print('controller berjalan');
     try {
       isLoading.value = true;
       final dataFavorite = await savedResep(uId);
-      print('controller $dataFavorite');
       listFavorite.value = dataFavorite;
       if (listFavorite.isNotEmpty) {
         final listId = listFavorite.map((element) => element.rId).toList();
@@ -36,7 +34,6 @@ class SaveResepController extends GetxController {
         listResep.value = dataResep;
       }
     } catch (e) {
-      print('controller saved $e');
       SnackBarHelper.warning('Gagal mengambil data ($e)');
     } finally {
       isLoading.value = false;

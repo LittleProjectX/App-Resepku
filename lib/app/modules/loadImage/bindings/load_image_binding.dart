@@ -6,7 +6,7 @@ import 'package:seleraku/app/data/datasources/remote/data_remote_datasource.dart
 import 'package:seleraku/app/data/datasources/remote/data_remote_datasource_impl.dart';
 import 'package:seleraku/app/data/repositories/data_repository_impl.dart';
 import 'package:seleraku/app/domain/repositories/data_repository.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/save_imageUrl_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/save_imageurl_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/upload_image_usecase.dart';
 import 'package:seleraku/app/domain/usecases/network_usecases/is_connected_usecase.dart';
 
@@ -18,7 +18,7 @@ class LoadImageBinding extends Bindings {
     Get.lazyPut<LoadImageController>(
       () => LoadImageController(
         Get.find<UploadImageUsecase>(),
-        Get.find<SaveImageurlUsecase>(),
+        Get.find<SaveImageurlusecase>(),
       ),
     );
     Get.lazyPut(() => FirebaseFirestore.instance);
@@ -34,6 +34,6 @@ class LoadImageBinding extends Bindings {
       ),
     );
     Get.lazyPut(() => UploadImageUsecase(Get.find()));
-    Get.lazyPut(() => SaveImageurlUsecase(Get.find()));
+    Get.lazyPut(() => SaveImageurlusecase(Get.find()));
   }
 }

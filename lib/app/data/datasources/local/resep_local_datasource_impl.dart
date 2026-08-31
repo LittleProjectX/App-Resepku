@@ -11,13 +11,11 @@ class ResepLocalDatasourceImpl implements ResepLocalDatasource {
   @override
   Future<void> saveAllResep(List<DataResepModel> listResep) async {
     try {
-      print('local cek listResep $listResep');
       await box.put(
         'allResep',
         listResep.map((resep) => resep.toJson()).toList(),
       );
       final data = box.get('allResep');
-      print('local cek box $data');
     } catch (e) {
       rethrow;
     }
@@ -57,7 +55,6 @@ class ResepLocalDatasourceImpl implements ResepLocalDatasource {
     }
 
     try {
-      print('ALL RESEP LOCAL $data');
       final listResep = (data as List).map((resep) {
         final mapResep = Map<String, dynamic>.from(resep);
         mapResep['mainIngredient'] = (mapResep['mainIngredient'] as List? ?? [])
@@ -80,7 +77,6 @@ class ResepLocalDatasourceImpl implements ResepLocalDatasource {
   @override
   Future<List<Map<String, dynamic>>> getListFavoriteResep() async {
     final data = box.get('favorite');
-    print('isi list favorite local $data');
 
     if (data == null) {
       return [];
@@ -99,7 +95,6 @@ class ResepLocalDatasourceImpl implements ResepLocalDatasource {
   @override
   Future<List<Map<String, dynamic>>> getResepSaved() async {
     final data = box.get('savedResep');
-    print('local saved resep $data');
 
     if (data == null) {
       return [];
@@ -118,7 +113,6 @@ class ResepLocalDatasourceImpl implements ResepLocalDatasource {
           .toList();
       return mapResep;
     }).toList();
-    print('local saved mapResep $listResep');
 
     try {
       return listResep;
@@ -138,9 +132,7 @@ class ResepLocalDatasourceImpl implements ResepLocalDatasource {
 
         return mapResep;
       }).toList();
-      print('isi local list $listResep');
       final resep = listResep.firstWhere((resep) => resep.rId == rId);
-      print('isi local resep $resep');
       return resep;
     } catch (e) {
       rethrow;

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:seleraku/app/core/snackbars/snacbar_helper.dart';
-import 'package:seleraku/app/domain/usecases/data_usecases/save_imageUrl_usecase.dart';
+import 'package:seleraku/app/domain/usecases/data_usecases/save_imageurl_usecase.dart';
 import 'package:seleraku/app/domain/usecases/data_usecases/upload_image_usecase.dart';
 import 'package:seleraku/app/routes/app_pages.dart';
 

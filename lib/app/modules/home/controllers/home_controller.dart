@@ -97,9 +97,7 @@ class HomeController extends GetxController {
       } else {
         SnackBarHelper.warning('Tidak ada resep yang ditemukan.');
       }
-    } catch (e, trace) {
-      print('resep $e');
-      print('resep $trace');
+    } catch (e) {
       SnackBarHelper.error('Gagal mengambil data resep : $e');
     } finally {
       isPageLoading.value = false;
@@ -122,9 +120,7 @@ class HomeController extends GetxController {
       } else {
         SnackBarHelper.warning('Tidak ada resep yang ditemukan.');
       }
-    } catch (e, trace) {
-      print('author $e');
-      print('author $trace');
+    } catch (e) {
       SnackBarHelper.error('Gagal mengambil data author($e)');
     } finally {
       isPageLoading.value = false;
